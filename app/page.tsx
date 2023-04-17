@@ -23,7 +23,7 @@ const [user, setuser] = useState(undefined)
     }
     else{
         return(
-            <main className="flex min-h-screen flex-row justify-center">
+            <main className="bg-white flex min-h-screen flex-row justify-center">
             <Login setUser={setuser} />
             </main>
         )
