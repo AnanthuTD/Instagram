@@ -42,17 +42,17 @@ function stories() {
                         cy="70"
                         r="65"
                         stroke="url(#border-gradient)"
-                        stroke-width="5"
+                        strokeWidth="5"
                         fill="none"
                     />
                     <circle
                         cx="70"
                         cy="70"
                         r="55"
-                        stroke-dasharray="346.36"
-                        stroke-dashoffset="0"
+                        strokeDasharray="346.36"
+                        strokeDashoffset="0"
                         stroke="#FFFFFF"
-                        stroke-width="10"
+                        strokeWidth="10"
                         fill="none"
                         transform="rotate(-90 70 70)"
                     />

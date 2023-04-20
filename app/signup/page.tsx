@@ -48,7 +48,7 @@ export default function login({ setUser }: UserState) {
             credentials: "include",
         });
 
-        console.log("signupResponse : ", signupResponse);
+        console.log("signupResponse : ", signupResponse.json());
     };
 
     return (
@@ -72,13 +72,13 @@ export default function login({ setUser }: UserState) {
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"
-                                        stroke-width="1.5"
+                                        strokeWidth="1.5"
                                         stroke="grey"
                                         className="w-6 h-6"
                                     >
                                         <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
                                             d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                         />
                                     </svg>
@@ -87,13 +87,13 @@ export default function login({ setUser }: UserState) {
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"
-                                        stroke-width="1.5"
+                                        strokeWidth="1.5"
                                         stroke="red"
                                         className="w-6 h-6"
                                     >
                                         <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
                                             d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                         />
                                     </svg>
@@ -101,8 +101,9 @@ export default function login({ setUser }: UserState) {
                             </div>
                             <input
                                 autoFocus
+                                name="phone_or_email"
                                 className="text-black text-xs w-full rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
-                                id="email"
+                                id="phone_or_email"
                                 placeholder="mobile number or email"
                                 type="text"
                                 onChange={(e) =>
@@ -112,8 +113,9 @@ export default function login({ setUser }: UserState) {
                         </div>
                         <input
                             autoFocus
+                            name="first_name"
                             className="text-xs w-full mb-2 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
-                            id="email"
+                            id="name"
                             placeholder="full name"
                             type="text"
                             onChange={(e) =>
@@ -125,8 +127,9 @@ export default function login({ setUser }: UserState) {
                         />
                         <input
                             autoFocus
+                            name="username"
                             className="text-xs w-full mb-2 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
-                            id="email"
+                            id="username"
                             placeholder="username"
                             type="text"
                             onChange={(e) =>
@@ -138,6 +141,7 @@ export default function login({ setUser }: UserState) {
                         />
                         <input
                             autoFocus
+                            name="password1"
                             className="text-xs w-full mb-4 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
                             id="password"
                             placeholder="Password"

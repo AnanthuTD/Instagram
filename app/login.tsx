@@ -47,6 +47,7 @@ export default function login({ setUser }: UserState) {
                     >
                         <input
                             autoFocus
+                            name="phone_or_email"
                             className="text-xs w-full mb-2 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
                             id="email"
                             placeholder="Phone number, username, or email"
@@ -60,6 +61,7 @@ export default function login({ setUser }: UserState) {
                         />
                         <input
                             autoFocus
+                            name="password1"
                             className="text-xs w-full mb-4 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
                             id="password"
                             placeholder="Password"
