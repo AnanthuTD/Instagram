@@ -4,30 +4,58 @@ import { useState, useEffect } from "react";
 import { fetchData } from "../../fetch_csrf";
 import validateEmail from "../../public/javascripts/validate_email";
 import validatePhone from "../../public/javascripts/validate_phone";
+import { promises } from "dns";
+import validatePassword from "@/public/javascripts/validate_password";
+
 
 interface UserState {
     setUser: (user: string) => void;
 }
 
+interface IsValidState {
+    phone_or_email?: boolean;
+    password1?: boolean;
+    username?: boolean;
+    // Add more fields as needed
+}
+
+interface ErrorState {
+    phone_or_email?: string;
+    password1?: string;
+    username?: string;
+    phone?: string;
+}
+
 export default function login({ setUser }: UserState) {
     const [formData, setFormData] = useState({});
-    const [isvalidEmailPhone, setisvalidEmailPhone] = useState<undefined | boolean>(undefined);
+    // const [isvalidEmailPhone, setisvalidEmailPhone] = useState<undefined | boolean>(undefined);
+    const [isValid, setIsValid] = useState<IsValidState>({});
+    const [errors, setErrors] = useState<ErrorState>({});
 
     async function validate_email_or_mobile(data: string) {
-        setisvalidEmailPhone(true);
+        // setisvalidEmailPhone(true);
+        setIsValid({ phone_or_email: true });
 
-        if (await validateEmail(data)) {
+        if (validateEmail(data)) {
             setFormData({
                 ...formData,
-                email: data,
+                phone_or_email: data,
             });
         } else if (validatePhone(data)) {
             setFormData({
                 ...formData,
-                phone: data,
+                phone_or_email: data,
             });
         } else {
-            setisvalidEmailPhone(false);
+            // setisvalidEmailPhone(false);
+            setIsValid({ phone_or_email: false });
+        }
+    }
+
+    async function validate_password(password: string) {
+        var result = await validatePassword(password);
+        if (result) {
+            setIsValid(isValid=>({...isValid, password1: result}))
         }
     }
 
@@ -48,8 +76,52 @@ export default function login({ setUser }: UserState) {
             credentials: "include",
         });
 
-        console.log("signupResponse : ", signupResponse.json());
+        const signupData = await signupResponse.json();
+
+        console.log("signupData : ", await signupData);
+
+        if (signupData.success) {
+            // setUser(signupData.user)
+        } else if (signupData.errors) {
+            setErrors(signupData.errors);
+        }
+
+        /* {
+            'success': True,
+            'user': {
+                'id': user.id,
+                'username': user.username,
+                'email': user.email or "",
+                'phone': form.phone or "",
+                # 'id_user': form.cleaned_data['id_user'],
+                'bio': form.cleaned_data.get('bio', ''),
+                'location': form.cleaned_data.get('location', ''),
+            },
+        } */
     };
+
+    useEffect(() => {
+        if (Object.keys(errors).length !== 0) {
+            console.log("errors: ", errors);
+
+            if (errors.hasOwnProperty("phone_or_email")) {
+                setIsValid(
+                    isValid=>({...isValid,phone_or_email: false})
+                );
+            }
+            if (errors.hasOwnProperty("password1")) {
+                setIsValid(
+                    isValid=>({...isValid,password1: false})
+                );
+            }
+            if (errors.hasOwnProperty("username")) {
+                setIsValid(
+                    isValid=>({...isValid,username: false})
+                );
+            }
+
+        }
+    }, [errors]);
 
     return (
         <div>
@@ -66,8 +138,9 @@ export default function login({ setUser }: UserState) {
                     >
                         <div className="relative flex items-center mb-2">
                             <div className="absolute inset-y-0 right-0 flex items-center pr-2">
-                                {isvalidEmailPhone ==
-                                undefined ? null : isvalidEmailPhone ? (
+                                {!isValid.hasOwnProperty(
+                                    "phone_or_email"
+                                ) ? null : isValid.phone_or_email ? (
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
@@ -114,42 +187,42 @@ export default function login({ setUser }: UserState) {
                         <input
                             autoFocus
                             name="first_name"
-                            className="text-xs w-full mb-2 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
+                            className="text-black text-xs w-full mb-2 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
                             id="name"
                             placeholder="full name"
                             type="text"
                             onChange={(e) =>
                                 setFormData({
                                     ...formData,
-                                    name: e.target.value,
+                                    first_name: e.target.value,
                                 })
                             }
                         />
                         <input
                             autoFocus
                             name="username"
-                            className="text-xs w-full mb-2 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
+                            className="text-black text-xs w-full mb-2 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
                             id="username"
                             placeholder="username"
                             type="text"
                             onChange={(e) =>
                                 setFormData({
                                     ...formData,
-                                    name: e.target.value,
+                                    username: e.target.value,
                                 })
                             }
                         />
                         <input
                             autoFocus
                             name="password1"
-                            className="text-xs w-full mb-4 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
+                            className="text-black text-xs w-full mb-4 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
                             id="password"
                             placeholder="Password"
                             type="password"
                             onChange={(e) =>
                                 setFormData({
                                     ...formData,
-                                    password: e.target.value,
+                                    password1: e.target.value,
                                 })
                             }
                         />
