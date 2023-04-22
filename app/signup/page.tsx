@@ -4,19 +4,12 @@ import { useState, useEffect } from "react";
 import { fetchData } from "../../fetch_csrf";
 import validateEmail from "../../public/javascripts/validate_email";
 import validatePhone from "../../public/javascripts/validate_phone";
-import { promises } from "dns";
 import validatePassword from "@/public/javascripts/validate_password";
-
-
-interface UserState {
-    setUser: (user: string) => void;
-}
 
 interface IsValidState {
     phone_or_email?: boolean;
     password1?: boolean;
     username?: boolean;
-    // Add more fields as needed
 }
 
 interface ErrorState {
@@ -26,14 +19,12 @@ interface ErrorState {
     phone?: string;
 }
 
-export default function login({ setUser }: UserState) {
+export default function login() {
     const [formData, setFormData] = useState({});
-    // const [isvalidEmailPhone, setisvalidEmailPhone] = useState<undefined | boolean>(undefined);
     const [isValid, setIsValid] = useState<IsValidState>({});
     const [errors, setErrors] = useState<ErrorState>({});
 
     async function validate_email_or_mobile(data: string) {
-        // setisvalidEmailPhone(true);
         setIsValid({ phone_or_email: true });
 
         if (validateEmail(data)) {
@@ -47,7 +38,6 @@ export default function login({ setUser }: UserState) {
                 phone_or_email: data,
             });
         } else {
-            // setisvalidEmailPhone(false);
             setIsValid({ phone_or_email: false });
         }
     }
@@ -55,7 +45,7 @@ export default function login({ setUser }: UserState) {
     async function validate_password(password: string) {
         var result = await validatePassword(password);
         if (result) {
-            setIsValid(isValid=>({...isValid, password1: result}))
+            setIsValid((isValid) => ({ ...isValid, password1: result }));
         }
     }
 
@@ -105,21 +95,17 @@ export default function login({ setUser }: UserState) {
             console.log("errors: ", errors);
 
             if (errors.hasOwnProperty("phone_or_email")) {
-                setIsValid(
-                    isValid=>({...isValid,phone_or_email: false})
-                );
+                setIsValid((isValid) => ({
+                    ...isValid,
+                    phone_or_email: false,
+                }));
             }
             if (errors.hasOwnProperty("password1")) {
-                setIsValid(
-                    isValid=>({...isValid,password1: false})
-                );
+                setIsValid((isValid) => ({ ...isValid, password1: false }));
             }
             if (errors.hasOwnProperty("username")) {
-                setIsValid(
-                    isValid=>({...isValid,username: false})
-                );
+                setIsValid((isValid) => ({ ...isValid, username: false }));
             }
-
         }
     }, [errors]);
 
