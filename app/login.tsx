@@ -25,16 +25,17 @@ export default function login({ setUser }: UserState) {
             "X-CSRFToken": csrfToken,
         };
 
-        const signupResponse = await fetch("api/account/login/", {
+        const signupResponse = await fetch("api/accounts/login/", {
             method: "POST",
             headers: headers,
             body: JSON.stringify(formData),
             credentials: "include",
         });
 
-        const user = await signupResponse.json();
+        const Data = await signupResponse.json();
 
-        setUser(user);
+        if(Data.status)
+            setUser(Data.user);  
     };
 
     return (

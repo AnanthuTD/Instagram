@@ -59,7 +59,7 @@ export default function login() {
             "X-CSRFToken": csrfToken,
         };
 
-        const signupResponse = await fetch("api/account/signup/", {
+        const signupResponse = await fetch("api/accounts/signup/", {
             method: "POST",
             headers: headers,
             body: JSON.stringify(formData),
