@@ -28,7 +28,9 @@ export default function login({ setUser }: UserState) {
             credentials: "include",
         });
 
-        console.log("signupResponse : ", signupResponse);
+        const user = await signupResponse.json();
+
+        setUser(user);
         
     };
 
@@ -47,22 +49,22 @@ export default function login({ setUser }: UserState) {
                     >
                         <input
                             autoFocus
-                            name="phone_or_email"
-                            className="text-xs w-full mb-2 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
+                            name='phone_email_username'
+                            className="text-black text-xs w-full mb-2 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
                             id="email"
                             placeholder="Phone number, username, or email"
                             type="text"
                             onChange={(e) =>
                                 setFormData({
                                     ...formData,
-                                    name: e.target.value,
+                                    phone_email_username: e.target.value,
                                 })
                             }
                         />
                         <input
                             autoFocus
                             name="password1"
-                            className="text-xs w-full mb-4 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
+                            className="text-black text-xs w-full mb-4 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
                             id="password"
                             placeholder="Password"
                             type="password"
