@@ -5,7 +5,7 @@ import Login from "./login"
 import {useState} from 'react'
 
 
-export default function Home() {
+export default function Home(userData: object) {
 const [user, setuser] = useState(undefined)
     
     if (user) {
