@@ -5,11 +5,11 @@ import Login from "./login";
 import Signup from "./signup/page";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import Account_suggestion from "./account_suggestion";
 
 export default function Home(userData: object) {
     const [user, setuser] = useState<object | undefined>(undefined);
     const [loading, setLoading] = useState(true);
-    // const [login, setLogin] = useState(false);
     const [signup, setSignup] = useState(false);
 
     useEffect(() => {
@@ -18,7 +18,6 @@ export default function Home(userData: object) {
             Cookies.set("user", JSON.stringify(user));
             setLoading(false);
             setSignup(false);
-            // setLogin(false);
         } else {
             let cookieuser: object | undefined = undefined;
             const userCookie = Cookies.get("user");
@@ -50,10 +49,6 @@ export default function Home(userData: object) {
         }
     }, [user]);
 
-    /*  useEffect(() => {
-        if (!setSignup) setLogin(false);
-    }, [signup]); */
-
     if (!user && loading) {
         return <div>Loding</div>;
     } else if (user) {
@@ -62,8 +57,11 @@ export default function Home(userData: object) {
                 <div className="w-1/6 p-5 border-r border-side_bar_border">
                     <SideBar />
                 </div>
-                <div className="w-5/6 p-5">
+                <div className="w-3/6 p-5">
                     <Stories />
+                </div>
+                <div className="w-2/6 p-5">
+                    <Account_suggestion />
                 </div>
             </main>
         );
