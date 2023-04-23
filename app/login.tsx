@@ -1,7 +1,6 @@
 import styles from "./login.module.css";
 import { Dispatch, SetStateAction, useState } from "react";
 import { fetchData } from "../fetch_csrf";
-import Link from "next/link";
 
 interface UserState {
     setUser: Dispatch<SetStateAction<object | undefined>>;
