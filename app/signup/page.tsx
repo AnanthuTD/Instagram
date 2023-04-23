@@ -9,7 +9,6 @@ import { Dispatch, SetStateAction } from "react";
 
 interface LoginProps {
     setUser: Dispatch<SetStateAction<object | undefined>>;
-    // setSignup: Dispatch<SetStateAction<boolean>>;
   }
 
 interface IsValidState {
