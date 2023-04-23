@@ -9,7 +9,8 @@ module.exports = {
     extend: {
       colors: {
         'side_bar_hover': '#121212',
-        'side_bar_border': '#363837'
+        'side_bar_border': '#363837',
+        brightBlue: '#00c2f7',
       }
     },
   },
