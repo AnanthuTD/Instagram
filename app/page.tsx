@@ -1,6 +1,6 @@
 "use client";
 import SideBar from "./side_bar";
-import Stories from "./stories";
+import Stories from "./components/stories";
 import Login from "./login";
 import Signup from "./signup/page";
 import { useState, useEffect } from "react";
