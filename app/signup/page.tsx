@@ -5,6 +5,12 @@ import { fetchData } from "../../fetch_csrf";
 import validateEmail from "../../public/javascripts/validate_email";
 import validatePhone from "../../public/javascripts/validate_phone";
 import validatePassword from "@/public/javascripts/validate_password";
+import { Dispatch, SetStateAction } from "react";
+
+interface LoginProps {
+    setUser: Dispatch<SetStateAction<object | undefined>>;
+    // setSignup: Dispatch<SetStateAction<boolean>>;
+  }
 
 interface IsValidState {
     phone_or_email?: boolean;
@@ -19,7 +25,7 @@ interface ErrorState {
     phone?: string;
 }
 
-export default function login() {
+export default function login(props:LoginProps) {
     const [formData, setFormData] = useState({});
     const [isValid, setIsValid] = useState<IsValidState>({});
     const [errors, setErrors] = useState<ErrorState>({});
@@ -71,7 +77,7 @@ export default function login() {
         console.log("signupData : ", await signupData);
 
         if (signupData.success) {
-            // setUser(signupData.user)
+            props.setUser(signupData.user)
         } else if (signupData.errors) {
             setErrors(signupData.errors);
         }

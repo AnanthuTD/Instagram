@@ -1,13 +1,14 @@
 import styles from "./login.module.css";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { fetchData } from "../fetch_csrf";
 import Link from "next/link";
 
 interface UserState {
-    setUser: (user: string) => void;
+    setUser: Dispatch<SetStateAction<object | undefined>>;
+    setSignup: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function login({ setUser }: UserState) {
+export default function login({ setUser, setSignup }: UserState) {
     const [formData, setFormData] = useState({});
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -34,8 +35,7 @@ export default function login({ setUser }: UserState) {
 
         const Data = await signupResponse.json();
 
-        if(Data.status)
-            setUser(Data.user);  
+        if (Data.status) setUser(Data.user);
     };
 
     return (
@@ -146,12 +146,9 @@ export default function login({ setUser }: UserState) {
                 </div>
                 <div className="bg-white border border-gray-300 text-center w-80 py-4">
                     <span className="text-sm">Don't have an account?</span>
-                    <Link
-                        href={"/signup"}
-                        className="text-blue-500 text-sm font-semibold"
-                    >
+                    <div className="text-blue-500 text-sm font-semibold" onClick={ ()=>setSignup(true)}>
                         Sign up
-                    </Link>
+                    </div>
                 </div>
                 <div className="mt-3 text-center">
                     <span className="text-xs">Get the app</span>
