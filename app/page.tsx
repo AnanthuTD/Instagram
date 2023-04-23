@@ -2,35 +2,61 @@
 import SideBar from "./side_bar";
 import Stories from "./stories";
 import Login from "./login";
+import Signup from "./signup/page";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-// import { log } from "console";
 
 export default function Home(userData: object) {
-    const [user, setuser] = useState<string | undefined>(undefined);
-    const [loding, setLoding] = useState(true)
-    
+    const [user, setuser] = useState<object | undefined>(undefined);
+    const [loading, setLoading] = useState(true);
+    // const [login, setLogin] = useState(false);
+    const [signup, setSignup] = useState(false);
+
     useEffect(() => {
-        if(user)
-            setLoding(false)
-        let cookieuser = Cookies.get('user')
-        setuser(cookieuser)
+        if (user) {
+            console.log("user true");
+            Cookies.set("user", JSON.stringify(user));
+            setLoading(false);
+            setSignup(false);
+            // setLogin(false);
+        } else {
+            let cookieuser: object | undefined = undefined;
+            const userCookie = Cookies.get("user");
+
+            if (userCookie !== undefined) {
+                try {
+                    cookieuser = JSON.parse(userCookie);
+                } catch (error) {
+                    cookieuser = undefined;
+                }
+            }
+
+            setuser(cookieuser);
+        }
+
+        setLoading(false);
+
         const fetchUser = async () => {
             const response = await fetch("api/accounts/login/");
             const data = await response.json();
-            setuser(data);
-            Cookies.set("user", JSON.stringify(data));
-        }
+            if (data.status) {
+                setuser(data.user);
+                Cookies.set("user", JSON.stringify(data.user));
+            }
+        };
 
         if (!user) {
             fetchUser();
         }
     }, [user]);
 
-    if(!user && loding) {
-        return <div>Loding</div>
-    }
-    else if (user) {
+    /*  useEffect(() => {
+        if (!setSignup) setLogin(false);
+    }, [signup]); */
+
+    if (!user && loading) {
+        return <div>Loding</div>;
+    } else if (user) {
         return (
             <main className="flex min-h-screen flex-row bg-black">
                 <div className="w-1/6 p-5 border-r border-side_bar_border">
@@ -41,10 +67,16 @@ export default function Home(userData: object) {
                 </div>
             </main>
         );
+    } else if (signup) {
+        return (
+            <main className="bg-white flex min-h-screen flex-row justify-center">
+                <Signup setUser={setuser} />
+            </main>
+        );
     } else {
         return (
             <main className="bg-white flex min-h-screen flex-row justify-center">
-                <Login setUser={setuser} />
+                <Login setUser={setuser} setSignup={setSignup} />
             </main>
         );
     }
