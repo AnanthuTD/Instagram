@@ -5,7 +5,7 @@ import Login from "./login";
 import Signup from "./signup/page";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import Account_suggestion from "./components/accountSuggestion";
+import Account_suggestion from "./components/right_pannel/accountSuggestion";
 
 export default function Home(userData: object) {
     const [user, setuser] = useState<object | undefined>(undefined);
