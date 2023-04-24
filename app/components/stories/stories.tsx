@@ -1,13 +1,8 @@
 "use client";
-
 import ArrowRight from "./arrowRight";
 import Rings from "./rings";
-import {useOverflowContext} from "../../context/scrollContext";
-import { useEffect } from "react";
 
 function Stories() {
-    const {setOverflowHidden, overflowHidden} = useOverflowContext()
-
     let data = Array(9).fill(null);
     const stories = data.map((_, index) => (
         <>
@@ -20,12 +15,6 @@ function Stories() {
         undefined;
     }
 
-    useEffect(() => {
-     console.log('overflowHidden : ', overflowHidden);
-     
-    }, [overflowHidden])
-    
-
     return (
         <>
             <div
@@ -36,16 +25,6 @@ function Stories() {
                 <div
                     className="overflow-x-scroll overflow-y-hidden no-scrollbar pointer-events-auto"
                     style={{ height: "fit-content", maxWidth: "685px" }}
-                   onMouseEnter={()=>{
-                    console.log('focus');
-                    
-                    setOverflowHidden(true)
-                   }}
-                   onMouseLeave={()=>{
-                    setOverflowHidden(false)
-                   }}
-                   tabIndex={0} 
-                  
                 >
                     <div className="flex" style={{ height: "fit-content" }}>
                         {stories}
