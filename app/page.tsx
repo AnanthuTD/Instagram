@@ -100,11 +100,6 @@ export default function Home() {
 		</>
 	);
 
-	// Debug the menu state
-	useEffect(() => {
-		console.log(menu);
-	}, [menu]);
-
 	// Render different content depending on the authentication and menu state
 	if (!user && loading) {
 		return <div>Loding</div>;
