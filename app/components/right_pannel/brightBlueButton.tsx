@@ -3,16 +3,16 @@ interface SwitchButtonProps {
     color: string;
   }
 function SwitchButton({text, color}: SwitchButtonProps){
+    if(!color){
+        color = '#00c2f7'
+    }
     return (
         <>
-            <button className={`ml-auto text-xs text-${color} font-bold`}>
+            <button className={`ml-auto text-xs font-bold`} style={{color:color}}>
                 {text}
             </button>
         </>
     );
 }
-SwitchButton.defaultProps = {
-    color:'brightBlue',
-  };
-  
+
 export default SwitchButton;
