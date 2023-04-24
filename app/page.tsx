@@ -1,6 +1,6 @@
 "use client";
 import SideBar from "./side_bar";
-import Stories from "./components/stories";
+import Stories from "./components/stories/stories";
 import Login from "./login";
 import Signup from "./signup/page";
 import { useState, useEffect } from "react";
@@ -57,7 +57,7 @@ export default function Home(userData: object) {
                 <div className="w-1/6 p-5 border-r border-side_bar_border">
                     <SideBar />
                 </div>
-                <div className="w-3/6 p-5">
+                <div className="w-3/6 p-5 flex justify-end">
                     <Stories />
                 </div>
                 <div className="w-2/6 p-5">

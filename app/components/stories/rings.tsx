@@ -1,19 +1,11 @@
-'use client'
-import Image from "next/image";
-function stories() {
+"use client";
+interface RingsProps{
+    avatar:string;
+}
+function Rings({avatar}: RingsProps) {
     return (
         <div className="text-white">
-            {/* <button>
-                <Image
-                src="/images/stories.svg"
-                alt=""
-                width={"70"}
-                height={"70"}
-                >
-
-                </Image>
-            </button> */}
-            <div style={{width:"70px"}}>
+            <div style={{ position: "relative", width: "70px" }}>
                 <svg viewBox="0 0 140 140">
                     <defs>
                         <linearGradient
@@ -36,6 +28,9 @@ function stories() {
                                 style={{ stopColor: "#833AB4" }}
                             />
                         </linearGradient>
+                        <mask id="circle-mask">
+                            <circle cx="70" cy="70" r="58" fill="#fff" />
+                        </mask>
                     </defs>
                     <circle
                         cx="70"
@@ -45,21 +40,17 @@ function stories() {
                         strokeWidth="5"
                         fill="none"
                     />
-                    <circle
-                        cx="70"
-                        cy="70"
-                        r="55"
-                        strokeDasharray="346.36"
-                        strokeDashoffset="0"
-                        stroke="#FFFFFF"
-                        strokeWidth="10"
-                        fill="none"
-                        transform="rotate(-90 70 70)"
+                    <image
+                        href={avatar}
+                        width="150"
+                        mask="url(#circle-mask)"
                     />
                 </svg>
             </div>
         </div>
     );
 }
-
-export default stories;
+Rings.defaultProps = {
+    avatar:"/images/pro-pic.jpg",
+  };
+export default Rings;

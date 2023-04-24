@@ -1,18 +1,37 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require("tailwindcss/plugin");
 module.exports = {
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
-    './app/**/*.{js,ts,jsx,tsx}',
-  ],
-  theme: {
-    extend: {
-      colors: {
-        'side_bar_hover': '#121212',
-        'side_bar_border': '#363837',
-        brightBlue: '#00c2f7',
-      }
+    content: [
+        "./pages/**/*.{js,ts,jsx,tsx}",
+        "./components/**/*.{js,ts,jsx,tsx}",
+        "./app/**/*.{js,ts,jsx,tsx}",
+    ],
+    theme: {
+        extend: {
+            colors: {
+                side_bar_hover: "#121212",
+                side_bar_border: "#363837",
+                brightBlue: "#00c2f7",
+            },
+        },
     },
-  },
-  plugins: [],
-}
+    plugins: [
+        plugin(function ({ addUtilities }) {
+            addUtilities({
+                ".no-scrollbar::-webkit-scrollbar": {
+                    // display: "none",
+                },
+                ".no-scrollbar": {
+                    /* "-ms-overflow-style": "none",
+                    "scrollbar-width": "none", */
+                    "&::-webkit-scrollbar": {
+                        // display: "none",
+                    },
+                },
+                ".pointer-events-auto": {
+                    "pointer-events": "auto",
+                },
+            });
+        }),
+    ],
+};
