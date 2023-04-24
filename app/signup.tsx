@@ -1,9 +1,9 @@
 "use client";
-import styles from "../login.module.css";
+import styles from "./login.module.css";
 import { useState, useEffect } from "react";
-import { fetchData } from "../../fetch_csrf";
-import validateEmail from "../../public/javascripts/validate_email";
-import validatePhone from "../../public/javascripts/validate_phone";
+import { fetchData } from "../fetch_csrf";
+import validateEmail from "../public/javascripts/validate_email";
+import validatePhone from "../public/javascripts/validate_phone";
 import validatePassword from "@/public/javascripts/validate_password";
 import { Dispatch, SetStateAction } from "react";
 
@@ -35,8 +35,7 @@ export default function login(props: LoginProps) {
 	};
 
 	async function validate_email_or_mobile(data: string) {
-		setIsValid({ phone_or_email: true });
-
+		setIsValid((isValid) => ({ ...isValid, phone_or_email: true }));
 		if (validateEmail(data)) {
 			setFormData({
 				...formData,
@@ -48,7 +47,7 @@ export default function login(props: LoginProps) {
 				phone_or_email: data,
 			});
 		} else {
-			setIsValid({ phone_or_email: false });
+			setIsValid((isValid) => ({ ...isValid, phone_or_email: false }));
 		}
 	}
 
@@ -210,6 +209,41 @@ export default function login(props: LoginProps) {
 						/>
                         {/* password */}
 						<div className="relative flex items-center mb-2">
+						<div className="absolute inset-y-0 right-0 flex items-center pr-2">
+								{!isValid.hasOwnProperty(
+									"phone_or_email"
+								) ? null : isValid.phone_or_email ? (
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										strokeWidth="1.5"
+										stroke="grey"
+										className="w-6 h-6"
+									>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+										/>
+									</svg>
+								) : (
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										strokeWidth="1.5"
+										stroke="red"
+										className="w-6 h-6"
+									>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+										/>
+									</svg>
+								)}
+							</div>
 							<input
 								autoFocus
 								name="password1"
