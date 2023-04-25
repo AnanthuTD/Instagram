@@ -34,8 +34,8 @@ export default function Home() {
 	const [loading, setLoading] = useState(true);
 	const [signup, setSignup] = useState(false);
 	const [menu, setMenu] = useState<MenuState>({
-		home: true,
-		profile: false,
+		home: false,
+		profile: true,
 		create: false,
 		search: false,
 		explore: false,
@@ -109,14 +109,16 @@ export default function Home() {
 				<div className="w-1/6 p-5 border-r border-side_bar_border">
 					<SideBar menu={menu} setMenu={setMenu} />
 				</div>
-				{menu.home ? homeComponent : null}
-				{menu.profile ? <Profile /> : null}
-				{menu.create ? <Create /> : null}
-				{menu.explore ? <Explore /> : null}
-				{menu.messages ? <Messages /> : null}
-				{menu.notifications ? <Notifications /> : null}
-				{menu.reels ? <Reels /> : null}
-				{menu.search ? <Search /> : null}
+				<div className="w-5/6 flex">
+					{menu.home ? homeComponent : null}
+					{menu.profile ? <Profile /> : null}
+					{menu.create ? <Create /> : null}
+					{menu.explore ? <Explore /> : null}
+					{menu.messages ? <Messages /> : null}
+					{menu.notifications ? <Notifications /> : null}
+					{menu.reels ? <Reels /> : null}
+					{menu.search ? <Search /> : null}
+				</div>
 			</main>
 		);
 	} else if (signup) {
