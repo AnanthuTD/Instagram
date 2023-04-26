@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import CommentIcon from "./components/posts/commentIcon";
-import Heart from "./components/posts/heart";
+import Like from "./components/posts/heart";
 import OptionsIcon from "./components/posts/optionsIcon";
 import SaveIcon from "./components/posts/saveIcon";
 import SendIcon from "./components/posts/sendIcon";
@@ -11,6 +11,9 @@ import Stories from "./components/stories/stories";
 function StoriesPosts() {
 	const [comment, setComment] = useState("");
 	const [post, setPost] = useState(false);
+	const [like, setLike] = useState(false);
+	const [saved, setSaved] = useState(false);
+
 	useEffect(() => {
 		if (comment) {
 			setPost(true);
@@ -66,12 +69,26 @@ function StoriesPosts() {
 								style={{ height: "fit-content" }}
 							>
 								<div className="flex gap-2">
-									<Heart fill="red" stroke="red" className="cursor-pointer"/>
-									<CommentIcon stroke="white" className="cursor-pointer"/>
-									<SendIcon stroke="white" className="cursor-pointer"/>
+									<div onClick={() => setLike(!like)}>
+										<Like
+											className="cursor-pointer"
+											like={like ? true : false}
+										/>
+									</div>
+									<CommentIcon
+										stroke="white"
+										className="cursor-pointer"
+									/>
+									<SendIcon
+										stroke="white"
+										className="cursor-pointer"
+									/>
 								</div>
-								<div>
-									<SaveIcon stroke="white" />
+								<div onClick={()=>setSaved(!saved)}>
+									<SaveIcon
+										stroke='white'
+										fill={saved ? "white" : "none"}
+									/>
 								</div>
 							</div>
 							<div className="flex gap-1 text-sm cursor-pointer">

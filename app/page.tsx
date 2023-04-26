@@ -106,8 +106,8 @@ export default function Home() {
 		return <div>Loding</div>;
 	} else if (user) {
 		return (
-			<main className="flex min-h-screen flex-row bg-black">
-				<div className="w-1/6 p-5 border-r border-side_bar_border">
+			<main className="flex min-h-screen flex-row bg-black h-full">
+				<div className="w-1/6 p-5 border-r border-side_bar_border justify-between flex-col flex">
 					<SideBar menu={menu} setMenu={setMenu} />
 				</div>
 				<div className="w-5/6 flex">
