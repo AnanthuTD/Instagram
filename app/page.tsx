@@ -34,8 +34,8 @@ export default function Home() {
 	const [loading, setLoading] = useState(true);
 	const [signup, setSignup] = useState(false);
 	const [menu, setMenu] = useState<MenuState>({
-		home: false,
-		profile: true,
+		home: true,
+		profile: false,
 		create: false,
 		search: false,
 		explore: false,
