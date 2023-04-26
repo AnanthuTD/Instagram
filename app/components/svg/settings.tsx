@@ -1,4 +1,4 @@
-function Settings() {
+function Settings(props:any) {
 	return (
 		<svg
 			aria-label="Options"
@@ -8,6 +8,7 @@ function Settings() {
 			role="img"
 			viewBox="0 0 24 24"
 			width="24"
+			{...props}
 		>
 			<title>Options</title>
 			<circle

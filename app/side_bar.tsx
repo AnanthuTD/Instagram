@@ -2,7 +2,6 @@
 import { SetStateAction, Dispatch } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 
 interface Menu {
 	home: boolean;
@@ -32,10 +31,6 @@ interface SideBarProps {
 }
 
 export default function side_bar({ menu, setMenu }: SideBarProps) {
-	/* const pathName = usePathname();
-	const home = {
-		color: pathName === "/" ? "red" : "aliceblue",
-	}; */
 
 	function handleMenuClick(key: keyof Menu) {
 		let newMenu: Menu = {
@@ -54,7 +49,7 @@ export default function side_bar({ menu, setMenu }: SideBarProps) {
 
 	return (
 		<div className="text-white">
-			<div className="mb-10 mt-5">
+			<div className="mb-10">
 				<img src="/images/logo.svg" alt="Wowgram!" />
 			</div>
 			<div>

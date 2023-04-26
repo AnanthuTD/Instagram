@@ -4,7 +4,7 @@ import SuggestedAccounts from "./suggestedAccounts";
 
 function account_suggestion() {
     return (
-        <div style={{width:'350px'}}>
+        <div style={{width:'300px'}}>
             <Accounts />
             <div className="my-3"></div>
             <SuggestedAccounts />

@@ -47,7 +47,7 @@ function profile() {
 								src={"/images/pro-pic.jpg"}
 								width={130}
 								height={130}
-								className="rounded-full"
+								className="rounded-full cursor-pointer"
 							/>
 						</div>
 						<div className="space-y-5">
@@ -55,11 +55,11 @@ function profile() {
 								<p className="m-0 text-xl font-medium">
 									username
 								</p>
-								<button className="bg-white rounded-md text-black text-sm font-bold py-1 px-4">
+								<button className="bg-white rounded-md text-black text-sm font-bold py-1 px-4 cursor-pointer">
 									Edit profile
 								</button>
 								<div style={{ width: "30px" }}>
-									<Settings />
+									<Settings className='cursor-pointer'/>
 								</div>
 							</div>
 
@@ -67,11 +67,11 @@ function profile() {
 								<span>
 									<span className="font-bold">1</span> post
 								</span>
-								<span>
+								<span className="cursor-pointer">
 									<span className="font-bold">179</span>{" "}
 									followers
 								</span>
-								<span>
+								<span className="cursor-pointer">
 									<span className="font-bold">187</span>{" "}
 									following
 								</span>

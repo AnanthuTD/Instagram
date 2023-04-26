@@ -91,10 +91,10 @@ export default function Home() {
 	// Define the Home component's content
 	let homeComponent = (
 		<>
-			<div className="w-3/6 p-5 flex justify-end">
+			<div className="w-3/5 p-5 flex justify-end">
 				<Stories />
 			</div>
-			<div className="w-2/6 p-5">
+			<div className="w-2/5 p-5">
 				<Account_suggestion />
 			</div>
 		</>
@@ -105,7 +105,7 @@ export default function Home() {
 		return <div>Loding</div>;
 	} else if (user) {
 		return (
-			<main className="flex min-h-screen flex-row bg-black">
+			<main className="flex min-h-screen flex-row bg-black pt-5">
 				<div className="w-1/6 p-5 border-r border-side_bar_border">
 					<SideBar menu={menu} setMenu={setMenu} />
 				</div>
