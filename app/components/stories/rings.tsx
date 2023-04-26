@@ -1,11 +1,12 @@
 "use client";
 interface RingsProps{
     avatar:string;
+    width:string;
 }
-function Rings({avatar}: RingsProps) {
+function Rings({avatar, width}: RingsProps) {
     return (
         <div className="text-white">
-            <div style={{ position: "relative", width: "70px" }}>
+            <div style={{ position: "relative", width: `${width}` }}>
                 <svg viewBox="0 0 140 140">
                     <defs>
                         <linearGradient
@@ -52,5 +53,6 @@ function Rings({avatar}: RingsProps) {
 }
 Rings.defaultProps = {
     avatar:"/images/pro-pic.jpg",
+    width:"70px"
   };
 export default Rings;
