@@ -14,6 +14,7 @@ import Notifications from "./menu/notifications";
 import Search from "./menu/search";
 import Explore from "./menu/explore";
 import Reels from "./menu/reels";
+import StoriesPosts from "./Stories&Posts";
 
 // Define a type for the menu state
 interface MenuState {
@@ -92,7 +93,7 @@ export default function Home() {
 	let homeComponent = (
 		<>
 			<div className="w-3/5 p-5 flex justify-end">
-				<Stories />
+				<StoriesPosts />
 			</div>
 			<div className="w-2/5 p-5">
 				<Account_suggestion />
