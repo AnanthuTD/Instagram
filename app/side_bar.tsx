@@ -48,7 +48,7 @@ export default function side_bar({ menu, setMenu }: SideBarProps) {
 	}
 
 	return (
-		<div className="text-white">
+		<div className="text-white pt-5">
 			<div className="mb-10">
 				<img src="/images/logo.svg" alt="Wowgram!" />
 			</div>
