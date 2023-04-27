@@ -1,6 +1,8 @@
 export interface UserState {
 	id: string;
 	username: string;
+    first_name: string;
+    last_name: string;
 	email: string;
 	phone: string;
 	bio: string;
@@ -16,4 +18,10 @@ export interface MenuState {
 	messages: boolean;
 	notifications: boolean;
 	reels: boolean;
+}
+
+export interface SvgProps {
+	stroke: string;
+	fill: string;
+    className:string;
 }
