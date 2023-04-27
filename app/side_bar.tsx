@@ -6,14 +6,18 @@ import { MenuState } from "./Interfaces";
 
 
 interface SideBarProps {
-	setMenu: Dispatch<
-		SetStateAction<MenuState>
-	>
-	menu: MenuState
+	setMenu: Dispatch<SetStateAction<MenuState>>;
+	menu: MenuState;
 }
 
 export default function side_bar({ menu, setMenu }: SideBarProps) {
 	function handleMenuClick(key: keyof MenuState) {
+		
+		if (key === "create") {
+			setMenu({...menu,"create":true});
+			return;
+		}
+
 		let newMenu: MenuState = {
 			home: false,
 			profile: false,
@@ -24,6 +28,7 @@ export default function side_bar({ menu, setMenu }: SideBarProps) {
 			notifications: false,
 			reels: false,
 		};
+		
 		newMenu[key] = true;
 		setMenu(newMenu);
 	}
