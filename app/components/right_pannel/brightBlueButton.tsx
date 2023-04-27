@@ -2,10 +2,7 @@ interface SwitchButtonProps {
     text: string;
     color: string;
   }
-function SwitchButton({text, color= '#00c2f7'}: SwitchButtonProps){
-   /*  if(!color){
-        color = '#00c2f7'
-    } */
+function SwitchButton({text, color}: SwitchButtonProps){
     return (
         <>
             <button className={`ml-auto text-xs font-bold`} style={{color:color}}>
