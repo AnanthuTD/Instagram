@@ -6,9 +6,10 @@ import validateEmail from "../public/javascripts/validate_email";
 import validatePhone from "../public/javascripts/validate_phone";
 import validatePassword from "@/public/javascripts/validate_password";
 import { Dispatch, SetStateAction } from "react";
+import { UserState } from "./Interfaces";
 
-interface LoginProps {
-	setUser: Dispatch<SetStateAction<object | undefined>>;
+interface SignupProps {
+	setUser: Dispatch<SetStateAction<UserState | undefined>>;
 }
 
 interface IsValidState {
@@ -24,7 +25,7 @@ interface ErrorState {
 	phone?: string;
 }
 
-export default function login(props: LoginProps) {
+export default function Signup(props: SignupProps) {
 	const [formData, setFormData] = useState({});
 	const [isValid, setIsValid] = useState<IsValidState>({});
 	const [errors, setErrors] = useState<ErrorState>({});
@@ -84,19 +85,6 @@ export default function login(props: LoginProps) {
 		} else if (signupData.errors) {
 			setErrors(signupData.errors);
 		}
-
-		/* {
-            'success': True,
-            'user': {
-                'id': user.id,
-                'username': user.username,
-                'email': user.email or "",
-                'phone': form.phone or "",
-                # 'id_user': form.cleaned_data['id_user'],
-                'bio': form.cleaned_data.get('bio', ''),
-                'location': form.cleaned_data.get('location', ''),
-            },
-        } */
 	};
 
 	useEffect(() => {

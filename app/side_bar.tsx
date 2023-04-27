@@ -2,46 +2,19 @@
 import { SetStateAction, Dispatch } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { MenuState } from "./Interfaces";
 
-interface Menu {
-	home: boolean;
-	profile: boolean;
-	create: boolean;
-	search: boolean;
-	explore: boolean;
-	messages: boolean;
-	notifications: boolean;
-	reels: boolean;
-}
 
 interface SideBarProps {
 	setMenu: Dispatch<
-		SetStateAction<{
-			home: boolean;
-			profile: boolean;
-			create: boolean;
-			search: boolean;
-			explore: boolean;
-			messages: boolean;
-			notifications: boolean;
-			reels: boolean;
-		}>
-	>;
-	menu: {
-		home: boolean;
-		profile: boolean;
-		create: boolean;
-		search: boolean;
-		explore: boolean;
-		messages: boolean;
-		notifications: boolean;
-		reels: boolean;
-	};
+		SetStateAction<MenuState>
+	>
+	menu: MenuState
 }
 
 export default function side_bar({ menu, setMenu }: SideBarProps) {
-	function handleMenuClick(key: keyof Menu) {
-		let newMenu: Menu = {
+	function handleMenuClick(key: keyof MenuState) {
+		let newMenu: MenuState = {
 			home: false,
 			profile: false,
 			create: false,

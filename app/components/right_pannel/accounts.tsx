@@ -1,7 +1,11 @@
 import Image from "next/image";
 import SwitchButton from "./brightBlueButton";
+import { useContext } from "react";
+import { UserContext } from "../../context/userContext";
 
 function accounts() {
+    const User = useContext(UserContext)
+    let username = User?.username
     return (
         <>
            

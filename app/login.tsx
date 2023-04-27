@@ -1,13 +1,14 @@
 import styles from "./login.module.css";
 import { Dispatch, SetStateAction, useState } from "react";
 import { fetchData } from "../fetch_csrf";
+import { UserState } from "./Interfaces";
 
-interface UserState {
-    setUser: Dispatch<SetStateAction<object | undefined>>;
+interface LoginState {
+    setUser: Dispatch<SetStateAction<UserState | undefined>>;
     setSignup: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function login({ setUser, setSignup }: UserState) {
+export default function login({ setUser, setSignup }: LoginState) {
     const [formData, setFormData] = useState({});
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
