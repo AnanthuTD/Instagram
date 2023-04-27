@@ -169,7 +169,7 @@ export default function Signup(props: SignupProps) {
 						</div>
 						<input
 							autoFocus
-							name="first_name"
+							name="fullname"
 							className="text-black text-xs w-full mb-2 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
 							id="name"
 							placeholder="full name"
@@ -177,7 +177,7 @@ export default function Signup(props: SignupProps) {
 							onChange={(e) =>
 								setFormData({
 									...formData,
-									first_name: e.target.value,
+									fullname: e.target.value,
 								})
 							}
 						/>
