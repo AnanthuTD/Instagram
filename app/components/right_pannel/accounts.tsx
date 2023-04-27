@@ -17,8 +17,8 @@ function accounts() {
                         alt=""
                         className="rounded-full"
                     />
-                    <p className="flex items-center mx-4">username</p>
-                    <SwitchButton text="Switch" color="brightBlue"/>
+                    <p className="flex items-center mx-4">{username}</p>
+                    <SwitchButton text="Switch" />
                 </div>
             
         </>
