@@ -1,10 +1,7 @@
-interface sendProps {
-	stroke: string;
-	fill: string;
-    className:string;
-}
+import { SvgProps } from "@/app/Interfaces";
 
-function sendIcon({ stroke, fill, className}: sendProps) {
+
+function sendIcon({ stroke, fill, className}: SvgProps) {
 	return (
 		<>
 			<svg

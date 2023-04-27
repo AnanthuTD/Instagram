@@ -1,7 +1,6 @@
-interface HeartProps {
-	stroke: string;
-	fill: string;
-	className: string;
+import { SvgProps } from "@/app/Interfaces";
+
+interface HeartProps extends SvgProps {
 	like: boolean;
 }
 

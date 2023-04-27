@@ -1,11 +1,8 @@
-interface  commentProps {
-	stroke: string;
-	fill: string;
-    className:string;
-}
+import { SvgProps } from "@/app/Interfaces";
 
 
-function commentIcon({ stroke, fill, className}: commentProps) {
+
+function commentIcon({ stroke, fill, className}: SvgProps) {
 	return (
 		<>
 			<svg

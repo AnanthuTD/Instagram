@@ -1,10 +1,7 @@
-interface saveProps {
-	stroke: string;
-	fill: string;
-    className:string;
-}
+import { SvgProps } from "@/app/Interfaces";
 
-function saveIcon({ stroke, fill, className}: saveProps) {
+
+function saveIcon({ stroke, fill, className}: SvgProps) {
 	return (
 		<>
 			<svg
