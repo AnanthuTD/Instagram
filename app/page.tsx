@@ -101,10 +101,10 @@ export default function Home() {
 					<div className="w-1/6 p-5 border-r border-side_bar_border justify-between flex-col flex">
 						<SideBar menu={menu} setMenu={setMenu} />
 					</div>
-					<div className="w-5/6 flex">
+					<div className="w-5/6 flex p-5">
 						{menu.home ? homeComponent : null}
 						{menu.profile ? <Profile /> : null}
-						{menu.create ? <Create /> : null}
+						{menu.create ? <Create setMenu={setMenu} menu={menu}/> : null}
 						{menu.explore ? <Explore /> : null}
 						{menu.messages ? <Messages /> : null}
 						{menu.notifications ? <Notifications /> : null}
