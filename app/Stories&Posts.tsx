@@ -51,7 +51,7 @@ function StoriesPosts() {
 									<span style={{ color: "gray" }}>time</span>
 								</div>
 								<div className="">
-									<OptionsIcon />
+									<OptionsIcon className="cursor-pointer"/>
 								</div>
 							</div>
 
