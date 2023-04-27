@@ -4,11 +4,19 @@ import { useState } from "react";
 import Posts from "../components/profile/posts";
 import Saved from "../components/profile/saved";
 import Tagged from "../components/profile/tagged";
+import { useContext } from "react";
+import { UserContext } from "../context/userContext";
 
 function profile() {
 	const [post, setPost] = useState(true);
 	const [saved, setSaved] = useState(false);
 	const [tagged, setTagged] = useState(false);
+	const User = useContext(UserContext);
+
+	let username = User?.username || ""
+	let last_name = User?.last_name || ""
+	let first_name = User?.first_name || ""
+	let full_name = first_name+" "+last_name
 
 	const PostStyle = {
 		color: post ? "white" : "gray",
@@ -33,7 +41,7 @@ function profile() {
 	};
 
 	return (
-		<div className="flex w-full bg-white justify-center">
+		<div className="flex w-full bg-black justify-center">
 			<div
 				className="flex bg-black w-full"
 				style={{ minWidth: "600px", maxWidth: "1000px" }}
@@ -53,7 +61,7 @@ function profile() {
 						<div className="space-y-5">
 							<div className="flex gap-5 items-center">
 								<p className="m-0 text-xl font-medium">
-									username
+									{username}
 								</p>
 								<button className="bg-white rounded-md text-black text-sm font-bold py-1 px-4 cursor-pointer">
 									Edit profile
@@ -78,8 +86,8 @@ function profile() {
 							</div>
 
 							<div>
-								<p className="font-bold">Ananthu TD</p>
-								<p className="text-sm">Ananthu</p>
+								<p className="font-bold">{full_name}</p>
+								<p className="text-sm">{first_name}</p>
 							</div>
 						</div>
 					</div>
