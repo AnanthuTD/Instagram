@@ -15,6 +15,7 @@ module.exports = {
                 _grey:"#121212",
                 secondryText: "rgb(168 168 168)",
                 primaryText: "rgb(245 245 245)",
+                elevated:"rgb(38 38 38)",
             },
         },
     },
