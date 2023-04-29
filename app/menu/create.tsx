@@ -13,6 +13,7 @@ function create({ setMenu, menu }: CreateProps) {
 	const formSubmitRef = useRef<HTMLFormElement | null>(null);
 	const elevatedDiv = useRef<HTMLDivElement | null>(null);
 	const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
+	const [formData, setFormData] = useState<FormData | null>(null);
 
 	const handleClick = () => {
 		if (fileInputRef.current) fileInputRef.current.click();
@@ -43,9 +44,8 @@ function create({ setMenu, menu }: CreateProps) {
 	}, []);
 
 	const handleSubmit = () => {
-		if (formSubmitRef.current) {
-			let file = new FormData(formSubmitRef.current);
-		}
+		console.log("handleSubmit");
+		
 	};
 
 	useEffect(() => {
@@ -71,6 +71,7 @@ function create({ setMenu, menu }: CreateProps) {
 					zIndex: 15,
 				}}
 			>
+				
 				<div
 					className="aspect-square h-5/6 bg-elevated rounded-xl shadow-md transform transition-all duration-500 p-0"
 					ref={elevatedDiv}
@@ -109,15 +110,14 @@ function create({ setMenu, menu }: CreateProps) {
 									Select from computer
 								</button>
 								<form
-									action=""
-									method="post"
 									ref={formSubmitRef}
+									className=""
+									style={{ visibility: "hidden" }}
 									encType="multipart/form-data"
 								>
 									<input
 										ref={fileInputRef}
 										type="file"
-										className="hidden"
 										name="Select from computer"
 										onChange={handleFileInputChange}
 									/>
@@ -135,6 +135,7 @@ function create({ setMenu, menu }: CreateProps) {
 								/>
 							)
 						)}
+						<div className="w-1/2">1</div> 
 					</div>
 				</div>
 			</div>
