@@ -1,7 +1,10 @@
 import { Dispatch, SetStateAction, useState, useRef, useEffect } from "react";
 import { MenuState } from "../Interfaces";
 import PictureAndVideo from "../components/create/pictureAndVideo";
-import Image from "next/image";
+import AvatarUsername from "../components/avatar_username";
+import SmileIcon from "../components/posts/smileIcon";
+import LocationIcon from "../components/create/locationIcon";
+
 interface CreateProps {
 	setMenu: Dispatch<SetStateAction<MenuState>>;
 	menu: MenuState;
@@ -12,8 +15,12 @@ function create({ setMenu, menu }: CreateProps) {
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 	const formSubmitRef = useRef<HTMLFormElement | null>(null);
 	const elevatedDiv = useRef<HTMLDivElement | null>(null);
-	const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
-	const [formData, setFormData] = useState<FormData | null>(null);
+	const [preview, setPreview] = useState<string | null>(null);
+	const [formData, setFormData] = useState<FormData>(new FormData());
+	const [location, setLocation] = useState("");
+	const [caption, setCaption] = useState("");
+	const [submit, setSubmit] = useState(true);
+	const [fileAdded, setFileAdded] = useState(false)
 
 	const handleClick = () => {
 		if (fileInputRef.current) fileInputRef.current.click();
@@ -43,18 +50,40 @@ function create({ setMenu, menu }: CreateProps) {
 		};
 	}, []);
 
-	const handleSubmit = () => {
-		console.log("handleSubmit");
-		
-	};
+	async function postData() {
+		fetch("/api/posts", {
+			method: "POST",
+			body: formData,
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				console.log("Success:", data);
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+			});
+	}
+
+	useEffect(() => {
+
+		if (selectedFile && !formData.has("file")) {
+			setFileAdded(true)
+			formData.append("file", selectedFile);
+			return;
+		}
+		if (formData.has("file")) {
+			formData.append("caption", caption);
+			formData.append("location", location);
+			// posting data to server
+			postData();
+		}
+	}, [submit, formData]);
 
 	useEffect(() => {
 		if (selectedFile) {
-			console.log(selectedFile);
-
 			let reader = new FileReader();
 			reader.onload = () => {
-				setPreview(reader.result);
+				setPreview(reader.result as string);
 			};
 			reader.readAsDataURL(selectedFile);
 		}
@@ -71,9 +100,8 @@ function create({ setMenu, menu }: CreateProps) {
 					zIndex: 15,
 				}}
 			>
-				
 				<div
-					className="aspect-square h-5/6 bg-elevated rounded-xl shadow-md transform transition-all duration-500 p-0"
+					className=" h-5/6 bg-elevated rounded-xl overflow-hidden shadow-md transform transition-all duration-500 p-0"
 					ref={elevatedDiv}
 				>
 					{/* header */}
@@ -88,54 +116,90 @@ function create({ setMenu, menu }: CreateProps) {
 						<div className="w-1/4 flex justify-end">
 							<button
 								className="rounded text-blue-500 text-sm p-1"
-								onClick={handleSubmit}
+								onClick={() => setSubmit(!submit)}
 							>
 								Next
 							</button>
 						</div>
 					</div>
 					{/* content */}
-					<div
-						className="flex w-full justify-center overflow-hidden rounded-b-xl"
-						style={{ height: "90%" }}
-					>
-						{!selectedFile ? (
-							<div className="space-y-3 justify-center flex flex-col items-center">
-								<PictureAndVideo fill="white" />
-								<p>Drag photos and videos here</p>
-								<button
-									className="rounded-lg bg-blue-500 text-white p-2 font-bold text-sm"
-									onClick={handleClick}
-								>
-									Select from computer
-								</button>
-								<form
-									ref={formSubmitRef}
-									className=""
-									style={{ visibility: "hidden" }}
-									encType="multipart/form-data"
-								>
-									<input
-										ref={fileInputRef}
-										type="file"
-										name="Select from computer"
-										onChange={handleFileInputChange}
+					<div className="flex" style={{ height: "90%" }}>
+						<div className="aspect-square h-full flex justify-center overflow-hidden">
+							{!selectedFile ? (
+								<div className="space-y-3 justify-center flex flex-col items-center">
+									<PictureAndVideo fill="white" />
+									<p>Drag photos and videos here</p>
+									<button
+										className="rounded-lg bg-blue-500 text-white p-2 font-bold text-sm"
+										onClick={handleClick}
+									>
+										Select from computer
+									</button>
+									<form
+										ref={formSubmitRef}
+										className=""
+										style={{ visibility: "hidden" }}
+										encType="multipart/form-data"
+									>
+										<input
+											ref={fileInputRef}
+											type="file"
+											name="Select from computer"
+											onChange={handleFileInputChange}
+										/>
+									</form>
+								</div>
+							) : (
+								preview && (
+									<img
+										src={preview as string}
+										alt={`Preview of ${selectedFile?.name}`}
+										style={{
+											maxWidth: "max-content",
+											maxHeight: "max-content",
+										}}
 									/>
-								</form>
-							</div>
-						) : (
-							preview && (
-								<img
-									src={preview as string}
-									alt={`Preview of ${selectedFile?.name}`}
-									style={{
-										maxWidth: "max-content",
-										maxHeight: "max-content",
-									}}
+								)
+							)}
+						</div>
+						{fileAdded ? (
+							<div
+								className="p-3 space-y-3 border-l"
+								style={{
+									borderColor: "#3d3d3d",
+								}}
+							>
+								<AvatarUsername
+									height={30}
+									width={30}
+									className="text-sm font-bold text-white"
 								/>
-							)
-						)}
-						<div className="w-1/2">1</div> 
+								<textarea
+									name="caption"
+									id="caption"
+									cols={30}
+									rows={10}
+									placeholder="Write a caption..."
+									className="bg-transparent resize-none outline-none"
+									required={false}
+									onChange={(e) => setCaption(e.target.value)}
+								></textarea>
+								<SmileIcon width="20" height="20" />
+								<div className="flex justify-between">
+									<input
+										type="text"
+										placeholder="Add location"
+										className="border-none bg-transparent outline-none"
+										onChange={(e) =>
+											setLocation(e.target.value)
+										}
+									/>
+									<span>
+										<LocationIcon />
+									</span>
+								</div>
+							</div>
+						) : null}
 					</div>
 				</div>
 			</div>
