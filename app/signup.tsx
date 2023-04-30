@@ -78,7 +78,6 @@ export default function Signup(props: SignupProps) {
 
 		const signupData = await signupResponse.json();
 
-		console.log("signupData : ", await signupData);
 
 		if (signupData.success) {
 			props.setUser(signupData.user);

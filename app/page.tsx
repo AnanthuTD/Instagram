@@ -39,7 +39,6 @@ export default function Home() {
 	useEffect(() => {
 		// If a user object is available, set the user cookie and stop loading
 		if (user) {
-			console.log("user true");
 			Cookies.set("user", JSON.stringify(user));
 			setLoading(false);
 			setSignup(false);
