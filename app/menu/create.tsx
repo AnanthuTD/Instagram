@@ -20,7 +20,7 @@ function create({ setMenu, menu }: CreateProps) {
 	const [location, setLocation] = useState("");
 	const [caption, setCaption] = useState("");
 	const [submit, setSubmit] = useState(true);
-	const [fileAdded, setFileAdded] = useState(false)
+	const [fileAdded, setFileAdded] = useState(false);
 
 	const handleClick = () => {
 		if (fileInputRef.current) fileInputRef.current.click();
@@ -65,9 +65,8 @@ function create({ setMenu, menu }: CreateProps) {
 	}
 
 	useEffect(() => {
-
 		if (selectedFile && !formData.has("file")) {
-			setFileAdded(true)
+			setFileAdded(true);
 			formData.append("file", selectedFile);
 			return;
 		}
@@ -149,18 +148,28 @@ function create({ setMenu, menu }: CreateProps) {
 										/>
 									</form>
 								</div>
-							) : (
-								preview && (
-									<img
-										src={preview as string}
-										alt={`Preview of ${selectedFile?.name}`}
-										style={{
-											maxWidth: "max-content",
-											maxHeight: "max-content",
-										}}
-									/>
-								)
-							)}
+							) : (selectedFile &&
+									selectedFile.type === "image/jpeg") ||
+							  selectedFile.type === "image/png" ? (
+								<img
+									src={preview as string}
+									alt={`Preview of ${selectedFile?.name}`}
+									style={{
+										maxWidth: "max-content",
+										maxHeight: "max-content",
+									}}
+								/>
+							) : selectedFile &&
+							  selectedFile.type.startsWith("video/") ? (
+								<video
+									src={preview as string}
+									controls
+									style={{
+										maxWidth: "max-content",
+										maxHeight: "max-content",
+									}}
+								/>
+							) : null}
 						</div>
 						{fileAdded ? (
 							<div
