@@ -1,16 +1,21 @@
 import { SvgProps } from "@/app/Interfaces";
 
-function smileIcon({className}:SvgProps) {
+interface SmileIconProps extends SvgProps {
+	width?: string;
+	height?: string;
+}
+
+function smileIcon({className, width, height}:SmileIconProps) {
 	return (
 		<>
 			<svg
 				aria-label="Emoji"
 				color="rgb(115, 115, 115)"
 				fill="rgb(115, 115, 115)"
-				height="13"
+				height={height}
 				role="img"
 				viewBox="0 0 24 24"
-				width="13"
+				width={width}
 				className={className}
 			>
 				<title>Emoji</title>
@@ -24,6 +29,8 @@ smileIcon.defaultProps = {
 	stroke: "currentColor",
 	fill: "none",
 	className: "",
+	height:'13',
+	width:'13'
 };
 
 export default smileIcon;
