@@ -4,6 +4,7 @@ import PictureAndVideo from "../components/create/pictureAndVideo";
 import AvatarUsername from "../components/avatar_username";
 import SmileIcon from "../components/posts/smileIcon";
 import LocationIcon from "../components/create/locationIcon";
+import Preview from "../components/create/preview";
 
 interface CreateProps {
 	setMenu: Dispatch<SetStateAction<MenuState>>;
@@ -21,6 +22,7 @@ function create({ setMenu, menu }: CreateProps) {
 	const [caption, setCaption] = useState("");
 	const [submit, setSubmit] = useState(true);
 	const [fileAdded, setFileAdded] = useState(false);
+	const [video, setVideo] = useState("");
 
 	const handleClick = () => {
 		if (fileInputRef.current) fileInputRef.current.click();
@@ -85,6 +87,9 @@ function create({ setMenu, menu }: CreateProps) {
 				setPreview(reader.result as string);
 			};
 			reader.readAsDataURL(selectedFile);
+
+			const url = URL.createObjectURL(selectedFile);
+			setVideo(url);
 		}
 	}, [selectedFile]);
 
@@ -148,27 +153,8 @@ function create({ setMenu, menu }: CreateProps) {
 										/>
 									</form>
 								</div>
-							) : (selectedFile &&
-									selectedFile.type === "image/jpeg") ||
-							  selectedFile.type === "image/png" ? (
-								<img
-									src={preview as string}
-									alt={`Preview of ${selectedFile?.name}`}
-									style={{
-										maxWidth: "max-content",
-										maxHeight: "max-content",
-									}}
-								/>
-							) : selectedFile &&
-							  selectedFile.type.startsWith("video/") ? (
-								<video
-									src={preview as string}
-									controls
-									style={{
-										maxWidth: "max-content",
-										maxHeight: "max-content",
-									}}
-								/>
+							) : selectedFile && preview ? (
+								<Preview preview={preview} name={selectedFile.name} type={selectedFile.type}/>
 							) : null}
 						</div>
 						{fileAdded ? (
