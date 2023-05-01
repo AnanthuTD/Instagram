@@ -20,22 +20,22 @@ function profile() {
 
 	const PostStyle = {
 		color: post ? "white" : "gray",
-		borderTopColor: post ? "white" : null,
-		borderTop: post ? "solid 0.1px" : null,
+		borderTopColor: post ? "white" : '',
+		borderTop: post ? "solid 0.1px" : '',
 		cursor: "pointer",
 		padding: "10px",
 	};
 	const SavedStyle = {
 		color: saved ? "white" : "gray",
-		borderTopColor: tagged ? "white" : null,
-		borderTop: saved ? "solid 0.1px" : null,
+		borderTopColor: tagged ? "white" : '',
+		borderTop: saved ? "solid 0.1px" : '',
 		cursor: "pointer",
 		padding: "10px",
 	};
 	const TaggedStyle = {
 		color: tagged ? "white" : "gray",
-		borderTopColor: saved ? "white" : null,
-		borderTop: tagged ? "solid 0.1px" : null,
+		borderTopColor: saved ? "white" : '',
+		borderTop: tagged ? "solid 0.1px" : '',
 		cursor: "pointer",
 		padding: "10px",
 	};
