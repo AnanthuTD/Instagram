@@ -55,7 +55,7 @@ function create({ setMenu, menu }: CreateProps) {
 
 	async function postData() {
 		const csrfToken = await fetchCSRF();
-		fetch("/api/posts", {
+		fetch("/api/post", {
 			method: "POST",
 			body: formData,
 			headers:{
