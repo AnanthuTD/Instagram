@@ -1,4 +1,4 @@
-export async function fetchData() {
+export async function fetchCSRF() {
     const response = await fetch("api/csrf_token/", {
         method: "GET",
         credentials: "include",

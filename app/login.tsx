@@ -1,6 +1,6 @@
 import styles from "./login.module.css";
 import { Dispatch, SetStateAction, useState } from "react";
-import { fetchData } from "../fetch_csrf";
+import { fetchCSRF } from "../fetch_csrf";
 import { UserState } from "./Interfaces";
 
 interface LoginState {
@@ -19,7 +19,7 @@ export default function login({ setUser, setSignup }: LoginState) {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const csrfToken = await fetchData();
+        const csrfToken = await fetchCSRF();
 
         const headers: Record<string, string> = {
             "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export default function login({ setUser, setSignup }: LoginState) {
                                 onChange={(e) =>
                                     setFormData({
                                         ...formData,
-                                        password: e.target.value,
+                                        password1: e.target.value,
                                     })
                                 }
                             />

@@ -1,7 +1,7 @@
 "use client";
 import styles from "./login.module.css";
 import { useState, useEffect } from "react";
-import { fetchData } from "../fetch_csrf";
+import { fetchCSRF} from "../fetch_csrf";
 import validateEmail from "../public/javascripts/validate_email";
 import validatePhone from "../public/javascripts/validate_phone";
 import validatePassword from "@/public/javascripts/validate_password";
@@ -62,7 +62,7 @@ export default function Signup(props: SignupProps) {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		const csrfToken = await fetchData();
+		const csrfToken = await fetchCSRF();
 
 		const headers: Record<string, string> = {
 			"Content-Type": "application/json",
@@ -241,7 +241,7 @@ export default function Signup(props: SignupProps) {
 								onChange={(e) =>
 									setFormData({
 										...formData,
-										password: e.target.value,
+										password1: e.target.value,
 									})
 								}
 							/>

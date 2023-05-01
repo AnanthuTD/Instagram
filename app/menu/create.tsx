@@ -5,6 +5,7 @@ import AvatarUsername from "../components/avatar_username";
 import SmileIcon from "../components/posts/smileIcon";
 import LocationIcon from "../components/create/locationIcon";
 import Preview from "../components/create/preview";
+import { fetchCSRF } from "@/fetch_csrf";
 
 interface CreateProps {
 	setMenu: Dispatch<SetStateAction<MenuState>>;
@@ -53,9 +54,13 @@ function create({ setMenu, menu }: CreateProps) {
 	}, []);
 
 	async function postData() {
+		const csrfToken = await fetchCSRF();
 		fetch("/api/posts", {
 			method: "POST",
 			body: formData,
+			headers:{
+				"X-CSRFToken":csrfToken
+			}
 		})
 			.then((response) => response.json())
 			.then((data) => {
