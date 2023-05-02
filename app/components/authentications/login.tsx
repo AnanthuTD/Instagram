@@ -1,6 +1,6 @@
 import styles from "./login.module.css";
 import { Dispatch, SetStateAction, useState } from "react";
-import { fetchCSRF } from "../../../fetch_csrf";
+import { fetchCSRF } from "../../utils/fetch_csrf";
 import { UserState } from "../../utils/Interfaces";
 
 interface LoginState {

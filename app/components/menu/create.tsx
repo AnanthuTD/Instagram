@@ -1,11 +1,11 @@
+import { MenuState } from "@/app/utils/Interfaces";
+import { fetchCSRF } from "@/app/utils/fetch_csrf";
 import { Dispatch, SetStateAction, useState, useRef, useEffect } from "react";
-import { MenuState } from "../Interfaces";
-import PictureAndVideo from "../components/create/pictureAndVideo";
-import AvatarUsername from "../components/avatar_username";
-import SmileIcon from "../components/posts/smileIcon";
-import LocationIcon from "../components/create/locationIcon";
-import Preview from "../components/create/preview";
-import { fetchCSRF } from "@/fetch_csrf";
+import SmileIcon from "../posts/smileIcon";
+import PictureAndVideo from "../create/pictureAndVideo";
+import AvatarUsername from "../avatar_username";
+import LocationIcon from "../create/locationIcon";
+import Preview from "../create/preview";
 
 interface CreateProps {
 	setMenu: Dispatch<SetStateAction<MenuState>>;

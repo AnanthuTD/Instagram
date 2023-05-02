@@ -1,7 +1,7 @@
 "use client";
 import styles from "./login.module.css";
 import { useState, useEffect } from "react";
-import { fetchCSRF} from "../../../fetch_csrf";
+import { fetchCSRF} from "../../utils/fetch_csrf";
 import validateEmail from "../../../public/javascripts/validate_email";
 import validatePhone from "../../../public/javascripts/validate_phone";
 import validatePassword from "@/public/javascripts/validate_password";

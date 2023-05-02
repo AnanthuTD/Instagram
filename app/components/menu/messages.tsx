@@ -1,7 +1,6 @@
-import Account from "../components/message/accountMessage";
-import CreateMessage from "../components/message/create";
-import DropDown from "../components/message/dropdown";
-import AccountMessage from "../components/message/accountMessage";
+import CreateMessage from "../message/create";
+import DropDown from "../message/dropdown";
+import AccountMessage from "../message/accountMessage";
 
 function messages() {
 	return (

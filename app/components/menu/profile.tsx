@@ -1,11 +1,12 @@
 import Image from "next/image";
-import Settings from "../components/svg/settings";
+import Settings from "../svg/settings";
 import { useState } from "react";
-import Posts from "../components/profile/posts";
-import Saved from "../components/profile/saved";
-import Tagged from "../components/profile/tagged";
+import Posts from "../profile/posts";
+import Saved from "../profile/saved";
+import Tagged from "../profile/tagged";
 import { useContext } from "react";
-import { UserContext } from "../context/userContext";
+import { UserContext } from "@/app/context/userContext";
+
 
 function profile() {
 	const [post, setPost] = useState(true);
