@@ -10,8 +10,8 @@ function suggestedForYou() {
                 </p>
                 <SeeAll text="See All" color="white" />
             </div>
-            {array.map(() => (
-                <AccountsSM />
+            {array.map((id) => (
+                <AccountsSM key={id}/>
             ))}
 
             <div className="flex my-5">

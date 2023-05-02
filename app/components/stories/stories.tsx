@@ -8,9 +8,9 @@ function Stories() {
 	const [scrollRight, setscrollRight] = useState(false);
 
 	let data = Array(9).fill(null);
-	const stories = data.map((_, index) => (
+	const stories = data.map((_,index) => (
 		<>
-			<Rings avatar="/images/default_profile.png" />
+			<Rings key={`RingKey${index}`} avatar="/images/default_profile.png" />
 			<div className="px-2"></div>
 		</>
 	));
