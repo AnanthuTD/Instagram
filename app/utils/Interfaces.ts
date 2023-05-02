@@ -21,7 +21,9 @@ export interface MenuState {
 }
 
 export interface SvgProps {
-	stroke: string;
-	fill: string;
-    className:string;
+	stroke?: string;
+	fill?: string;
+    className?:string;
+	width?:number;
+	height?:number;
 }
