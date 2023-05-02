@@ -58,9 +58,9 @@ function create({ setMenu, menu }: CreateProps) {
 		fetch("/api/post", {
 			method: "POST",
 			body: formData,
-			headers:{
-				"X-CSRFToken":csrfToken
-			}
+			headers: {
+				"X-CSRFToken": csrfToken,
+			},
 		})
 			.then((response) => response.json())
 			.then((data) => {
@@ -158,8 +158,13 @@ function create({ setMenu, menu }: CreateProps) {
 										/>
 									</form>
 								</div>
-							) : selectedFile && preview ? (
-								<Preview preview={preview} name={selectedFile.name} type={selectedFile.type}/>
+							) : // preview
+							selectedFile && preview ? (
+								<Preview
+									preview={preview}
+									name={selectedFile.name}
+									type={selectedFile.type}
+								/>
 							) : null}
 						</div>
 						{fileAdded ? (
