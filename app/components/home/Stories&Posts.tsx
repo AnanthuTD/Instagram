@@ -1,12 +1,12 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import CommentIcon from "./components/posts/commentIcon";
-import Like from "./components/posts/heart";
-import OptionsIcon from "./components/posts/optionsIcon";
-import SaveIcon from "./components/posts/saveIcon";
-import SendIcon from "./components/posts/sendIcon";
-import SmileIcon from "./components/posts/smileIcon";
-import Rings from "./components/stories/rings";
-import Stories from "./components/stories/stories";
+import CommentIcon from "../posts/commentIcon";
+import Like from "../posts/heart";
+import OptionsIcon from "../posts/optionsIcon";
+import SaveIcon from "../posts/saveIcon";
+import SendIcon from "../posts/sendIcon";
+import SmileIcon from "../posts/smileIcon";
+import Rings from "../stories/rings";
+import Stories from "../stories/stories";
 
 function StoriesPosts() {
 	const [comment, setComment] = useState("");

@@ -1,21 +1,21 @@
-// Import necessary components and libraries
 "use client";
-import SideBar from "./side_bar";
-import Login from "./login";
-import Signup from "./signup";
+
+import MenuBar from "./components/home/menu";
+import Login from "./components/authentications/login";
+import Signup from "./components/authentications/signup";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import Account_suggestion from "./components/right_pannel/accountSuggestion";
-import Profile from "./menu/profile";
-import Create from "./menu/create";
-import Messages from "./menu/messages";
-import Notifications from "./menu/notifications";
-import Search from "./menu/search";
-import Explore from "./menu/explore";
-import Reels from "./menu/reels";
-import StoriesPosts from "./Stories&Posts";
+import Profile from "./components/menu/profile";
+import StoriesPosts from "./components/home/Stories&Posts";
 import { UserContext } from "./context/userContext";
-import { UserState, MenuState } from "./Interfaces";
+import { UserState, MenuState } from "./utils/Interfaces";
+import Create from "./components/menu/create";
+import Explore from "./components/menu/explore";
+import Messages from "./components/menu/messages";
+import Notifications from "./components/menu/notifications";
+import Reels from "./components/menu/reels";
+import Search from "./components/menu/search";
 
 
 // Define the Home component
@@ -98,7 +98,7 @@ export default function Home() {
 			<UserContext.Provider value={user}>
 				<main className="flex min-h-screen flex-row bg-black h-full">
 					<div className="w-1/6 p-5 border-r border-side_bar_border justify-between flex-col flex">
-						<SideBar menu={menu} setMenu={setMenu} />
+						<MenuBar menu={menu} setMenu={setMenu} />
 					</div>
 					<div className="w-5/6 flex p-5">
 						{menu.home ? homeComponent : null}

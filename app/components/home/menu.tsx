@@ -2,15 +2,15 @@
 import { SetStateAction, Dispatch } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MenuState } from "./Interfaces";
+import { MenuState } from "../../utils/Interfaces";
 
 
-interface SideBarProps {
+interface MenuInterface {
 	setMenu: Dispatch<SetStateAction<MenuState>>;
 	menu: MenuState;
 }
 
-export default function side_bar({ menu, setMenu }: SideBarProps) {
+export default function Menu({ menu, setMenu }: MenuInterface) {
 	function handleMenuClick(key: keyof MenuState) {
 		
 		if (key === "create") {
