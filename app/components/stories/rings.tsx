@@ -1,9 +1,10 @@
 "use client";
 interface RingsProps{
-    avatar:string;
-    width:string;
+    avatar?:string;
+    width?:string;
 }
-function Rings({avatar, width}: RingsProps) {
+function Rings({avatar="/images/pro-pic.jpg",
+width="70px"}: RingsProps) {
     return (
         <div className="text-white">
             <div style={{ position: "relative", width: `${width}` }}>
@@ -51,8 +52,5 @@ function Rings({avatar, width}: RingsProps) {
         </div>
     );
 }
-Rings.defaultProps = {
-    avatar:"/images/pro-pic.jpg",
-    width:"70px"
-  };
+
 export default Rings;

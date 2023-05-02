@@ -1,7 +1,10 @@
-import { SvgProps } from "@/app/Interfaces";
+import { SvgProps } from "@/app/utils/Interfaces";
 
 
-function sendIcon({ stroke, fill, className}: SvgProps) {
+
+function sendIcon({ stroke = "currentColor",
+fill = "none",
+className = "",}: SvgProps) {
 	return (
 		<>
 			<svg
@@ -36,9 +39,5 @@ function sendIcon({ stroke, fill, className}: SvgProps) {
 		</>
 	);
 }
-sendIcon.defaultProps = {
-	stroke: "currentColor",
-	fill: "none",
-    className:""
-};
+
 export default sendIcon;

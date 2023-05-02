@@ -1,9 +1,6 @@
-interface CreateMessageProps {
-	stroke: string;
-	fill: string;
-	className: string;
-}
-function CreateMessage({ stroke, fill, className }: CreateMessageProps) {
+import { SvgProps } from "@/app/utils/Interfaces";
+
+function CreateMessage({ stroke="currentColor", fill="none", className="" }: SvgProps) {
 	return (
 		<>
 			<svg
@@ -48,10 +45,5 @@ function CreateMessage({ stroke, fill, className }: CreateMessageProps) {
 		</>
 	);
 }
-CreateMessage.defaultProps = {
-	stroke: "currentColor",
-	fill: "none",
-	className: "",
-};
 
 export default CreateMessage;

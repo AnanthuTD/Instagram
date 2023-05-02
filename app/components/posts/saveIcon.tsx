@@ -1,19 +1,22 @@
-import { SvgProps } from "@/app/Interfaces";
+import { SvgProps } from "@/app/utils/Interfaces";
 
 
-function saveIcon({ stroke, fill, className}: SvgProps) {
+function saveIcon({
+	stroke = "currentColor",
+	fill = "none",
+	className = "",
+}: SvgProps) {
 	return (
 		<>
 			<svg
 				aria-label="Save"
-			
 				color="rgb(168, 168, 168)"
 				fill="rgb(168, 168, 168)"
 				height="24"
 				role="img"
 				viewBox="0 0 24 24"
 				width="24"
-               className={className}
+				className={className}
 			>
 				<title>Save</title>
 				<polygon
@@ -28,9 +31,5 @@ function saveIcon({ stroke, fill, className}: SvgProps) {
 		</>
 	);
 }
-saveIcon.defaultProps = {
-	stroke: "currentColor",
-	fill: "none",
-    className:""
-};
+
 export default saveIcon;

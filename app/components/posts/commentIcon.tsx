@@ -1,13 +1,14 @@
-import { SvgProps } from "@/app/Interfaces";
+import { SvgProps } from "@/app/utils/Interfaces";
 
-
-
-function commentIcon({ stroke, fill, className}: SvgProps) {
+function commentIcon({
+	stroke = "currentColor",
+	fill = "none",
+	className = "",
+}: SvgProps) {
 	return (
 		<>
 			<svg
 				aria-label="Comment"
-				
 				color="rgb(168, 168, 168)"
 				fill="rgb(168, 168, 168)"
 				height="24"
@@ -27,9 +28,5 @@ function commentIcon({ stroke, fill, className}: SvgProps) {
 		</>
 	);
 }
-commentIcon.defaultProps = {
-	stroke: "currentColor",
-	fill: "none",
-    className:""
-};
+
 export default commentIcon;

@@ -1,11 +1,8 @@
-import { SvgProps } from "@/app/Interfaces";
+import { SvgProps } from "@/app/utils/Interfaces";
 
-interface SmileIconProps extends SvgProps {
-	width?: string;
-	height?: string;
-}
 
-function locationIcon({className, width, height}:SmileIconProps) {
+
+function locationIcon({className='', width=16, height=16}:SvgProps) {
 	return (
 		<>
 			<svg
@@ -24,11 +21,5 @@ function locationIcon({className, width, height}:SmileIconProps) {
 		</>
 	);
 }
-locationIcon.defaultProps = {
-	stroke: "currentColor",
-	fill: "none",
-	className: "",
-	height:'16',
-	width:'16'
-};
+
 export default locationIcon;

@@ -1,9 +1,6 @@
-interface DropDownProps {
-	stroke: string;
-	fill: string;
-	className: string;
-}
-function DropDown({ stroke, fill, className }: DropDownProps) {
+import { SvgProps } from "@/app/utils/Interfaces";
+
+function DropDown({ stroke="currentColor", fill="none", className="" }: SvgProps) {
 	return (
 		<>
 			<svg
@@ -23,10 +20,6 @@ function DropDown({ stroke, fill, className }: DropDownProps) {
 		</>
 	);
 }
-DropDown.defaultProps = {
-	stroke: "currentColor",
-	fill: "none",
-	className: "",
-};
+
 
 export default DropDown;

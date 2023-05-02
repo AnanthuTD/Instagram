@@ -3,7 +3,7 @@ interface AccountMessageProps {
 	width: number;
 	height: number;
 }
-function AccountMessage({ width, height }: AccountMessageProps) {
+function AccountMessage({ width=40, height=40 }: AccountMessageProps) {
 	return (
 		<>
 			<div className="flex my-3 cursor-pointer items-center m-4">
@@ -28,8 +28,5 @@ function AccountMessage({ width, height }: AccountMessageProps) {
 		</>
 	);
 }
-AccountMessage.defaultProps = {
-	width: 40,
-	height: 40,
-};
+
 export default AccountMessage;

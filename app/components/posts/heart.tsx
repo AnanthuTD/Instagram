@@ -1,10 +1,10 @@
-import { SvgProps } from "@/app/Interfaces";
+import { SvgProps } from "@/app/utils/Interfaces";
 
 interface HeartProps extends SvgProps {
 	like: boolean;
 }
 
-function Like({ className, like }: HeartProps) {
+function Like({ className, like=false }: HeartProps) {
 	if (like) {
 		return (
 			<>
@@ -41,10 +41,6 @@ function Like({ className, like }: HeartProps) {
 	);
 }
 
-Like.defaultProps = {
-	stroke: "currentColor",
-	fill: "none",
-	className: "",
-};
+
 
 export default Like;

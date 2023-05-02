@@ -8,7 +8,7 @@ interface AvatarUsernameProps{
    className:string
 }
 
-function AvatarUsername({height,width, className}:AvatarUsernameProps) {
+function AvatarUsername({height=60,width=60, className=''}:AvatarUsernameProps) {
     const User = useContext(UserContext)
     let username = User?.username
     return (
@@ -28,12 +28,6 @@ function AvatarUsername({height,width, className}:AvatarUsernameProps) {
             
         </>
     );
-}
-
-AvatarUsername.defaultProps = {
-    width: 60,
-    height: 60,
-    className:''
 }
 
 export default AvatarUsername;

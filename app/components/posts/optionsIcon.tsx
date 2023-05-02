@@ -1,6 +1,10 @@
-import { SvgProps } from "@/app/Interfaces";
+import { SvgProps } from "@/app/utils/Interfaces";
 
-function optionsIcon({className}:SvgProps) {
+function optionsIcon({
+	stroke = "currentColor",
+	fill = "none",
+	className = "",
+}: SvgProps) {
 	return (
 		<>
 			<svg
@@ -9,7 +13,7 @@ function optionsIcon({className}:SvgProps) {
 				viewBox="0 0 24 24"
 				strokeWidth={1.5}
 				stroke="currentColor"
-				className={["w-6 h-6",className].join(" ")}
+				className={["w-6 h-6", className].join(" ")}
 			>
 				<path
 					strokeLinecap="round"
@@ -20,9 +24,5 @@ function optionsIcon({className}:SvgProps) {
 		</>
 	);
 }
-optionsIcon.defaultProps = {
-	stroke: "currentColor",
-	fill: "none",
-	className: "",
-};
+
 export default optionsIcon;

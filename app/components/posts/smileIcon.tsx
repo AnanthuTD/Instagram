@@ -1,11 +1,12 @@
-import { SvgProps } from "@/app/Interfaces";
+import { SvgProps } from "@/app/utils/Interfaces";
 
-interface SmileIconProps extends SvgProps {
-	width?: string;
-	height?: string;
-}
 
-function smileIcon({className, width, height}:SmileIconProps) {
+
+function smileIcon({stroke= "currentColor",
+fill= "none",
+className= "",
+height=13,
+width=13}:SvgProps) {
 	return (
 		<>
 			<svg
@@ -25,12 +26,5 @@ function smileIcon({className, width, height}:SmileIconProps) {
 	);
 }
 
-smileIcon.defaultProps = {
-	stroke: "currentColor",
-	fill: "none",
-	className: "",
-	height:'13',
-	width:'13'
-};
 
 export default smileIcon;

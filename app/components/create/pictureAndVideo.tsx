@@ -1,6 +1,6 @@
-import { SvgProps } from "@/app/Interfaces";
+import { SvgProps } from "@/app/utils/Interfaces";
 
-function pictureAndVideo({ stroke, fill, className }: SvgProps) {
+function pictureAndVideo({ stroke="currentColor", fill="none", className="" }: SvgProps) {
 	return (
 		<>
 			<svg
@@ -30,9 +30,5 @@ function pictureAndVideo({ stroke, fill, className }: SvgProps) {
 		</>
 	);
 }
-pictureAndVideo.defaultProps = {
-	stroke: "currentColor",
-	fill: "none",
-	className: "",
-};
+
 export default pictureAndVideo;
