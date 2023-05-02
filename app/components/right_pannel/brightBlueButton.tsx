@@ -1,6 +1,6 @@
 interface SwitchButtonProps {
-    text: string;
-    color: string;
+    text?: string;
+    color?: string;
   }
 function SwitchButton({text="", color='#00c2f7'}: SwitchButtonProps){
     return (
