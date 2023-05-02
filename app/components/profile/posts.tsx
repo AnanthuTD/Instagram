@@ -1,18 +1,57 @@
+import { UserContext } from "@/app/context/userContext";
+import { fetchCSRF } from "@/fetch_csrf";
+import { useContext, useEffect, useState } from "react";
+
+interface postsInterface {
+	status: boolean;
+	posts: any[];
+}
+
 function posts() {
+	const User = useContext(UserContext);
+
+	const [posts, setPosts] = useState<any[]>([]);
+	const [data, setData] = useState<postsInterface | null>(null);
+	const [initial, setInitial] = useState(true);
+
+	async function fetchData() {
+		setInitial(false);
+		const Response = await fetch("/api/post", {
+			method: "GET",
+		});
+
+		let data = await Response.json();
+
+		if (data.status === true) setData(data);
+	}
+
+	if (initial) fetchData();
+
+	useEffect(() => {
+		if (data?.posts) {
+			setPosts(data.posts);
+		}
+	}, [data]);
+
 	return (
 		<>
-			<div className="flex w-md-1/3">
-				<img src="/images/default_profile.png" alt="" />
-			</div>
-			<div className="flex w-md-1/3">
-				<img src="/images/default_profile.png" alt="" />
-			</div>
-			<div className="flex w-md-1/3">
-				<img src="/images/default_profile.png" alt="" />
-			</div>
-            <div className="flex w-md-1/3">
-				<img src="/images/default_profile.png" alt="" />
-			</div>
+			{posts
+				? posts.map((post) => (
+						<div
+							key={post.post_id}
+							className="aspect-square flex justify-center overflow-hidden"
+						>
+							<img
+								src={`api/media/${post?.file}/`}
+								alt=""
+								style={{
+									maxWidth: "fit-content",
+									maxHeight: "100%",
+								}}
+							/>
+						</div>
+				  ))
+				: null}
 		</>
 	);
 }
