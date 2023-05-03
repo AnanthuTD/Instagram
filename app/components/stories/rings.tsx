@@ -1,4 +1,7 @@
 "use client";
+
+import React from "react";
+
 interface RingsProps{
     avatar?:string;
     width?:string;

@@ -1,11 +1,12 @@
-import { fetchCSRF } from "@/app/utils/fetch_csrf";
 import { useState, useRef, useEffect, useContext } from "react";
 import SmileIcon from "../posts/smileIcon";
 import PictureAndVideo from "../create/pictureAndVideo";
 import AvatarUsername from "../avatar_username";
 import LocationIcon from "../create/locationIcon";
 import Preview from "../create/preview";
-import { useMenuContext } from "@/app/context/menuContext";
+import React from "react";
+import { useMenuContext } from "../context/menuContext";
+import { fetchCSRF } from "../../../utils/fetch_csrf";
 
 
 function create() {

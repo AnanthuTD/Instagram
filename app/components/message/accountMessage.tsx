@@ -1,4 +1,5 @@
 import Image from "next/image";
+import React from "react";
 interface AccountMessageProps {
 	width: number;
 	height: number;

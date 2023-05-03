@@ -1,3 +1,5 @@
+import React from "react";
+
 interface previewProps {
 	preview: string;
 	name: string;

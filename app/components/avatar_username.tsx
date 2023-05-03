@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useContext } from "react";
-import { UserContext } from "../context/userContext";
+import React from "react";
+import { UserContext } from "./context/userContext";
 
 interface AvatarUsernameProps{
     height:number;

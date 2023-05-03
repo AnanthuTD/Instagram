@@ -1,5 +1,6 @@
 import Image from "next/image";
 import SwitchButton from "./brightBlueButton";
+import React from "react";
 
 function AccountSM() {
     return (

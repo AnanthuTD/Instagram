@@ -1,6 +1,7 @@
-import { UserContext } from "@/app/context/userContext";
-import { fetchCSRF } from "@/fetch_csrf";
+
+import React from "react";
 import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../context/userContext";
 
 interface postsInterface {
 	status: boolean;

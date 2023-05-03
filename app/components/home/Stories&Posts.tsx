@@ -7,6 +7,7 @@ import SendIcon from "../posts/sendIcon";
 import SmileIcon from "../posts/smileIcon";
 import Rings from "../stories/rings";
 import Stories from "../stories/stories";
+import React from "react";
 
 function StoriesPosts() {
 	const [comment, setComment] = useState("");

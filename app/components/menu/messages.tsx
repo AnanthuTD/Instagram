@@ -1,6 +1,7 @@
 import CreateMessage from "../message/create";
 import DropDown from "../message/dropdown";
 import AccountMessage from "../message/accountMessage";
+import React from "react";
 
 function messages() {
 	return (

@@ -1,12 +1,13 @@
 "use client";
 import styles from "./login.module.css";
 import { useState, useEffect } from "react";
-import { fetchCSRF} from "../../utils/fetch_csrf";
+import { fetchCSRF} from "../../../utils/fetch_csrf";
 import validateEmail from "../../../public/javascripts/validate_email";
 import validatePhone from "../../../public/javascripts/validate_phone";
-import validatePassword from "@/public/javascripts/validate_password";
+import validatePassword from "../../../public/javascripts/validate_password";
 import { Dispatch, SetStateAction } from "react";
-import { UserState } from "../../utils/Interfaces";
+import { UserState } from "../../../utils/Interfaces";
+import React from "react";
 
 interface SignupProps {
 	setUser: Dispatch<SetStateAction<UserState | undefined>>;

@@ -1,4 +1,5 @@
-import { SvgProps } from "@/app/utils/Interfaces";
+import React from "react";
+import { SvgProps } from "../../../utils/Interfaces";
 
 function pictureAndVideo({ stroke="currentColor", fill="none", className="" }: SvgProps) {
 	return (

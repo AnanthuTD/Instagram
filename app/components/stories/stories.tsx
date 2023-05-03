@@ -1,3 +1,4 @@
+import React from "react";
 import ArrowLeft from "./arrowLeft";
 import ArrowRight from "./arrowRight";
 import Rings from "./rings";

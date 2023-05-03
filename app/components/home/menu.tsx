@@ -2,7 +2,8 @@
 import { useContext, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useMenuContext } from "@/app/context/menuContext";
+import React from "react";
+import { useMenuContext } from "../context/menuContext";
 
 export default function Menu() {
 	const { menu, HandleSetMenu } = useMenuContext();

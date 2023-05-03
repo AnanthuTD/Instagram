@@ -1,3 +1,5 @@
+import React from "react";
+
 interface SwitchButtonProps {
     text?: string;
     color?: string;

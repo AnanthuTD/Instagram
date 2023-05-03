@@ -5,7 +5,8 @@ import Posts from "../profile/posts";
 import Saved from "../profile/saved";
 import Tagged from "../profile/tagged";
 import { useContext } from "react";
-import { UserContext } from "@/app/context/userContext";
+import { UserContext } from "../context/userContext";
+import React from "react";
 
 
 function profile() {

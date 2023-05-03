@@ -1,4 +1,5 @@
-import { MenuContextProvider } from "./context/menuContext";
+import React from "react";
+import { MenuContextProvider } from "./components/context/menuContext";
 import "./globals.css";
 
 export const metadata = {
