@@ -3,19 +3,19 @@
 import MenuBar from "./components/home/menu";
 import Login from "./components/authentications/login";
 import Signup from "./components/authentications/signup";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import Account_suggestion from "./components/right_pannel/accountSuggestion";
 import Profile from "./components/menu/profile";
 import StoriesPosts from "./components/home/Stories&Posts";
-import { UserContext } from "./context/userContext";
-import { UserState, MenuState } from "./utils/Interfaces";
 import Create from "./components/menu/create";
 import Explore from "./components/menu/explore";
 import Messages from "./components/menu/messages";
 import Notifications from "./components/menu/notifications";
 import Reels from "./components/menu/reels";
 import Search from "./components/menu/search";
-import { MenuContextProvider, useMenuContext } from "./context/menuContext";
+import { UserState } from "../utils/Interfaces";
+import { useMenuContext } from "./components/context/menuContext";
+import { UserContext } from "./components/context/userContext";
 
 // Define the Home component
 export default function Home() {
@@ -24,7 +24,7 @@ export default function Home() {
 	const [loading, setLoading] = useState(true);
 	const [signup, setSignup] = useState(false);
 	const { menu, HandleSetMenu } = useMenuContext();
-	
+
 	// Define an effect to handle user authentication
 	useEffect(() => {
 		if (user) {
@@ -65,25 +65,23 @@ export default function Home() {
 		return <div>Loding</div>;
 	} else if (user) {
 		return (
-			
-				<UserContext.Provider value={user}>
-					<main className="flex min-h-screen flex-row bg-black h-full">
-						<div className="w-1/6 p-5 border-r border-side_bar_border justify-between flex-col flex">
-							<MenuBar />
-						</div>
-						<div className="w-5/6 flex p-5">
-							{menu.home ? homeComponent : null}
-							{menu.profile ? <Profile /> : null}
-							{menu.create ? <Create /> : null}
-							{menu.explore ? <Explore /> : null}
-							{menu.messages ? <Messages /> : null}
-							{menu.notifications ? <Notifications /> : null}
-							{menu.reels ? <Reels /> : null}
-							{menu.search ? <Search /> : null}
-						</div>
-					</main>
-				</UserContext.Provider>
-			
+			<UserContext.Provider value={user}>
+				<main className="flex min-h-screen flex-row bg-black h-full">
+					<div className="w-1/6 p-5 border-r border-side_bar_border justify-between flex-col flex">
+						<MenuBar />
+					</div>
+					<div className="w-5/6 flex p-5">
+						{menu.home ? homeComponent : null}
+						{menu.profile ? <Profile /> : null}
+						{menu.create ? <Create /> : null}
+						{menu.explore ? <Explore /> : null}
+						{menu.messages ? <Messages /> : null}
+						{menu.notifications ? <Notifications /> : null}
+						{menu.reels ? <Reels /> : null}
+						{menu.search ? <Search /> : null}
+					</div>
+				</main>
+			</UserContext.Provider>
 		);
 	} else if (signup) {
 		return (
