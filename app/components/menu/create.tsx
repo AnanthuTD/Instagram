@@ -55,20 +55,16 @@ function create({ setMenu, menu }: CreateProps) {
 
 	async function postData() {
 		const csrfToken = await fetchCSRF();
-		fetch("/api/post", {
+		const Response = await fetch("/api/post", {
 			method: "POST",
 			body: formData,
 			headers: {
 				"X-CSRFToken": csrfToken,
 			},
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				console.log("Success:", data);
-			})
-			.catch((error) => {
-				console.error("Error:", error);
-			});
+		});
+		const data = await Response.json();
+		if (data.status === true) setMenu({ ...menu, create: false });
+		else alert("posting failed");
 	}
 
 	useEffect(() => {
@@ -189,7 +185,7 @@ function create({ setMenu, menu }: CreateProps) {
 									required={false}
 									onChange={(e) => setCaption(e.target.value)}
 								></textarea>
-								<SmileIcon width="20" height="20" />
+								<SmileIcon width={20} height={20} />
 								<div className="flex justify-between">
 									<input
 										type="text"
