@@ -116,7 +116,7 @@ export default function login({ setUser, setSignup }: LoginState) {
                         </div>
                         <button
                             type="submit"
-                            className=" text-sm text-center bg-blue-300 text-white py-1 rounded font-medium"
+                            className=" text-sm text-center bg-blue-300 text-white py-1 rounded font-medium cursor-pointer"
                         >
                             Log In
                         </button>
@@ -136,22 +136,22 @@ export default function login({ setUser, setSignup }: LoginState) {
                                 "mr-1",
                             ].join(" ")}
                         ></div>
-                        <span className="text-xs text-blue-900 font-semibold">
+                        <span className="text-xs text-blue-900 font-semibold cursor-pointer">
                             Log in with Facebook
                         </span>
                     </button>
-                    <a className="text-xs text-blue-900 mt-4 cursor-pointer -mb-4">
+                    <a className="text-xs text-blue-900 mt-4 cursor-pointer -mb-4 cursor-pointer">
                         Forgot password?
                     </a>
                 </div>
                 <div className="bg-white border border-gray-300 text-center w-80 py-4">
-                    <span className="text-sm">Don't have an account?</span>
-                    <div className="text-blue-500 text-sm font-semibold" onClick={ ()=>setSignup(true)}>
+                    <span className="text-sm text-black">Don't have an account?</span>
+                    <div className="text-blue-500 text-sm font-semibold cursor-pointer" onClick={ ()=>setSignup(true)}>
                         Sign up
                     </div>
                 </div>
                 <div className="mt-3 text-center">
-                    <span className="text-xs">Get the app</span>
+                    <span className="text-xs cursor-pointer">Get the app</span>
                     <div className="flex mt-3 space-x-2">
                         <div
                             className={[

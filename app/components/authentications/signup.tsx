@@ -10,6 +10,7 @@ import { UserState } from "../../utils/Interfaces";
 
 interface SignupProps {
 	setUser: Dispatch<SetStateAction<UserState | undefined>>;
+	setSignup: Dispatch<SetStateAction<boolean>>;
 }
 
 interface IsValidState {
@@ -25,7 +26,7 @@ interface ErrorState {
 	phone?: string;
 }
 
-export default function Signup(props: SignupProps) {
+export default function Signup({ setUser, setSignup }: SignupProps) {
 	const [formData, setFormData] = useState({});
 	const [isValid, setIsValid] = useState<IsValidState>({});
 	const [errors, setErrors] = useState<ErrorState>({});
@@ -80,7 +81,7 @@ export default function Signup(props: SignupProps) {
 
 
 		if (signupData.success) {
-			props.setUser(signupData.user);
+			setUser(signupData.user);
 		} else if (signupData.errors) {
 			setErrors(signupData.errors);
 		}
@@ -281,9 +282,9 @@ export default function Signup(props: SignupProps) {
 						</div>
 						<button
 							type="submit"
-							className=" text-sm text-center bg-blue-300 text-white py-1 rounded font-medium"
+							className=" text-sm text-center bg-blue-300 text-white py-1 rounded font-medium cursor-pointer"
 						>
-							Log In
+							Signup
 						</button>
 					</form>
 					<div className="flex justify-evenly space-x-2 w-64 mt-4">
@@ -301,22 +302,22 @@ export default function Signup(props: SignupProps) {
 								"mr-1",
 							].join(" ")}
 						></div>
-						<span className="text-xs text-blue-900 font-semibold">
+						<span className="text-xs text-blue-900 font-semibold cursor-pointer">
 							Log in with Facebook
 						</span>
 					</button>
-					<a className="text-xs text-blue-900 mt-4 cursor-pointer -mb-4">
+					<a className="text-xs text-blue-900 mt-4 cursor-pointer -mb-4 cursor-pointer">
 						Forgot password?
 					</a>
 				</div>
 				<div className="bg-white border border-gray-300 text-center w-80 py-4">
-					<span className="text-sm">Don't have an account?</span>
-					<a className="text-blue-500 text-sm font-semibold">
-						Sign up
-					</a>
+					<span className="text-sm text-black">Already have an account?</span>
+					<div className="text-blue-500 text-sm font-semibold cursor-pointer" onClick={ ()=>setSignup(false)}>
+                        Login
+                    </div>
 				</div>
 				<div className="mt-3 text-center">
-					<span className="text-xs">Get the app</span>
+					<span className="text-xs cursor-pointer">Get the app</span>
 					<div className="flex mt-3 space-x-2">
 						<div
 							className={[
