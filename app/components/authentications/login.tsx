@@ -1,7 +1,8 @@
+import React from "react";
+import { UserState } from "../../../utils/Interfaces";
+import { fetchCSRF } from "../../../utils/fetch_csrf";
 import styles from "./login.module.css";
 import { Dispatch, SetStateAction, useState } from "react";
-import { fetchCSRF } from "../../utils/fetch_csrf";
-import { UserState } from "../../utils/Interfaces";
 
 interface LoginState {
     setUser: Dispatch<SetStateAction<UserState | undefined>>;
