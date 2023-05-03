@@ -1,37 +1,11 @@
 "use client";
-import { SetStateAction, Dispatch } from "react";
+import { useContext, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MenuState } from "../../utils/Interfaces";
+import { useMenuContext } from "@/app/context/menuContext";
 
-
-interface MenuInterface {
-	setMenu: Dispatch<SetStateAction<MenuState>>;
-	menu: MenuState;
-}
-
-export default function Menu({ menu, setMenu }: MenuInterface) {
-	function handleMenuClick(key: keyof MenuState) {
-		
-		if (key === "create") {
-			setMenu({...menu,"create":true});
-			return;
-		}
-
-		let newMenu: MenuState = {
-			home: false,
-			profile: false,
-			create: false,
-			search: false,
-			explore: false,
-			messages: false,
-			notifications: false,
-			reels: false,
-		};
-		
-		newMenu[key] = true;
-		setMenu(newMenu);
-	}
+export default function Menu() {
+	const { menu, HandleSetMenu } = useMenuContext();
 
 	return (
 		<>
@@ -43,7 +17,7 @@ export default function Menu({ menu, setMenu }: MenuInterface) {
 					<ul className="list-none space-y-4 text-md">
 						<li
 							className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
-							onClick={() => handleMenuClick("home")}
+							onClick={() => HandleSetMenu("home")}
 						>
 							<Link href={"/"}>
 								<svg
@@ -65,7 +39,7 @@ export default function Menu({ menu, setMenu }: MenuInterface) {
 						</li>
 						<li
 							className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
-							onClick={() => handleMenuClick("search")}
+							onClick={() => HandleSetMenu("search")}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +61,7 @@ export default function Menu({ menu, setMenu }: MenuInterface) {
 						</li>
 						<li
 							className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
-							onClick={() => handleMenuClick("explore")}
+							onClick={() => HandleSetMenu("explore")}
 						>
 							<Image
 								height={24}
@@ -101,7 +75,7 @@ export default function Menu({ menu, setMenu }: MenuInterface) {
 						</li>
 						<li
 							className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
-							onClick={() => handleMenuClick("reels")}
+							onClick={() => HandleSetMenu("reels")}
 						>
 							<Image
 								height={24}
@@ -115,7 +89,7 @@ export default function Menu({ menu, setMenu }: MenuInterface) {
 						</li>
 						<li
 							className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
-							onClick={() => handleMenuClick("messages")}
+							onClick={() => HandleSetMenu("messages")}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -137,7 +111,7 @@ export default function Menu({ menu, setMenu }: MenuInterface) {
 						</li>
 						<li
 							className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
-							onClick={() => handleMenuClick("notifications")}
+							onClick={() => HandleSetMenu("notifications")}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -163,7 +137,7 @@ export default function Menu({ menu, setMenu }: MenuInterface) {
 						</li>
 						<li
 							className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
-							onClick={() => handleMenuClick("create")}
+							onClick={() => HandleSetMenu("create")}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -185,7 +159,7 @@ export default function Menu({ menu, setMenu }: MenuInterface) {
 						</li>
 						<li
 							className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
-							onClick={() => handleMenuClick("profile")}
+							onClick={() => HandleSetMenu("profile")}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"

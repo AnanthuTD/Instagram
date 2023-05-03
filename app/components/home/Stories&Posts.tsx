@@ -20,14 +20,10 @@ function StoriesPosts() {
 			const Response = await fetch("/api/post/allPost");
 			const Data = await Response.json();
 			setPosts(Data.posts);
-			console.log("data: " + JSON.stringify(Data));
+			// console.log("data: " + JSON.stringify(Data));
 		}
 		fetchData();
 	}, []);
-
-	useEffect(() => {
-		console.log("posts : ", posts);
-	}, [posts]);
 
 	useEffect(() => {
 		if (comment) {

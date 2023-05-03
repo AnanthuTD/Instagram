@@ -1,18 +1,14 @@
-import { MenuState } from "@/app/utils/Interfaces";
 import { fetchCSRF } from "@/app/utils/fetch_csrf";
-import { Dispatch, SetStateAction, useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import SmileIcon from "../posts/smileIcon";
 import PictureAndVideo from "../create/pictureAndVideo";
 import AvatarUsername from "../avatar_username";
 import LocationIcon from "../create/locationIcon";
 import Preview from "../create/preview";
+import { useMenuContext } from "@/app/context/menuContext";
 
-interface CreateProps {
-	setMenu: Dispatch<SetStateAction<MenuState>>;
-	menu: MenuState;
-}
 
-function create({ setMenu, menu }: CreateProps) {
+function create() {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 	const formSubmitRef = useRef<HTMLFormElement | null>(null);
@@ -24,6 +20,9 @@ function create({ setMenu, menu }: CreateProps) {
 	const [submit, setSubmit] = useState(true);
 	const [fileAdded, setFileAdded] = useState(false);
 	const [video, setVideo] = useState("");
+
+	// contexts
+	const {HandleSetMenu} = useMenuContext()
 
 	const handleClick = () => {
 		if (fileInputRef.current) fileInputRef.current.click();
@@ -43,7 +42,8 @@ function create({ setMenu, menu }: CreateProps) {
 				elevatedDiv &&
 				!elevatedDiv.current?.contains(ev.target as Node)
 			)
-				setMenu({ ...menu, create: false });
+			
+			HandleSetMenu('create',false);
 		}
 
 		document.addEventListener("click", handleClickOutside);
@@ -63,7 +63,7 @@ function create({ setMenu, menu }: CreateProps) {
 			},
 		});
 		const data = await Response.json();
-		if (data.status === true) setMenu({ ...menu, create: false });
+		if (data.status === true) HandleSetMenu('create', false);
 		else alert("posting failed");
 	}
 
