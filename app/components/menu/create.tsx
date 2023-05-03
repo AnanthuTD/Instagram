@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect} from "react";
 import SmileIcon from "../posts/smileIcon";
 import PictureAndVideo from "../create/pictureAndVideo";
 import AvatarUsername from "../avatar_username";
@@ -11,9 +11,6 @@ import { fetchCSRF } from "../../../utils/fetch_csrf";
 
 function create() {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
-	const fileInputRef = useRef<HTMLInputElement | null>(null);
-	const formSubmitRef = useRef<HTMLFormElement | null>(null);
-	const elevatedDiv = useRef<HTMLDivElement | null>(null);
 	const [preview, setPreview] = useState<string | null>(null);
 	const [formData, setFormData] = useState<FormData>(new FormData());
 	const [location, setLocation] = useState("");
@@ -21,6 +18,11 @@ function create() {
 	const [submit, setSubmit] = useState(true);
 	const [fileAdded, setFileAdded] = useState(false);
 	const [video, setVideo] = useState("");
+
+	// ref
+	const fileInputRef = useRef<HTMLInputElement | null>(null);
+	const formSubmitRef = useRef<HTMLFormElement | null>(null);
+	const elevatedDiv = useRef<HTMLDivElement | null>(null);
 
 	// contexts
 	const {HandleSetMenu} = useMenuContext()
@@ -98,12 +100,13 @@ function create() {
 	return (
 		<>
 			<div
-				className="absolute inset-0 flex justify-center items-center"
+				className="absolute inset-0 flex justify-center items-center bg-blackBlur"
 				style={{
 					minHeight: "380px",
 					minWidth: "380px",
 					height: "100%",
 					zIndex: 15,
+
 				}}
 			>
 				<div
