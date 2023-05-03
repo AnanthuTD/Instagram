@@ -1,6 +1,7 @@
 "use client";
-import { createContext, useContext, useState } from "react";
-import { MenuContextInterface, MenuState } from "../utils/Interfaces";
+
+import React, { createContext, useContext, useState } from "react";
+import { MenuContextInterface, MenuState } from "../../../utils/Interfaces";
 
 const DefaultMenu: MenuState = {
 	home: true,
