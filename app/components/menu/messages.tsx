@@ -6,10 +6,10 @@ import React from "react";
 function messages() {
 	return (
 		<div className="w-full flex justify-center bg-_grey p-5">
-			<div className="w-3/5 rounded bg-black flex border border-side_bar_border">
-				<div className="w-2/5 border-r border-side_bar_border">
+			<div className="w-3/5 rounded bg-black flex border border-border_grey">
+				<div className="w-2/5 border-r border-border_grey">
           {/* top */}
-					<div className="w-full flex border-b border-side_bar_border">
+					<div className="w-full flex border-b border-border_grey">
             <div className="w-1/6"></div>
 						<div className="flex w-4/6 justify-center gap-1 p-4 font-bold">
 							<span>username</span>

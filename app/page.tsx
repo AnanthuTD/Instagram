@@ -67,7 +67,7 @@ export default function Home() {
 		return (
 			<UserContext.Provider value={user}>
 				<main className="flex min-h-screen flex-row bg-black h-full">
-					<div className="w-1/6 p-5 border-r border-side_bar_border justify-between flex-col flex">
+					<div className="w-1/6 p-5 border-r border-border_grey justify-between flex-col flex">
 						<MenuBar />
 					</div>
 					<div className="w-5/6 flex p-5">
