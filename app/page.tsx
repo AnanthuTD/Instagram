@@ -4,7 +4,6 @@ import MenuBar from "./components/home/menu";
 import Login from "./components/authentications/login";
 import Signup from "./components/authentications/signup";
 import { useState, useEffect } from "react";
-import Cookies from "js-cookie";
 import Account_suggestion from "./components/right_pannel/accountSuggestion";
 import Profile from "./components/menu/profile";
 import StoriesPosts from "./components/home/Stories&Posts";
@@ -16,7 +15,6 @@ import Messages from "./components/menu/messages";
 import Notifications from "./components/menu/notifications";
 import Reels from "./components/menu/reels";
 import Search from "./components/menu/search";
-
 
 // Define the Home component
 export default function Home() {
@@ -37,26 +35,9 @@ export default function Home() {
 
 	// Define an effect to handle user authentication
 	useEffect(() => {
-		// If a user object is available, set the user cookie and stop loading
 		if (user) {
-			Cookies.set("user", JSON.stringify(user));
 			setLoading(false);
 			setSignup(false);
-		} else {
-			// If no user object is available, try to get the user cookie
-			let cookieuser: UserState | undefined = undefined;
-			const userCookie = Cookies.get("user");
-
-			if (userCookie !== undefined) {
-				try {
-					cookieuser = JSON.parse(userCookie);
-				} catch (error) {
-					cookieuser = undefined;
-				}
-			}
-
-			// Set the user state variable to the cookie user object
-			setuser(cookieuser);
 		}
 
 		// Stop loading
@@ -68,14 +49,11 @@ export default function Home() {
 			const data = await response.json();
 			if (data.status) {
 				setuser(data.user);
-				Cookies.set("user", JSON.stringify(data.user));
 			}
 		};
 
 		// If no user object is available, fetch the user from the API
-		if (!user) {
-			fetchUser();
-		}
+		if (!user) fetchUser();
 	}, [user]);
 
 	// Define the Home component's content
@@ -103,7 +81,9 @@ export default function Home() {
 					<div className="w-5/6 flex p-5">
 						{menu.home ? homeComponent : null}
 						{menu.profile ? <Profile /> : null}
-						{menu.create ? <Create setMenu={setMenu} menu={menu}/> : null}
+						{menu.create ? (
+							<Create setMenu={setMenu} menu={menu} />
+						) : null}
 						{menu.explore ? <Explore /> : null}
 						{menu.messages ? <Messages /> : null}
 						{menu.notifications ? <Notifications /> : null}
@@ -116,7 +96,7 @@ export default function Home() {
 	} else if (signup) {
 		return (
 			<main className="bg-white flex min-h-screen flex-row justify-center">
-				<Signup setUser={setuser} />
+				<Signup setUser={setuser} setSignup={setSignup} />
 			</main>
 		);
 	} else {
