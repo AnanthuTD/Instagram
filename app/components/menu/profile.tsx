@@ -1,18 +1,23 @@
 import Image from "next/image";
-import Settings from "../svg/settings";
+import SettingsIcon from "../svg/settings";
 import { useState } from "react";
 import Posts from "../profile/posts";
 import Saved from "../profile/saved";
 import Tagged from "../profile/tagged";
+import Settings from "../profile/settings";
 import { useContext } from "react";
 import { UserContext } from "../context/userContext";
 import React from "react";
 
 
 function profile() {
+	// useStates
 	const [post, setPost] = useState(true);
 	const [saved, setSaved] = useState(false);
 	const [tagged, setTagged] = useState(false);
+	const [settings, setSettings] = useState(false)
+
+	// context
 	const User = useContext(UserContext);
 
 	let username = User?.username || ""
@@ -68,8 +73,9 @@ function profile() {
 								<button className="bg-white rounded-md text-black text-sm font-bold py-1 px-4 cursor-pointer">
 									Edit profile
 								</button>
-								<div style={{ width: "30px" }}>
-									<Settings className='cursor-pointer'/>
+								<div style={{ width: "30px" }} onClick={()=>setSettings(true)}>
+									<SettingsIcon className='cursor-pointer'/>
+									{settings?<Settings settings={settings} setSettings={setSettings}/>:null}
 								</div>
 							</div>
 
