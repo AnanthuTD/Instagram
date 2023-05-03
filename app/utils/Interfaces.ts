@@ -27,3 +27,8 @@ export interface SvgProps {
 	width?:number;
 	height?:number;
 }
+
+export interface MenuContextInterface {
+	menu: MenuState;
+	HandleSetMenu: (key: keyof MenuState, value?: boolean) => void;
+}
