@@ -4,7 +4,7 @@ import { useState } from "react";
 import Posts from "../profile/posts";
 import Saved from "../profile/saved";
 import Tagged from "../profile/tagged";
-import Settings from "../profile/settings";
+import SettingsPopUp from "../profile/settings";
 import { useContext } from "react";
 import { UserContext } from "../context/userContext";
 import React from "react";
@@ -75,7 +75,7 @@ function profile() {
 								</button>
 								<div style={{ width: "30px" }} onClick={()=>setSettings(true)}>
 									<SettingsIcon className='cursor-pointer'/>
-									{settings?<Settings settings={settings} setSettings={setSettings}/>:null}
+									{settings?<SettingsPopUp settings={settings} setSettings={setSettings}/>:null}
 								</div>
 							</div>
 
