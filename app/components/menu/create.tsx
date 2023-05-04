@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect} from "react";
+import { useState, useRef, useEffect } from "react";
 import SmileIcon from "../posts/smileIcon";
 import PictureAndVideo from "../create/pictureAndVideo";
 import AvatarUsername from "../avatar_username";
@@ -7,7 +7,6 @@ import Preview from "../create/preview";
 import React from "react";
 import { useMenuContext } from "../context/menuContext";
 import { fetchCSRF } from "../../../utils/fetch_csrf";
-
 
 function create() {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -25,7 +24,7 @@ function create() {
 	const elevatedDiv = useRef<HTMLDivElement | null>(null);
 
 	// contexts
-	const {HandleSetMenu} = useMenuContext()
+	const { HandleSetMenu } = useMenuContext();
 
 	const handleClick = () => {
 		if (fileInputRef.current) fileInputRef.current.click();
@@ -45,8 +44,7 @@ function create() {
 				elevatedDiv &&
 				!elevatedDiv.current?.contains(ev.target as Node)
 			)
-			
-			HandleSetMenu('create',false);
+				HandleSetMenu("create", false);
 		}
 
 		document.addEventListener("click", handleClickOutside);
@@ -66,7 +64,7 @@ function create() {
 			},
 		});
 		const data = await Response.json();
-		if (data.status === true) HandleSetMenu('create', false);
+		if (data.status === true) HandleSetMenu("create", false);
 		else alert("posting failed");
 	}
 
@@ -106,7 +104,6 @@ function create() {
 					minWidth: "380px",
 					height: "100%",
 					zIndex: 15,
-
 				}}
 			>
 				<div
@@ -123,12 +120,14 @@ function create() {
 							Create new post
 						</div>
 						<div className="w-1/4 flex justify-end">
-							<button
-								className="rounded text-blue-500 text-sm p-1"
-								onClick={() => setSubmit(!submit)}
-							>
-								Next
-							</button>
+							{selectedFile ? (
+								<button
+									className="rounded text-blue-500 text-sm p-1"
+									onClick={() => setSubmit(!submit)}
+								>
+									Next
+								</button>
+							) : null}
 						</div>
 					</div>
 					{/* content */}
