@@ -1,3 +1,4 @@
+'use client'
 import { ChangeEvent, useEffect, useState } from "react";
 import CommentIcon from "../posts/commentIcon";
 import Like from "../posts/heart";

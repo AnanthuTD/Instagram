@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import { useMenuContext } from "../context/menuContext";
+import Logo from "../svg/logo";
 
 export default function Menu() {
 	const { menu, HandleSetMenu } = useMenuContext();
@@ -12,7 +13,7 @@ export default function Menu() {
 		<>
 			<div className="text-primaryText pt-5 ">
 				<div className="mb-10">
-					<img src="/images/logo.svg" alt="Wowgram!" />
+					<Logo />
 				</div>
 				<div>
 					<ul className="list-none space-y-4 text-md">
