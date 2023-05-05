@@ -1,48 +1,47 @@
+'use client'
 import Image from "next/image";
-import SettingsIcon from "../svg/settings";
+import SettingsIcon from "../../components/svg/settings";
 import { useState } from "react";
-import Posts from "../profile/posts";
-import Saved from "../profile/saved";
-import Tagged from "../profile/tagged";
-import SettingsPopUp from "../profile/settings";
-import { useContext } from "react";
-import { UserContext } from "../context/userContext";
+import Posts from "../../components/profile/posts";
+import Saved from "../../components/profile/saved";
+import Tagged from "../../components/profile/tagged";
+import SettingsPopUp from "../../components/profile/settings";
+import { useUserContext } from "../../components/context/userContext";
 import React from "react";
-
 
 function profile() {
 	// useStates
 	const [post, setPost] = useState(true);
 	const [saved, setSaved] = useState(false);
 	const [tagged, setTagged] = useState(false);
-	const [settings, setSettings] = useState(false)
+	const [settings, setSettings] = useState(false);
 
 	// context
-	const User = useContext(UserContext);
+	const { user } = useUserContext();
 
-	let username = User?.username || ""
-	let last_name = User?.last_name || ""
-	let first_name = User?.first_name || ""
-	let full_name = first_name+" "+last_name
+	let username = user?.username || "";
+	let last_name = user?.last_name || "";
+	let first_name = user?.first_name || "";
+	let full_name = first_name + " " + last_name;
 
 	const PostStyle = {
 		color: post ? "white" : "gray",
-		borderTopColor: post ? "white" : '',
-		borderTop: post ? "solid 0.1px" : '',
+		borderTopColor: post ? "white" : "",
+		borderTop: post ? "solid 0.1px" : "",
 		cursor: "pointer",
 		padding: "10px",
 	};
 	const SavedStyle = {
 		color: saved ? "white" : "gray",
-		borderTopColor: tagged ? "white" : '',
-		borderTop: saved ? "solid 0.1px" : '',
+		borderTopColor: tagged ? "white" : "",
+		borderTop: saved ? "solid 0.1px" : "",
 		cursor: "pointer",
 		padding: "10px",
 	};
 	const TaggedStyle = {
 		color: tagged ? "white" : "gray",
-		borderTopColor: saved ? "white" : '',
-		borderTop: tagged ? "solid 0.1px" : '',
+		borderTopColor: saved ? "white" : "",
+		borderTop: tagged ? "solid 0.1px" : "",
 		cursor: "pointer",
 		padding: "10px",
 	};
@@ -73,9 +72,17 @@ function profile() {
 								<button className="bg-white rounded-md text-black text-sm font-bold py-1 px-4 cursor-pointer">
 									Edit profile
 								</button>
-								<div style={{ width: "30px" }} onClick={()=>setSettings(true)}>
-									<SettingsIcon className='cursor-pointer'/>
-									{settings?<SettingsPopUp settings={settings} setSettings={setSettings}/>:null}
+								<div
+									style={{ width: "30px" }}
+									onClick={() => setSettings(true)}
+								>
+									<SettingsIcon className="cursor-pointer" />
+									{settings ? (
+										<SettingsPopUp
+											settings={settings}
+											setSettings={setSettings}
+										/>
+									) : null}
 								</div>
 							</div>
 

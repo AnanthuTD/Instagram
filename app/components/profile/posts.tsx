@@ -1,7 +1,6 @@
-
 import React from "react";
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../context/userContext";
+import { useUserContext } from "../context/userContext";
 
 interface postsInterface {
 	status: boolean;
@@ -9,7 +8,7 @@ interface postsInterface {
 }
 
 function posts() {
-	const User = useContext(UserContext);
+	const { user } = useUserContext();
 
 	const [posts, setPosts] = useState<any[]>([]);
 	const [data, setData] = useState<postsInterface | null>(null);
