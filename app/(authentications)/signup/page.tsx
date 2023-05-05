@@ -1,13 +1,13 @@
 "use client";
-import React from "react";
-import { useState, useEffect } from "react";
+
+import React, { useState, useEffect } from "react";
 import styles from "../styles.module.css";
 import { fetchCSRF } from "../../../utils/fetch_csrf";
 import validateEmail from "../../../public/javascripts/validate_email";
 import validatePhone from "../../../public/javascripts/validate_phone";
 import validatePassword from "../../../public/javascripts/validate_password";
-import { useUserContext } from "@/app/components/context/userContext";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface IsValidState {
 	phone_or_email?: boolean;
@@ -28,7 +28,9 @@ export default function Signup() {
 	const [errors, setErrors] = useState<ErrorState>({});
 	const [showPassword, setShowPassword] = useState<boolean>(false);
 
-	const { setUser } = useUserContext();
+	// const { setUser } = useUserContext();
+
+	const router = useRouter();
 
 	const togglePasswordVisibility = () => {
 		setShowPassword(!showPassword);
@@ -78,7 +80,7 @@ export default function Signup() {
 		const signupData = await signupResponse.json();
 
 		if (signupData.success) {
-			setUser(signupData.user);
+			router.replace("/");
 		} else if (signupData.errors) {
 			setErrors(signupData.errors);
 		}
