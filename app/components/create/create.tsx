@@ -1,14 +1,18 @@
 import { useState, useRef, useEffect } from "react";
 import SmileIcon from "../posts/smileIcon";
-import PictureAndVideo from "../create/pictureAndVideo";
+import PictureAndVideo from "./pictureAndVideo";
 import AvatarUsername from "../avatar_username";
-import LocationIcon from "../create/locationIcon";
-import Preview from "../create/preview";
+import LocationIcon from "./locationIcon";
+import Preview from "./preview";
 import React from "react";
 import { useMenuContext } from "../context/menuContext";
 import { fetchCSRF } from "../../../utils/fetch_csrf";
 
-function create() {
+function create({
+	setCreate,
+}: {
+	setCreate: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
 	const [preview, setPreview] = useState<string | null>(null);
 	const [formData, setFormData] = useState<FormData>(new FormData());
@@ -43,8 +47,9 @@ function create() {
 			if (
 				elevatedDiv &&
 				!elevatedDiv.current?.contains(ev.target as Node)
-			)
-				HandleSetMenu("create", false);
+			) {
+				setCreate(false);
+			}
 		}
 
 		document.addEventListener("click", handleClickOutside);
@@ -64,7 +69,7 @@ function create() {
 			},
 		});
 		const data = await Response.json();
-		if (data.status === true) HandleSetMenu("create", false);
+		if (data.status === true) setCreate(false);
 		else alert("posting failed");
 	}
 
