@@ -42,60 +42,66 @@ export default function Menu() {
 							</Link>
 							<p className={menu.home ? "font-bold" : ""}>Home</p>
 						</li>
-						<li
-							className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
-							onClick={() => HandleSetMenu("search")}
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								strokeWidth={1.5}
-								stroke="currentColor"
-								className="w-6 h-6"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-								/>
-							</svg>
-							<p className={menu.search ? "font-bold" : ""}>
-								Search
-							</p>
-						</li>
-						<li
-							className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
-							onClick={() => HandleSetMenu("explore")}
-						>
-							<Image
-								height={24}
-								width={24}
-								src={"/images/compass.svg"}
-								alt=""
-							></Image>
-							<p className={menu.explore ? "font-bold" : ""}>
-								Explore
-							</p>
-						</li>
-						<li
-							className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
-							onClick={() => HandleSetMenu("reels")}
-						>
-							<Image
-								height={24}
-								width={24}
-								src={"/images/reels.svg"}
-								alt=""
-							></Image>
-							<p className={menu.reels ? "font-bold" : ""}>
-								Reel
-							</p>
-						</li>
-						<Link href={"/inbox"}>
-							<li
+						<li onClick={() => HandleSetMenu("search")}>
+							<Link
+								href={"/search"}
 								className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
-								onClick={() => HandleSetMenu("messages")}
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									strokeWidth={1.5}
+									stroke="currentColor"
+									className="w-6 h-6"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+									/>
+								</svg>
+								<p className={menu.search ? "font-bold" : ""}>
+									Search
+								</p>
+							</Link>
+						</li>
+						<li onClick={() => HandleSetMenu("explore")}>
+							<Link
+								href={"/explore"}
+								className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
+							>
+								<Image
+									height={24}
+									width={24}
+									src={"/images/compass.svg"}
+									alt=""
+								></Image>
+								<p className={menu.explore ? "font-bold" : ""}>
+									Explore
+								</p>
+							</Link>
+						</li>
+						<li onClick={() => HandleSetMenu("reels")}>
+							<Link
+								href={"/reel"}
+								className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
+							>
+								<Image
+									height={24}
+									width={24}
+									src={"/images/reels.svg"}
+									alt=""
+								></Image>
+								<p className={menu.reels ? "font-bold" : ""}>
+									Reel
+								</p>
+							</Link>
+						</li>
+						<li onClick={() => HandleSetMenu("messages")}>
+							<Link
+								href={"/inbox"}
+								className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -114,33 +120,35 @@ export default function Menu() {
 								<p className={menu.messages ? "font-bold" : ""}>
 									Messages
 								</p>
-							</li>
-						</Link>
-						<li
-							className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
-							onClick={() => HandleSetMenu("notifications")}
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								strokeWidth={1.5}
-								stroke="currentColor"
-								className="w-6 h-6"
+							</Link>
+						</li>
+						<li onClick={() => HandleSetMenu("notifications")}>
+							<Link
+								href={"/notification"}
+								className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
 							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-								/>
-							</svg>
-							<p
-								className={
-									menu.notifications ? "font-bold" : ""
-								}
-							>
-								Notifications
-							</p>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									strokeWidth={1.5}
+									stroke="currentColor"
+									className="w-6 h-6"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+									/>
+								</svg>
+								<p
+									className={
+										menu.notifications ? "font-bold" : ""
+									}
+								>
+									Notifications
+								</p>
+							</Link>
 						</li>
 						<li
 							className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
@@ -165,10 +173,10 @@ export default function Menu() {
 							</p>
 							{create ? <Create setCreate={setCreate} /> : null}
 						</li>
-						<Link href={"/profile"}>
-							<li
+						<li onClick={() => HandleSetMenu("profile")}>
+							<Link
+								href={"/profile"}
 								className="h-8 flex items-center rounded-lg hover:bg-side_bar_hover cursor-pointer py-6 px-2 space-x-2"
-								onClick={() => HandleSetMenu("profile")}
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -187,8 +195,8 @@ export default function Menu() {
 								<p className={menu.profile ? "font-bold" : ""}>
 									Profile
 								</p>
-							</li>
-						</Link>
+							</Link>
+						</li>
 					</ul>
 				</div>
 			</div>
