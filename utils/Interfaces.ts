@@ -7,6 +7,8 @@ export interface UserState {
 	phone: string;
 	bio: string;
 	location: string;
+	gender: string;
+	website: string;
 }
 // Define a type for the menu state
 export interface MenuState {
