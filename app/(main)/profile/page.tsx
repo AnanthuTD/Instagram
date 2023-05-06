@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Image from "next/image";
 import SettingsIcon from "../../components/svg/settings";
 import { useState } from "react";
@@ -8,6 +8,7 @@ import Tagged from "../../components/profile/tagged";
 import SettingsPopUp from "../../components/profile/settings";
 import { useUserContext } from "../../components/context/userContext";
 import React from "react";
+import Link from "next/link";
 
 function profile() {
 	// useStates
@@ -69,9 +70,13 @@ function profile() {
 								<p className="m-0 text-xl font-medium">
 									{username}
 								</p>
-								<button className="bg-white rounded-md text-black text-sm font-bold py-1 px-4 cursor-pointer">
+								<Link
+									type="button"
+									href={"/settings"}
+									className="bg-white rounded-md text-black text-sm font-bold py-1 px-4 cursor-pointer"
+								>
 									Edit profile
-								</button>
+								</Link>
 								<div
 									style={{ width: "30px" }}
 									onClick={() => setSettings(true)}
