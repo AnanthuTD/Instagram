@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useContext } from "react";
 import React from "react";
-import { UserContext } from "./context/userContext";
+import { UserContextProvider, useUserContext } from "./context/userContext";
 
 interface AvatarUsernameProps{
     height:number;
@@ -10,8 +10,8 @@ interface AvatarUsernameProps{
 }
 
 function AvatarUsername({height=60,width=60, className=''}:AvatarUsernameProps) {
-    const User = useContext(UserContext)
-    let username = User?.username
+    const {user} = useUserContext()
+    let username = user?.username
     return (
         <>
            

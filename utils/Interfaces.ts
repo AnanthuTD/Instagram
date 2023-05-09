@@ -1,5 +1,7 @@
+import { UUID } from "crypto";
+
 export interface UserState {
-	id: string;
+	id_user: string;
 	username: string;
     first_name: string;
     last_name: string;
@@ -9,6 +11,10 @@ export interface UserState {
 	location: string;
 	gender: string;
 	website: string;
+	profile_img:string;
+	followers:UUID[]
+	following:UUID[];
+	post_count:number;
 }
 // Define a type for the menu state
 export interface MenuState {

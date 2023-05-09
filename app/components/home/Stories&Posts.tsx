@@ -1,5 +1,5 @@
-'use client'
-import { ChangeEvent, useEffect, useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import CommentIcon from "../posts/commentIcon";
 import Like from "../posts/heart";
 import OptionsIcon from "../posts/optionsIcon";
@@ -9,6 +9,7 @@ import SmileIcon from "../posts/smileIcon";
 import Rings from "../stories/rings";
 import Stories from "../stories/stories";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 function StoriesPosts() {
 	const [comment, setComment] = useState("");
@@ -17,12 +18,13 @@ function StoriesPosts() {
 	const [saved, setSaved] = useState(false);
 	const [posts, setPosts] = useState<any[] | null>(null);
 
+	const router = useRouter();
+
 	useEffect(() => {
 		async function fetchData() {
 			const Response = await fetch("/api/post/allPost");
 			const Data = await Response.json();
 			setPosts(Data.posts);
-			// console.log("data: " + JSON.stringify(Data));
 		}
 		fetchData();
 	}, []);
@@ -56,7 +58,6 @@ function StoriesPosts() {
 
 		const differenceDays = currentDate.getDate() - dateObj.getDate();
 		if (differenceDays) return differenceDays + "d";
-		
 
 		const differenceHours = currentDate.getHours() - dateObj.getHours();
 		if (differenceHours) return differenceHours + "h";
@@ -68,6 +69,10 @@ function StoriesPosts() {
 		if (differenceSecs) return differenceSecs + "s";
 
 		return "";
+	}
+
+	function getProfile(username: string): void {
+		router.push(`/profile/?username=${username}`);
 	}
 
 	return (
@@ -89,7 +94,12 @@ function StoriesPosts() {
 									style={{ height: "fit-content" }}
 								>
 									<div className="flex gap-2 items-center">
-										<div className="flex gap-2 items-center cursor-pointer">
+										<div
+											className="flex gap-2 items-center cursor-pointer"
+											onClick={() =>
+												getProfile(post.username)
+											}
+										>
 											<Rings width={"50px"} />
 											<span>{post.username}</span>
 										</div>

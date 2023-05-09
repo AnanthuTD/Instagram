@@ -39,26 +39,26 @@ export function UserContextProvider({
 			setLoading(false);
 			if (data.status) {
 				setUser(data.user);
-			}else(router.push('/login'))
+			} else router.push("/login");
 		};
 
 		// If no user object is available, fetch the user from the API
 		if (!user) fetchUser();
 	}, [user]);
 
-	if (loading) {
-		return (
-			<main>
-				<div className="flex h-full justify-center items-center bg-black">
-					Loding
-				</div>
-			</main>
-		);
-	} else {
-		return (
-			<UserContext.Provider value={{ user, setUser }}>
-				{children}
-			</UserContext.Provider>
-		);
-	}
+	return (
+		<>
+			{loading ? (
+				<main>
+					<div className="flex h-full justify-center items-center bg-black">
+						Loding
+					</div>
+				</main>
+			) : (
+				<UserContext.Provider value={{ user, setUser }}>
+					{children}
+				</UserContext.Provider>
+			)}
+		</>
+	);
 }

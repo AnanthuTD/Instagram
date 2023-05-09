@@ -79,7 +79,7 @@ export default function Signup() {
 
 		const signupData = await signupResponse.json();
 
-		if (signupData.success) {
+		if (signupData.status) {
 			router.replace("/");
 		} else if (signupData.errors) {
 			setErrors(signupData.errors);
@@ -88,7 +88,7 @@ export default function Signup() {
 
 	useEffect(() => {
 		if (Object.keys(errors).length !== 0) {
-			console.log("errors: ", errors);
+			console.error("errors: ", errors);
 
 			if (errors.hasOwnProperty("phone_or_email")) {
 				setIsValid((isValid) => ({

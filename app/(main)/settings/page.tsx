@@ -1,10 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { UserState} from "../../../utils/Interfaces"
-import { fetchCSRF} from "../../../utils/fetch_csrf"
-import {useUserContext}  from "../../components/context/userContext"
-
+import { UserState } from "../../../utils/Interfaces";
+import { fetchCSRF } from "../../../utils/fetch_csrf";
+import { useUserContext } from "../../components/context/userContext";
 
 function settings() {
 	// useState
@@ -29,7 +28,7 @@ function settings() {
 				gender: gender,
 			}),
 		});
-		let data = await Response.json();
+		/* let data = await Response.json();
 		if (data.status && user) {
 			let newUser: UserState = {
 				...user,
@@ -38,7 +37,7 @@ function settings() {
 				website: website,
 			};
 			setUser(newUser);
-		}
+		} */
 	}
 
 	useEffect(() => {
@@ -47,6 +46,11 @@ function settings() {
 		setWebsite(user.website);
 		setGender(user.gender);
 	}, []);
+
+	useEffect(() => {
+	 
+	}, [])
+	
 
 	return (
 		<>
