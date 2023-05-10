@@ -11,6 +11,7 @@ import React from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { UserState } from "@/utils/Interfaces";
+import { fetchCSRF } from "@/utils/fetch_csrf";
 
 function profile() {
 	// useStates
@@ -22,18 +23,17 @@ function profile() {
 	const [loading, setLoading] = useState(true);
 
 	// context
-	const { user } = useUserContext();
+	const { user, setUser } = useUserContext();
 
 	let username = useSearchParams().get("username") || "";
 
+	async function fetchProfile() {
+		const Response = await fetch(`/api/accounts/get_profile/${username}/`);
+		let data = await Response.json();
+		if (data.status) setProfile(data.profile);
+	}
+
 	useEffect(() => {
-		async function fetchProfile() {
-			const Response = await fetch(
-				`/api/accounts/get_profile/${username}/`
-			);
-			let data = await Response.json();
-			if (data.status) setProfile(data.profile);
-		}
 		if (username) fetchProfile();
 		else setProfile(user);
 	}, []);
@@ -63,6 +63,51 @@ function profile() {
 		cursor: "pointer",
 		padding: "10px",
 	};
+
+	async function follow() {
+		if (!profile?.id_user) return;
+		const csrfToken = await fetchCSRF();
+		const response = await fetch(`/api/accounts/follow/`, {
+			method: "PUT",
+			headers: { "X-csrfToken": csrfToken },
+			body: JSON.stringify({
+				id_user: profile?.id_user,
+			}),
+		});
+		let data = await response.json();
+		console.log(data);
+		if (data.status) {
+			fetchProfile();
+			if (data.user) {
+				setUser(data.user);
+			}
+		}
+	}
+
+	async function unfollow() {
+		if (!profile?.id_user) return;
+		const csrfToken = await fetchCSRF();
+		const response = await fetch(
+			`/api/accounts/${profile.id_user}/follow/`,
+			{
+				method: "DELETE",
+				headers: { "X-csrfToken": csrfToken },
+				body: JSON.stringify({}),
+			}
+		);
+		let data = await response.json();
+		console.log(data);
+		if (data.status) {
+			fetchProfile();
+			if (data.user) {
+				setUser(data.user);
+			}
+		}
+	}
+
+	function message() {
+		alert("Message not defined");
+	}
 
 	if (loading) {
 		return <div>loading</div>;
@@ -117,11 +162,42 @@ function profile() {
 												) : null}
 											</div>
 										</>
-									) : null}
+									) : (
+										<>
+											{!user?.following.includes(
+												profile.id_user
+											) ? (
+												<button
+													type="button"
+													onClick={() => follow()}
+													className="bg-white rounded-md text-black text-sm font-bold py-1 px-4 cursor-pointer"
+												>
+													Follow
+												</button>
+											) : (
+												<button
+													type="button"
+													onClick={() => unfollow()}
+													className="bg-white rounded-md text-black text-sm font-bold py-1 px-4 cursor-pointer"
+												>
+													Unfollow
+												</button>
+											)}
+											<button
+												type="button"
+												onClick={() => message()}
+												className="bg-white rounded-md text-black text-sm font-bold py-1 px-4 cursor-pointer"
+											>
+												Message
+											</button>
+										</>
+									)}
 								</div>
 								<div className="flex gap-10">
 									<span>
-										<span className="font-bold">{profile.post_count}</span>{" "}
+										<span className="font-bold">
+											{profile.post_count}
+										</span>{" "}
 										post
 									</span>
 									<span className="cursor-pointer">

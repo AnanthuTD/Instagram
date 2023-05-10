@@ -37,14 +37,6 @@ function StoriesPosts() {
 		}
 	}, [comment]);
 
-	useEffect(() => {
-		if (comment) {
-			setPost(true);
-		} else {
-			setPost(false);
-		}
-	}, [comment]);
-
 	function timeDifference(time_stamp: Date): string {
 		const dateObj = new Date(time_stamp);
 		const currentDate = new Date();

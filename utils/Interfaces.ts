@@ -1,7 +1,7 @@
 import { UUID } from "crypto";
 
 export interface UserState {
-	id_user: string;
+	id_user: UUID;
 	username: string;
     first_name: string;
     last_name: string;
