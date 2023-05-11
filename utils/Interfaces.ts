@@ -52,6 +52,8 @@ export interface PostsInterface {
 	  username: string;
 	  first_name: string;
 	  last_name: string;
+	  profile_image: string;
+	  id_user:UUID;
 	}[];
 	username: string;
 	time_stamp: Date;

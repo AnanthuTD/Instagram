@@ -1,12 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import Account from "./account";
+import { UUID } from "crypto";
 
 function allLiked({
 	setLikes,
 	users,
 }: {
 	setLikes: React.Dispatch<React.SetStateAction<boolean>>;
-	users: { username: string; first_name: string; last_name: string }[];
+	users: {
+		username: string;
+		first_name: string;
+		last_name: string;
+		profile_image: string;
+		id_user: UUID;
+	}[];
 }) {
 	const elevatedDiv = useRef<HTMLDivElement | null>(null);
 
@@ -50,7 +57,9 @@ function allLiked({
 						<div className="w-1/4"></div>
 					</div>
 					<div>
-						{users.map((user)=><Account user={user}/>)}
+						{users.map((user) => (
+							<Account user={user} />
+						))}
 					</div>
 				</div>
 			</div>
