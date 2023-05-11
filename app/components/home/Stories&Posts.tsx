@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import CommentIcon from "../posts/commentIcon";
-import Like from "../posts/heart";
+import Like from "../posts/likes";
 import OptionsIcon from "../posts/optionsIcon";
 import SaveIcon from "../posts/saveIcon";
 import SendIcon from "../posts/sendIcon";
@@ -10,13 +10,19 @@ import Rings from "../stories/rings";
 import Stories from "../stories/stories";
 import React from "react";
 import { useRouter } from "next/navigation";
+import { fetchCSRF } from "@/utils/fetch_csrf";
+import { UUID } from "crypto";
+import { useUserContext } from "../context/userContext";
+import { PostsInterface } from "@/utils/Interfaces";
 
 function StoriesPosts() {
 	const [comment, setComment] = useState("");
 	const [post, setPost] = useState(false);
 	const [like, setLike] = useState(false);
 	const [saved, setSaved] = useState(false);
-	const [posts, setPosts] = useState<any[] | null>(null);
+	const [posts, setPosts] = useState<PostsInterface[] | undefined>(undefined);
+
+	const { user } = useUserContext();
 
 	const router = useRouter();
 
@@ -25,6 +31,7 @@ function StoriesPosts() {
 			const Response = await fetch("/api/post/allPost");
 			const Data = await Response.json();
 			setPosts(Data.posts);
+			console.log(Data.posts);
 		}
 		fetchData();
 	}, []);
@@ -65,6 +72,33 @@ function StoriesPosts() {
 
 	function getProfile(username: string): void {
 		router.push(`/profile/?username=${username}`);
+	}
+
+	async function handleLike(post_id: UUID): Promise<void> {
+		const csrfToken = await fetchCSRF();
+		fetch(`/api/post/${post_id}/like/`, {
+			method: "PATCH",
+			headers: { "X-csrfToken": csrfToken },
+			credentials: "include",
+		})
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				} else {
+					throw new Error("Network response was not ok");
+				}
+			})
+			.then((data) => {
+				console.log(data);
+				// Update the UI to reflect the new like count or display a success message
+			})
+			.catch((error) => {
+				console.error(
+					"There was a problem with the fetch operation:",
+					error
+				);
+				// Display an error message to the user
+			});
 	}
 
 	return (
@@ -135,11 +169,12 @@ function StoriesPosts() {
 									style={{ height: "fit-content" }}
 								>
 									<div className="flex gap-2">
-										<div onClick={() => setLike(!like)}>
-											<Like
-												className="cursor-pointer"
-												like={like ? true : false}
-											/>
+										<div
+											onClick={() =>
+												handleLike(post.post_id)
+											}
+										>
+											<Like />
 										</div>
 										<CommentIcon
 											stroke="white"
@@ -157,16 +192,23 @@ function StoriesPosts() {
 										/>
 									</div>
 								</div>
+
 								<div className="flex gap-1 text-sm cursor-pointer">
-									avatar(3)
-									<span>Liked by</span>{" "}
-									<span className="font-bold cursor-pointer">
-										username
-									</span>{" "}
-									<span>and</span>
-									<span className="font-bold cursor-pointer">
-										number others
-									</span>
+									{post.likes.length > 0 ? (
+										<>
+											avatar(3)
+											<span>Liked by</span>{" "}
+											<span className="font-bold cursor-pointer">
+												username
+											</span>{" "}
+											<span>and</span>
+											<span className="font-bold cursor-pointer">
+												{post.likes.length - 1} others
+											</span>
+										</>
+									) : (
+										<>No Likes</>
+									)}
 								</div>
 								<div className="flex items-center">
 									<input
