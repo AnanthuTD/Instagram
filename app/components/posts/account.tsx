@@ -11,7 +11,7 @@ interface AccountProps {
 		username: string;
 		first_name: string;
 		last_name: string;
-		profile_image: string;
+		profile_img: string;
 		id_user: UUID;
 	};
 }
@@ -57,12 +57,14 @@ function Account({ width = 40, height = 40, user }: AccountProps) {
 			}
 		}
 	}
+	console.log(user);
+	
 	return (
 		<>
 			<div className="flex my-3 cursor-pointer items-center m-4 justify-between">
 				<div className="flex">
-					<Image
-						src="/images/pro-pic.jpg"
+					<img
+						src={`/api/media/${user.profile_img}`}
 						width={width}
 						height={height}
 						alt=""
