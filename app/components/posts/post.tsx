@@ -21,6 +21,12 @@ function post({ post }: { post: PostsInterface }) {
 	const router = useRouter();
 	const { user } = useUserContext();
 
+	const currentUserLikeObject = {
+		username: user?.username || "",
+		first_name: user?.first_name || "",
+		last_name: user?.last_name || "",
+	};
+
 	function timeDifference(time_stamp: Date): string {
 		const dateObj = new Date(time_stamp);
 		const currentDate = new Date();
@@ -115,12 +121,13 @@ function post({ post }: { post: PostsInterface }) {
 
 	useEffect(() => {
 		if (currentPost.likes && user) {
-			currentPost.likes.includes({
-				username: user.username,
-				first_name: user.first_name,
-				last_name: user.last_name,
-			});
-			setLike(true);
+			const found = currentPost.likes.find(
+				(obj) => obj.username === user?.username
+			);
+
+			if (found) {
+				setLike(true);
+			}
 		}
 	}, []);
 
@@ -214,7 +221,12 @@ function post({ post }: { post: PostsInterface }) {
 						</div>
 
 						<div className="flex gap-1 text-sm cursor-pointer">
-							{currentPost.likes.length > 0 ? (
+							{currentPost.likes.length > 0 &&
+							!(
+								currentPost.likes.find(
+									(obj) => obj.username === user?.username
+								) && currentPost.likes.length === 1
+							) ? (
 								<>
 									avatar(3)
 									<span>Liked by</span>{" "}
@@ -226,9 +238,9 @@ function post({ post }: { post: PostsInterface }) {
 										{currentPost.likes.length - 1} others
 									</span>
 								</>
-							) : (
+							) : currentPost.likes.length === 0 ? (
 								<>No Likes</>
-							)}
+							) : null}
 						</div>
 						<div className="flex items-center">
 							<input
