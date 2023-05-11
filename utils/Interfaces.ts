@@ -40,3 +40,19 @@ export interface MenuContextInterface {
 	menu: MenuState;
 	HandleSetMenu: (key: keyof MenuState, value?: boolean) => void;
 }
+
+export interface PostsInterface {
+	post_id: UUID;
+	file: string;
+	caption: string;
+	location: string;
+	hash_tag: string[];
+	mentions: string[];
+	likes: {
+	  username: string;
+	  first_name: string;
+	  last_name: string;
+	}[];
+	username: string;
+	time_stamp: Date;
+  }
