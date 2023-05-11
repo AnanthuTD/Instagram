@@ -27,9 +27,6 @@ function create({
 	const formSubmitRef = useRef<HTMLFormElement | null>(null);
 	const elevatedDiv = useRef<HTMLDivElement | null>(null);
 
-	// contexts
-	const { HandleSetMenu } = useMenuContext();
-
 	const handleClick = () => {
 		if (fileInputRef.current) fileInputRef.current.click();
 	};

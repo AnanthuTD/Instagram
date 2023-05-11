@@ -9,6 +9,7 @@ import SendIcon from "../posts/sendIcon";
 import SmileIcon from "../posts/smileIcon";
 import Rings from "../stories/rings";
 import CommentIcon from "../posts/commentIcon";
+import Likes from "../posts/likes";
 import Heart from "./heart";
 import { useUserContext } from "../context/userContext";
 
@@ -17,6 +18,7 @@ function post({ post }: { post: PostsInterface }) {
 	const [like, setLike] = useState(false);
 	const [saved, setSaved] = useState(false);
 	const [currentPost, setCurrentPost] = useState(post);
+	const [likes, setLikes] = useState(false);
 
 	const router = useRouter();
 	const { user } = useUserContext();
@@ -131,6 +133,10 @@ function post({ post }: { post: PostsInterface }) {
 		}
 	}, []);
 
+	function allLiked() {
+		setLikes(true);
+	}
+
 	return (
 		<>
 			<div
@@ -234,8 +240,16 @@ function post({ post }: { post: PostsInterface }) {
 										{currentPost.likes[0].username}
 									</span>{" "}
 									<span>and</span>
-									<span className="font-bold cursor-pointer">
+									<span
+										className="font-bold cursor-pointer"
+										onClick={() => {
+											allLiked();
+										}}
+									>
 										{currentPost.likes.length - 1} others
+										{likes ? (
+											<Likes setLikes={setLikes} users={currentPost.likes}/>
+										) : null}
 									</span>
 								</>
 							) : currentPost.likes.length === 0 ? (
