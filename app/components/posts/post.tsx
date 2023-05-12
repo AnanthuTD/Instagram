@@ -10,8 +10,10 @@ import SmileIcon from "../posts/smileIcon";
 import Rings from "../stories/rings";
 import CommentIcon from "../posts/commentIcon";
 import Likes from "../posts/likes";
+import Comments from "../posts/comments";
 import Heart from "./heart";
 import { useUserContext } from "../context/userContext";
+import timeDifference from "@/utils/time_difference";
 
 function post({ post }: { post: PostsInterface }) {
 	const [comment, setComment] = useState("");
@@ -19,41 +21,10 @@ function post({ post }: { post: PostsInterface }) {
 	const [saved, setSaved] = useState(false);
 	const [currentPost, setCurrentPost] = useState(post);
 	const [likes, setLikes] = useState(false);
+	const [comments, setComments] = useState(false);
 
 	const router = useRouter();
 	const { user } = useUserContext();
-
-	const currentUserLikeObject = {
-		username: user?.username || "",
-		first_name: user?.first_name || "",
-		last_name: user?.last_name || "",
-	};
-
-	function timeDifference(time_stamp: Date): string {
-		const dateObj = new Date(time_stamp);
-		const currentDate = new Date();
-
-		const differenceYears =
-			currentDate.getFullYear() - dateObj.getFullYear();
-		if (differenceYears) return differenceYears + "y";
-
-		const differenceMonths = currentDate.getMonth() - dateObj.getMonth();
-		if (differenceMonths) return differenceMonths + "m";
-
-		const differenceDays = currentDate.getDate() - dateObj.getDate();
-		if (differenceDays) return differenceDays + "d";
-
-		const differenceHours = currentDate.getHours() - dateObj.getHours();
-		if (differenceHours) return differenceHours + "h";
-
-		const differenceMins = currentDate.getMinutes() - dateObj.getMinutes();
-		if (differenceMins) return differenceMins + "m";
-
-		const differenceSecs = currentDate.getSeconds() - dateObj.getSeconds();
-		if (differenceSecs) return differenceSecs + "s";
-
-		return "";
-	}
 
 	function getProfile(username: string): void {
 		router.push(`/profile/?username=${username}`);
@@ -133,9 +104,21 @@ function post({ post }: { post: PostsInterface }) {
 		}
 	}, []);
 
-	function allLiked() {
-		setLikes(true);
-	}
+	const handlePostComment = async () => {
+		if (!comment) return;
+		const csrfToken = await fetchCSRF();
+		const response = await fetch("/api/post/comments/", {
+			method: "POST",
+			headers: { "X-csrfToken": csrfToken },
+			body: JSON.stringify({
+				comment: comment,
+				post_id: currentPost.post_id,
+			}),
+		});
+		if (response.status) {
+			console.log("success");
+		}
+	};
 
 	return (
 		<>
@@ -209,10 +192,18 @@ function post({ post }: { post: PostsInterface }) {
 										like={like}
 									/>
 								</div>
-								<CommentIcon
-									stroke="white"
-									className="cursor-pointer"
-								/>
+								<div onClick={() => setComments(true)}>
+									<CommentIcon
+										stroke="white"
+										className="cursor-pointer"
+									/>
+									{comments ? (
+										<Comments
+											post_id={currentPost.post_id}
+											setComments={setComments}
+										/>
+									) : null}
+								</div>
 								<SendIcon
 									stroke="white"
 									className="cursor-pointer"
@@ -243,12 +234,15 @@ function post({ post }: { post: PostsInterface }) {
 									<span
 										className="font-bold cursor-pointer"
 										onClick={() => {
-											allLiked();
+											setLikes(true);
 										}}
 									>
 										{currentPost.likes.length - 1} others
 										{likes ? (
-											<Likes setLikes={setLikes} users={currentPost.likes}/>
+											<Likes
+												setLikes={setLikes}
+												users={currentPost.likes}
+											/>
 										) : null}
 									</span>
 								</>
@@ -264,8 +258,11 @@ function post({ post }: { post: PostsInterface }) {
 								onChange={(e) => setComment(e.target.value)}
 							/>
 							<div className="flex gap-2 cursor-pointer">
-								{currentPost ? (
-									<span className="text-xs font-bold text-brightBlue">
+								{comment ? (
+									<span
+										className="text-xs font-bold text-brightBlue"
+										onClick={() => handlePostComment()}
+									>
 										POST
 									</span>
 								) : null}
