@@ -1,7 +1,7 @@
 "use client";
 
 import SettingsIcon from "../../components/svg/settings";
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import Posts from "../../components/profile/posts";
 import Saved from "../../components/profile/saved";
 import Tagged from "../../components/profile/tagged";
@@ -9,8 +9,8 @@ import SettingsPopUp from "../../components/profile/settings";
 import { useUserContext } from "../../components/context/userContext";
 import React from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { UserState } from "@/utils/Interfaces";
+import { useRouter, useSearchParams } from "next/navigation";
+import { OtherUserProfile, UserState } from "../../../utils/Interfaces";
 import { fetchCSRF } from "@/utils/fetch_csrf";
 
 function profile() {
@@ -19,8 +19,16 @@ function profile() {
 	const [saved, setSaved] = useState(false);
 	const [tagged, setTagged] = useState(false);
 	const [settings, setSettings] = useState(false);
-	const [profile, setProfile] = useState<UserState | undefined>();
+	const [profile, setProfile] = useState<
+		UserState | undefined | OtherUserProfile
+	>();
 	const [loading, setLoading] = useState(true);
+
+	const router = useRouter();
+
+	/* const OtherUserProfileContext = createContext<OtherUserProfile | undefined>(
+		undefined
+	); */
 
 	// context
 	const { user, setUser } = useUserContext();
@@ -106,7 +114,13 @@ function profile() {
 	}
 
 	function message() {
-		alert("Message not defined");
+		if (
+			user?.id_user &&
+			profile?.id_user &&
+			profile.id_user !== user?.id_user
+		) {
+			router.push(`/inbox/?id_user=${profile.id_user}`);
+		}
 	}
 
 	if (loading) {
@@ -266,7 +280,7 @@ function profile() {
 								</div>
 							</div>
 							<div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 justify-between w-full">
-								{post ? <Posts /> : null}
+								{post ? <Posts otherUser={user?.username !== profile.username ? profile.username:undefined}/> : null}
 								{saved ? <Saved /> : null}
 								{tagged ? <Tagged /> : null}
 							</div>
