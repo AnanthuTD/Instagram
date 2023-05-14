@@ -7,16 +7,16 @@ interface postsInterface {
 	posts: any[];
 }
 
-function posts() {
-	const { user } = useUserContext();
-
+function posts({ otherUser }: { otherUser: string | undefined }) {
 	const [posts, setPosts] = useState<any[]>([]);
 	const [data, setData] = useState<postsInterface | null>(null);
 	const [initial, setInitial] = useState(true);
 
 	async function fetchData() {
 		setInitial(false);
-		const Response = await fetch("/api/post", {
+		let url = "/api/post";
+		if (otherUser) url = `api/post/${otherUser}/posts/`;
+		const Response = await fetch(url, {
 			method: "GET",
 		});
 
