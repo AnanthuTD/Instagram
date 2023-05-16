@@ -13,13 +13,13 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<main className="flex min-h-screen flex-row bg-black h-full">
+		<main className="flex min-h-screen flex-row bg-black min-h-screen">
 			<UserContextProvider>
 				<MenuContextProvider>
-					<div className="w-1/6 p-5 border-r border-border_grey justify-between flex-col flex">
+					<div className="w-1/6 p-5 border-r border-border_grey justify-between flex-col flex h-screen">
 						<MenuBar />
 					</div>
-					<div className="w-5/6 flex p-5">{children}</div>
+					<div className="w-5/6 flex p-5 overflow-y-auto h-screen">{children}</div>
 				</MenuContextProvider>
 			</UserContextProvider>
 		</main>
