@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import messages from "./page";
 
 interface WebSocketData {
 	data: string;
@@ -21,7 +20,6 @@ interface chats {
 function chatBox({ recipient, selectedChat }: ChatBox) {
 	const chatLogRef = useRef<HTMLDivElement>(null);
 	const [chatSocket, setChatSocket] = useState<WebSocket | null>(null);
-	const [roomName, setRoomName] = useState<string>("");
 	const [chats, setChats] = useState<chats[]>([]);
 	const [message, setMessage] = useState("");
 
@@ -55,14 +53,14 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 			// Close the WebSocket connection when the component unmounts
 			socket.close();
 		};
-	}, [roomName]);
+	}, [selectedChat]);
 
 	useEffect(() => {
 		if (!selectedChat) return;
 		fetch(`/api/chat/${selectedChat}/load_messages/`).then((response) => {
 			response.json().then((data) => {
 				setChats(data.message_list);
-				// console.log("message_list = ", data.message_list);
+				console.log("message_list = ", data.message_list);
 			});
 		});
 	}, [selectedChat]);
