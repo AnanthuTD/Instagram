@@ -119,7 +119,7 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 					{chats.map((chat) => {
 						return (
 							<>
-								{chat.sender_username === recipient ? (
+								{chat.sender_username !== recipient ? (
 									<div className="w-full h-fit flex flex-row-reverse">
 										<div className="h-fit w-fit m-3">
 											<div className="rounded-full outline outline-1 outline-border_grey w-fit flex mb-3">
