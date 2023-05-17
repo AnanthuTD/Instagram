@@ -2,6 +2,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { UserState } from "../../../utils/Interfaces";
 import { useRouter } from "next/navigation";
+import Loading from "@/app/loading";
+
 
 interface UserContextInterface {
 	user: UserState | undefined;
@@ -49,11 +51,7 @@ export function UserContextProvider({
 	return (
 		<>
 			{loading ? (
-				<main>
-					<div className="flex h-full justify-center items-center bg-black">
-						Loding
-					</div>
-				</main>
+				<Loading/>
 			) : (
 				<UserContext.Provider value={{ user, setUser }}>
 					{children}
