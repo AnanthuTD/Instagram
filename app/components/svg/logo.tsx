@@ -1,16 +1,24 @@
 import React from "react";
 import { SvgProps } from "../../../utils/Interfaces";
 
-function logo({fill='white'}:SvgProps) {
+interface logo {
+	width?:string;
+	fill?:string;
+	height?:string;
+	className?:string;
+}
+
+function logo({fill='white', width="120.000000pt", height="25.000000pt" , className=''}:logo) {
 	return (
 		<>
 			<svg
 				version="1.0"
 				xmlns="http://www.w3.org/2000/svg"
-				width="120.000000pt"
-				height="25.000000pt"
+				width={width}
+				height={height}
 				viewBox="0 0 184.000000 34.000000"
 				preserveAspectRatio="xMidYMid meet"
+				className={className}
 			>
 				<g
 					transform="translate(0.000000,34.000000) scale(0.100000,-0.100000)"
