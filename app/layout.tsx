@@ -1,6 +1,5 @@
 import React from "react";
 import "./globals.css";
-import { UserContextProvider } from "./components/context/userContext";
 
 export const metadata = {
 	title: "WowGram",
