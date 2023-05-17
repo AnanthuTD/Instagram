@@ -1,5 +1,6 @@
 "use client";
 
+import SmileIcon from "@/app/components/posts/smileIcon";
 import React, { useEffect, useRef, useState } from "react";
 
 interface WebSocketData {
@@ -19,6 +20,7 @@ interface chats {
 
 function chatBox({ recipient, selectedChat }: ChatBox) {
 	const chatLogRef = useRef<HTMLDivElement>(null);
+	const textAreaRef = useRef<HTMLTextAreaElement>(null);
 	const [chatSocket, setChatSocket] = useState<WebSocket | null>(null);
 	const [chats, setChats] = useState<chats[]>([]);
 	const [message, setMessage] = useState("");
@@ -72,7 +74,7 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 		}
 	};
 
-	const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+	const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
 		if (event.key === "Enter") {
 			handleSendMessage();
 		}
@@ -93,6 +95,21 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 		}
 	}, [chats]);
 
+	useEffect(() => {
+		if (textAreaRef && textAreaRef.current) {
+			const lineHeight = parseFloat(
+				getComputedStyle(textAreaRef.current).lineHeight
+			);
+			textAreaRef.current.style.maxHeight = lineHeight * 4 + "px";
+			const scrollHeight = textAreaRef.current.scrollHeight;
+			if (lineHeight * 4 >= scrollHeight)
+				textAreaRef.current.style.height = scrollHeight + "px";
+			else {
+				textAreaRef.current.style.overflowY = "scroll";
+			}
+		}
+	}, [message]);
+
 	return (
 		<>
 			<div className="h-full w-full flex flex-col justify-between">
@@ -107,7 +124,7 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 										<div className="h-fit w-fit m-3">
 											<div className="rounded-full outline outline-1 outline-border_grey w-fit flex mb-3">
 												<div className="py-3 px-4 w-fit">
-													<span className="text-primaryText">
+													<span className="text-primaryText ">
 														{chat.message}
 													</span>
 												</div>
@@ -144,20 +161,33 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 
 				{/* Input field to enter message */}
 				<div>
-					<input
-						type="text"
-						id="chat-message-input"
-						className="text-black"
-						onKeyDown={(e) => handleKeyDown(e)}
-						onChange={(e) => setMessage(e.target.value)}
-						value={message}
-					/>
-					<button
-						id="chat-message-submit"
-						onClick={() => handleSendMessage()}
-					>
-						Send
-					</button>
+					<div className="flex items-center justify-between rounded-full outline outline-1 outline-border_grey m-3 p-3 gap-3">
+						<div className="flex items-center gap-3 w-full">
+							<SmileIcon fill="white" width={25} height={25} />
+							<textarea
+								id="chat-message-input"
+								className="text-primaryText bg-transparent text-sm outline-none resize-none w-full"
+								onKeyDown={(e) => handleKeyDown(e)}
+								onChange={(e) => {
+									setMessage(e.target.value);
+								}}
+								value={message}
+								placeholder="Message"
+								rows={1}
+								ref={textAreaRef}
+								style={{ overflowY: "hidden" }}
+							/>
+						</div>
+						{message ? (
+							<button
+								id="chat-message-submit"
+								onClick={() => handleSendMessage()}
+								className="text-sm text-blue-500 font-bold"
+							>
+								Send
+							</button>
+						) : null}
+					</div>
 				</div>
 			</div>
 		</>
