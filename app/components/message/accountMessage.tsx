@@ -19,31 +19,33 @@ function AccountMessage({
 }: AccountMessageProps) {
 	return (
 		<>
-			<div
-				className="flex my-3 cursor-pointer items-center m-4"
-				onClick={() => {
-					setSelectChat(username);
-				}}
-			>
-				<Image
-					priority={true}
-					src={"/api" + profile_img}
-					width={width}
-					height={height}
-					alt=""
-					className="rounded-full"
-				/>
+			<div className="flex my-3 cursor-pointer items-center m-4 justify-between"
+			onClick={() => {
+				setSelectChat(username);
+			}}>
+				<div className="w-1/5">
+					<Image
+						priority={true}
+						src={"/api" + profile_img}
+						width={width}
+						height={height}
+						alt=""
+						className="rounded-full "
+					/>
+				</div>
 
-				<div style={{ height: "fit-content" }} onClick={() => null}>
-					<p className="flex items-center mx-4 text-sm text-primaryText">
+				<div className="w-4/5 flex-grow" onClick={() => null}>
+					<p className="flex items-center mx-4 text-sm text-primaryText ">
 						{username}
 					</p>
-					<p
-						className="flex items-center mx-4 text-sm "
-						style={{ color: "rgb(168 168 168)" }}
-					>
-						{last_message}
-					</p>
+					<div className="overflow-hidden overflow-ellipsis">
+						<span
+							className="items-center mx-4 text-sm overflow-hidden overflow-ellipsis"
+							style={{ color: "rgb(168, 168, 168)" }}
+						>
+							{last_message}
+						</span>
+					</div>
 				</div>
 			</div>
 		</>

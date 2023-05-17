@@ -3,8 +3,8 @@ import { SvgProps } from "../../../utils/Interfaces";
 
 
 
-function smileIcon({stroke= "currentColor",
-fill= "none",
+function smileIcon({
+fill= 'rgb(115, 115, 115)',
 className= "",
 height=13,
 width=13}:SvgProps) {
@@ -13,7 +13,7 @@ width=13}:SvgProps) {
 			<svg
 				aria-label="Emoji"
 				color="rgb(115, 115, 115)"
-				fill="rgb(115, 115, 115)"
+				fill={fill}
 				height={height}
 				role="img"
 				viewBox="0 0 24 24"
