@@ -116,7 +116,7 @@ function post({ post }: { post: PostsInterface }) {
 			}),
 		});
 		if (response.status) {
-			console.log("success");
+			setComment('')
 		}
 	};
 
@@ -201,6 +201,7 @@ function post({ post }: { post: PostsInterface }) {
 										<Comments
 											post_id={currentPost.post_id}
 											setComments={setComments}
+											
 										/>
 									) : null}
 								</div>
@@ -256,6 +257,7 @@ function post({ post }: { post: PostsInterface }) {
 								className="border-none bg-transparent text-sm outline-none w-full"
 								placeholder="Add a comment..."
 								onChange={(e) => setComment(e.target.value)}
+								value={comment}
 							/>
 							<div className="flex gap-2 cursor-pointer">
 								{comment ? (
