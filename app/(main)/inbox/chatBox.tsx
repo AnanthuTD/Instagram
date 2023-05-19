@@ -2,6 +2,8 @@
 
 import SmileIcon from "@/app/components/posts/smileIcon";
 import React, { useEffect, useRef, useState } from "react";
+import { chat } from "../../../utils/Interfaces";
+import Message from "./message";
 
 interface WebSocketData {
 	data: string;
@@ -12,17 +14,11 @@ interface ChatBox {
 	selectedChat: string; // username
 }
 
-interface chats {
-	message: string;
-	timestamp: string;
-	sender_username: string;
-}
-
 function chatBox({ recipient, selectedChat }: ChatBox) {
 	const chatLogRef = useRef<HTMLDivElement>(null);
 	const textAreaRef = useRef<HTMLTextAreaElement>(null);
 	const [chatSocket, setChatSocket] = useState<WebSocket | null>(null);
-	const [chats, setChats] = useState<chats[]>([]);
+	const [chats, setChats] = useState<chat[]>([]);
 	const [message, setMessage] = useState("");
 
 	useEffect(() => {
@@ -38,7 +34,7 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 			const data = JSON.parse(event.data);
 			if (data.hasOwnProperty("status")) return;
 
-			const new_message: chats = data.message;
+			const new_message: chat = data.message;
 			setChats((prevChats) => [...prevChats, new_message]);
 
 			if (chatLogRef.current) {
@@ -80,15 +76,6 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 		}
 	};
 
-	function getTime(timestamp: string): React.ReactNode {
-		const date = new Date(timestamp);
-		return date.toLocaleString("en-IN", {
-			hour: "numeric",
-			minute: "numeric",
-			hour12: true,
-		});
-	}
-
 	useEffect(() => {
 		if (chatLogRef.current) {
 			chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
@@ -112,47 +99,78 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 
 	return (
 		<>
-			<div className="h-full w-full flex flex-col justify-between">
+			<div className="flex h-full w-full flex-col justify-between">
 				{/* Render chat messages */}
 
 				<div className="h-full overflow-y-auto" ref={chatLogRef}>
-					{chats.map((chat) => {
+					{chats.map((chat, index) => {
+						let prevTimestamp: Date;
+
+						if (index === chats.length - 1)
+							prevTimestamp = new Date(chats[index].timestamp);
+						else
+							prevTimestamp = new Date(
+								chats[index + 1].timestamp
+							);
+						const currentTime = new Date(chat.timestamp);
+
+						const DisplayDate =
+							prevTimestamp.getDate() !== currentTime.getDate()
+								? true
+								: false;
+						const DisplayTime =
+							prevTimestamp.toLocaleString("en-IN", {
+								day: "numeric",
+								month: "short",
+								year: "numeric",
+								hour: "numeric",
+								minute: "numeric",
+							}) !==
+							currentTime.toLocaleString("en-IN", {
+								day: "numeric",
+								month: "short",
+								year: "numeric",
+								hour: "numeric",
+								minute: "numeric",
+							})
+								? true
+								: index === chats.length - 1
+								? true
+								: false;
+
 						return (
 							<>
+								{DisplayDate ? (
+									<div className="m-3 flex w-full justify-center">
+										<span className="text-xs text-secondryText">
+											{currentTime.toLocaleString(
+												"en-IN",
+												{
+													day: "numeric",
+													month: "short",
+													year: "numeric",
+													hour: "numeric",
+													minute: "numeric",
+													hour12: true,
+												}
+											)}
+										</span>
+									</div>
+								) : null}
 								{chat.sender_username !== recipient ? (
-									<div className="w-full h-fit flex flex-row-reverse">
-										<div className="h-fit w-fit m-3">
-											<div className="rounded-full outline outline-1 outline-border_grey w-fit flex mb-3">
-												<div className="py-3 px-4 w-fit">
-													<span className="text-primaryText ">
-														{chat.message}
-													</span>
-												</div>
-											</div>
-											<div className="flex flex-row-reverse pr-3 w-full">
-												<span className="text-xs text-secondryText h-fit w-fit">
-													{getTime(chat.timestamp)}
-												</span>
-											</div>
-										</div>
-									</div>
+									<Message
+										chat={chat}
+										position="right"
+										key={chat.id}
+										displayTime={DisplayTime}
+									/>
 								) : (
-									<div className="w-full h-fit flex">
-										<div className="h-fit w-fit m-3">
-											<div className="rounded-full outline outline-1 outline-border_grey w-fit flex mb-3">
-												<div className="py-3 px-4 w-fit">
-													<span className="text-primaryText">
-														{chat.message}
-													</span>
-												</div>
-											</div>
-											<div className="flex flex-row-reverse pr-3 w-full">
-												<span className="text-xs text-secondryText h-fit w-fit">
-													{getTime(chat.timestamp)}
-												</span>
-											</div>
-										</div>
-									</div>
+									<Message
+										chat={chat}
+										position="left"
+										key={chat.id}
+										displayTime={DisplayTime}
+									/>
 								)}
 							</>
 						);
@@ -161,12 +179,12 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 
 				{/* Input field to enter message */}
 				<div>
-					<div className="flex items-center justify-between rounded-full outline outline-1 outline-border_grey m-3 p-3 gap-3">
-						<div className="flex items-center gap-3 w-full">
+					<div className="m-3 flex items-center justify-between gap-3 rounded-full p-3 outline outline-1 outline-border_grey">
+						<div className="flex w-full items-center gap-3">
 							<SmileIcon fill="white" width={25} height={25} />
 							<textarea
 								id="chat-message-input"
-								className="text-primaryText bg-transparent text-sm outline-none resize-none w-full"
+								className="w-full resize-none bg-transparent text-sm text-primaryText outline-none"
 								onKeyDown={(e) => handleKeyDown(e)}
 								onChange={(e) => {
 									setMessage(e.target.value);
@@ -182,7 +200,7 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 							<button
 								id="chat-message-submit"
 								onClick={() => handleSendMessage()}
-								className="text-sm text-blue-500 font-bold"
+								className="text-sm font-bold text-blue-500"
 							>
 								Send
 							</button>

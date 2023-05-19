@@ -72,3 +72,10 @@ export interface OtherUserProfile {
 	following: UUID[];
 	post_count: number;
 }
+
+export interface chat {
+	message: string;
+	timestamp: Date;
+	sender_username: string;
+	id:number
+}
