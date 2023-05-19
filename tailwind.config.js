@@ -18,6 +18,9 @@ module.exports = {
                 elevated:"rgb(38 38 38)",
                 blackBlur:'#000000ad'
             },
+            maxWidth: {
+                '1/2': '50%',
+              }
         },
     },
     plugins: [
