@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Popover } from "@headlessui/react";
 import OptionsIcon from "../../components/posts/optionsIcon";
 
