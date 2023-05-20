@@ -8,7 +8,7 @@ function OptionsPopup({children, height=''}:{children:React.ReactNode, height:St
 	return (
 		<>
 			<Popover className="relative flex">
-				<div className={["flex items-center m-3 mt-0"].join(' ')} style={{height:`${height}`}}>
+				<div className={["flex items-center mx-3 mt-0"].join(' ')} style={{height:`${height}`}}>
 					<Popover.Button className="h-fit outline-none">
 						<OptionsIcon />
 					</Popover.Button>
