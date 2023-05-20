@@ -16,9 +16,9 @@ function Message({
 }) {
 	const [options, setOptions] = useState(false);
 	const [unmounted, setUnmounted] = useState(false); // State to track if the component should be unmounted
-	const messageContainerRef = useRef<HTMLDivElement | undefined>();
-	const messageChildContainerRef = useRef<HTMLDivElement | undefined>();
-	const roundedDivRef = useRef<HTMLDivElement | undefined>();
+	const messageContainerRef = useRef<HTMLDivElement>(null);
+	const messageChildContainerRef = useRef<HTMLDivElement>(null);
+	const roundedDivRef = useRef<HTMLDivElement>(null);
 	const [rounded, setRounded] = useState("rounded-full");
 	const [popupHeight, setPopupHeight] = useState("");
 
@@ -37,53 +37,33 @@ function Message({
 			method: "DELETE",
 			headers: { "X-csrfToken": csrfToken },
 			body: JSON.stringify({ id: chat.id }),
-		}).then((response) =>
-			response.json().then((response) => {
-				if (response.status) {
-					setOptions(false);
-					setUnmounted(true); // Update the state to indicate that the component should be unmounted
-				} else {
-					alert("Cannot unsend");
-				}
-			})
-		);
+		})
+			.then((response) =>
+				response.json().then((response) => {
+					if (response.status) {
+						setOptions(false);
+						setUnmounted(true); // Update the state to indicate that the component should be unmounted
+					} else {
+						alert("Cannot unsend");
+					}
+				})
+			)
+			.catch((error) => {
+				console.error("Failed to unsend:", error);
+			});
 	};
-
-	if (unmounted) {
-		return null; // Return null to effectively unmount the component
-	}
-
-	let classParent = "";
-	let classChild = "";
-	if (position === "right") {
-		classParent = "flex-row-reverse";
-		classChild = "items-end";
-	}
-	let roundedEnd = "";
-	if (!displayTime) {
-		if(position === "right")roundedEnd = "rounded-ee-none"
-		else roundedEnd = "rounded-es-none";
-	}
-	if (topNoneRounded) {
-		if(position === "right")
-		roundedEnd = "rounded-se-none";
-		else roundedEnd = "rounded-ss-none";
-	}
 
 	useEffect(() => {
 		if (
-			messageContainerRef &&
 			messageContainerRef.current &&
-			messageChildContainerRef &&
 			messageChildContainerRef.current &&
-			roundedDivRef &&
 			roundedDivRef.current
 		) {
-			let maxWidth =
+			const maxWidth =
 				parseFloat(
 					getComputedStyle(messageContainerRef.current).width
 				) / 2;
-			let currentWidth = parseFloat(
+			const currentWidth = parseFloat(
 				getComputedStyle(messageChildContainerRef.current).width
 			);
 			if (maxWidth === currentWidth) {
@@ -93,12 +73,28 @@ function Message({
 		}
 	}, []);
 
+	if (unmounted) {
+		return null; // Return null to effectively unmount the component
+	}
+
+	const classParent = position === "right" ? "flex-row-reverse" : "";
+	const classChild = position === "right" ? "items-end" : "";
+	let roundedEnd = "";
+	if (!displayTime) {
+		roundedEnd =
+			position === "right" ? "rounded-ee-none" : "rounded-es-none";
+	}
+	if (topNoneRounded) {
+		roundedEnd =
+			position === "right" ? "rounded-se-none" : "rounded-ss-none";
+	}
+
 	return (
 		<div
 			className={["my-2 flex h-fit w-full", classParent].join(" ")}
 			onMouseOver={() => setOptions(true)}
 			onMouseOut={() => setOptions(false)}
-			ref={messageContainerRef as React.RefObject<HTMLDivElement>}
+			ref={messageContainerRef}
 		>
 			{/* Message Content */}
 			<div
@@ -106,7 +102,7 @@ function Message({
 					"mt-0 flex h-fit w-fit max-w-1/2 flex-col",
 					classChild,
 				].join(" ")}
-				ref={messageChildContainerRef as React.RefObject<HTMLDivElement>}
+				ref={messageChildContainerRef}
 			>
 				<div
 					className={[
@@ -114,33 +110,32 @@ function Message({
 						rounded,
 						roundedEnd,
 					].join(" ")}
-					ref={roundedDivRef as React.RefObject<HTMLDivElement>}
+					ref={roundedDivRef}
 				>
 					<div
 						className={[
 							"text-md break-normal text-primaryText",
-							
 						].join(" ")}
 						style={{ overflowWrap: "anywhere" }}
 					>
 						<p>{chat.message}</p>
 					</div>
 				</div>
-				{displayTime ? (
+				{displayTime && (
 					<div className="mt-3 flex w-full flex-row-reverse pr-3">
 						<span className="h-fit w-fit text-xs text-secondryText">
 							{getTime(chat.timestamp)}
 						</span>
 					</div>
-				) : null}
+				)}
 			</div>
 
 			{/* Options Pop-up */}
-			{options ? (
+			{options && (
 				<OptionsPopUp height={popupHeight}>
 					<button onClick={handleUnsend}>Unsend</button>
 				</OptionsPopUp>
-			) : null}
+			)}
 		</div>
 	);
 }
