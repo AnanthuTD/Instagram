@@ -104,22 +104,44 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 
 				<div className="h-full overflow-y-auto" ref={chatLogRef}>
 					{chats.map((chat, index) => {
-						let prevTimestamp: Date;
+						let prevMessage: chat;
+						let nextMessage: chat;
 
-						if (index === chats.length - 1)
-							prevTimestamp = new Date(chats[index].timestamp);
-						else
-							prevTimestamp = new Date(
-								chats[index + 1].timestamp
-							);
+						let nextTimestamp: Date;
+						let prevTimestamp: Date;
 						const currentTime = new Date(chat.timestamp);
 
-						const DisplayDate =
-							prevTimestamp.getDate() !== currentTime.getDate()
+						let DisplayTime = true;
+						let DisplayDate = false;
+						let topNoneRounded = false;
+
+						if (index > 0) {
+							prevMessage = chats[index - 1];
+							prevTimestamp = new Date(
+								chats[index - 1].timestamp
+							);
+						} else {
+							prevMessage = chat;
+							prevTimestamp = new Date(chat.timestamp);
+						}
+
+						if (index === chats.length - 1) {
+							nextMessage = chat;
+							nextTimestamp = new Date(chats[index].timestamp);
+						} else {
+							nextMessage = chats[index + 1];
+							nextTimestamp = new Date(
+								chats[index + 1].timestamp
+							);
+						}
+
+						DisplayDate =
+							nextTimestamp.getDate() !== currentTime.getDate()
 								? true
 								: false;
-						const DisplayTime =
-							prevTimestamp.toLocaleString("en-IN", {
+
+						DisplayTime =
+							nextTimestamp.toLocaleString("en-IN", {
 								day: "numeric",
 								month: "short",
 								year: "numeric",
@@ -137,6 +159,30 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 								: index === chats.length - 1
 								? true
 								: false;
+						console.log(nextTimestamp, currentTime);
+
+						topNoneRounded =
+							prevTimestamp.toLocaleString("en-IN", {
+								day: "numeric",
+								month: "short",
+								year: "numeric",
+								hour: "numeric",
+								minute: "numeric",
+							}) ===
+							currentTime.toLocaleString("en-IN", {
+								day: "numeric",
+								month: "short",
+								year: "numeric",
+								hour: "numeric",
+								minute: "numeric",
+							})
+								? true
+								: false;
+
+						topNoneRounded = prevMessage.sender_username !== chat.sender_username?false:topNoneRounded
+						DisplayTime = nextMessage.sender_username !== chat.sender_username?true:DisplayTime
+						console.log(nextMessage.id, chat.id);
+						
 
 						return (
 							<>
@@ -163,6 +209,7 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 										position="right"
 										key={chat.id}
 										displayTime={DisplayTime}
+										topNoneRounded={topNoneRounded}
 									/>
 								) : (
 									<Message
@@ -170,6 +217,7 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 										position="left"
 										key={chat.id}
 										displayTime={DisplayTime}
+										topNoneRounded={topNoneRounded}
 									/>
 								)}
 							</>

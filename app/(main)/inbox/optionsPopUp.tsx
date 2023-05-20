@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Popover } from "@headlessui/react";
 import OptionsIcon from "../../components/posts/optionsIcon";
 
-function OptionsPopup({children}:{children:React.ReactNode}) {
+function OptionsPopup({children, height=''}:{children:React.ReactNode, height:String}) {
 	
 
 	return (
 		<>
 			<Popover className="relative flex">
-				<div className="flex items-center m-3 mb-7 mt-0">
+				<div className={["flex items-center m-3 mt-0"].join(' ')} style={{height:`${height}`}}>
 					<Popover.Button className="h-fit outline-none">
 						<OptionsIcon />
 					</Popover.Button>
