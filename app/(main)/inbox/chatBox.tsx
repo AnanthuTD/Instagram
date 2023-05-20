@@ -1,20 +1,18 @@
-"use client";
-
-import SmileIcon from "@/app/components/posts/smileIcon";
 import React, { useEffect, useRef, useState } from "react";
-import { chat } from "../../../utils/Interfaces";
+import SmileIcon from "@/app/components/posts/smileIcon";
 import Message from "./message";
+import { chat } from "../../../utils/Interfaces";
 
 interface WebSocketData {
 	data: string;
 }
 
-interface ChatBox {
+interface ChatBoxProps {
 	recipient: string;
 	selectedChat: string; // username
 }
 
-function chatBox({ recipient, selectedChat }: ChatBox) {
+function ChatBox({ recipient, selectedChat }: ChatBoxProps) {
 	const chatLogRef = useRef<HTMLDivElement>(null);
 	const textAreaRef = useRef<HTMLTextAreaElement>(null);
 	const [chatSocket, setChatSocket] = useState<WebSocket | null>(null);
@@ -26,41 +24,37 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 			`ws://localhost:8000/ws/chat/${recipient}/`
 		);
 
-		// Set the WebSocket object to the state
 		setChatSocket(socket);
 
-		// Listen for incoming messages from the server
 		socket.addEventListener("message", (event: WebSocketData) => {
 			const data = JSON.parse(event.data);
 			if (data.hasOwnProperty("status")) return;
 
-			const new_message: chat = data.message;
-			setChats((prevChats) => [...prevChats, new_message]);
+			const newMessage: chat = data.message;
+			setChats((prevChats) => [...prevChats, newMessage]);
 
 			if (chatLogRef.current) {
 				chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
 			}
 		});
 
-		// Log an error if the WebSocket connection is closed
 		socket.addEventListener("close", () => {
 			console.error("Chat socket closed unexpectedly");
 		});
 
 		return () => {
-			// Close the WebSocket connection when the component unmounts
 			socket.close();
 		};
 	}, [selectedChat]);
 
 	useEffect(() => {
 		if (!selectedChat) return;
-		fetch(`/api/chat/${selectedChat}/load_messages/`).then((response) => {
-			response.json().then((data) => {
+		fetch(`/api/chat/${selectedChat}/load_messages/`)
+			.then((response) => response.json())
+			.then((data) => {
 				setChats(data.message_list);
-				console.log("message_list = ", data.message_list);
+				console.log("message_list =", data.message_list);
 			});
-		});
 	}, [selectedChat]);
 
 	const handleSendMessage = () => {
@@ -89,175 +83,180 @@ function chatBox({ recipient, selectedChat }: ChatBox) {
 			);
 			textAreaRef.current.style.maxHeight = lineHeight * 4 + "px";
 			const scrollHeight = textAreaRef.current.scrollHeight;
-			if (lineHeight * 4 >= scrollHeight)
+			if (lineHeight * 4 >= scrollHeight) {
 				textAreaRef.current.style.height = scrollHeight + "px";
-			else {
+			} else {
 				textAreaRef.current.style.overflowY = "scroll";
 			}
 		}
 	}, [message]);
 
+	const shouldDisplayDate = (currentTimestamp: Date, nextTimestamp: Date) => {
+		return nextTimestamp.getDate() !== currentTimestamp.getDate();
+	};
+
+	const shouldDisplayTime = (
+		currentTimestamp: Date,
+		nextTimestamp: Date,
+		index: number
+	) => {
+		const currentTimestampString = currentTimestamp.toLocaleString(
+			"en-IN",
+			{
+				day: "numeric",
+				month: "short",
+				year: "numeric",
+				hour: "numeric",
+				minute: "numeric",
+			}
+		);
+
+		const nextTimestampString = nextTimestamp.toLocaleString("en-IN", {
+			day: "numeric",
+			month: "short",
+			year: "numeric",
+			hour: "numeric",
+			minute: "numeric",
+		});
+
+		return (
+			currentTimestampString !== nextTimestampString ||
+			index === chats.length - 1
+		);
+	};
+
+	const shouldRoundTopNone = (
+		prevTimestamp: Date,
+		currentTimestamp: Date,
+		prevMessageSenderUsername: string,
+		currentMessageSenderUsername: string
+	) => {
+		const prevTimestampString = prevTimestamp.toLocaleString("en-IN", {
+			day: "numeric",
+			month: "short",
+			year: "numeric",
+			hour: "numeric",
+			minute: "numeric",
+		});
+
+		const currentTimestampString = currentTimestamp.toLocaleString(
+			"en-IN",
+			{
+				day: "numeric",
+				month: "short",
+				year: "numeric",
+				hour: "numeric",
+				minute: "numeric",
+			}
+		);
+
+		return (
+			prevTimestampString === currentTimestampString &&
+			prevMessageSenderUsername === currentMessageSenderUsername
+		);
+	};
+
 	return (
-		<>
-			<div className="flex h-full w-full flex-col justify-between">
-				{/* Render chat messages */}
+		<div className="flex h-full w-full flex-col justify-between">
+			<div className="h-full overflow-y-auto" ref={chatLogRef}>
+				{chats.map((chat, index) => {
+					const currentTime = new Date(chat.timestamp);
 
-				<div className="h-full overflow-y-auto" ref={chatLogRef}>
-					{chats.map((chat, index) => {
-						let prevMessage: chat;
-						let nextMessage: chat;
+					let prevMessage: chat;
+					let nextMessage: chat;
 
-						let nextTimestamp: Date;
-						let prevTimestamp: Date;
-						const currentTime = new Date(chat.timestamp);
+					if (index > 0) {
+						prevMessage = chats[index - 1];
+					} else {
+						prevMessage = chat;
+					}
 
-						let DisplayTime = true;
-						let DisplayDate = false;
-						let topNoneRounded = false;
+					if (index === chats.length - 1) {
+						nextMessage = chat;
+					} else {
+						nextMessage = chats[index + 1];
+					}
 
-						if (index > 0) {
-							prevMessage = chats[index - 1];
-							prevTimestamp = new Date(
-								chats[index - 1].timestamp
-							);
-						} else {
-							prevMessage = chat;
-							prevTimestamp = new Date(chat.timestamp);
-						}
+					const prevTimestamp = new Date(prevMessage.timestamp);
+					const nextTimestamp = new Date(nextMessage.timestamp);
 
-						if (index === chats.length - 1) {
-							nextMessage = chat;
-							nextTimestamp = new Date(chats[index].timestamp);
-						} else {
-							nextMessage = chats[index + 1];
-							nextTimestamp = new Date(
-								chats[index + 1].timestamp
-							);
-						}
+					const displayDate = shouldDisplayDate(
+						currentTime,
+						nextTimestamp
+					);
+					const displayTime = shouldDisplayTime(
+						currentTime,
+						nextTimestamp,
+						index
+					);
+					const topNoneRounded = shouldRoundTopNone(
+						prevTimestamp,
+						currentTime,
+						prevMessage.sender_username,
+						chat.sender_username
+					);
 
-						DisplayDate =
-							nextTimestamp.getDate() !== currentTime.getDate()
-								? true
-								: false;
-
-						DisplayTime =
-							nextTimestamp.toLocaleString("en-IN", {
-								day: "numeric",
-								month: "short",
-								year: "numeric",
-								hour: "numeric",
-								minute: "numeric",
-							}) !==
-							currentTime.toLocaleString("en-IN", {
-								day: "numeric",
-								month: "short",
-								year: "numeric",
-								hour: "numeric",
-								minute: "numeric",
-							})
-								? true
-								: index === chats.length - 1
-								? true
-								: false;
-						console.log(nextTimestamp, currentTime);
-
-						topNoneRounded =
-							prevTimestamp.toLocaleString("en-IN", {
-								day: "numeric",
-								month: "short",
-								year: "numeric",
-								hour: "numeric",
-								minute: "numeric",
-							}) ===
-							currentTime.toLocaleString("en-IN", {
-								day: "numeric",
-								month: "short",
-								year: "numeric",
-								hour: "numeric",
-								minute: "numeric",
-							})
-								? true
-								: false;
-
-						topNoneRounded = prevMessage.sender_username !== chat.sender_username?false:topNoneRounded
-						DisplayTime = nextMessage.sender_username !== chat.sender_username?true:DisplayTime
-						console.log(nextMessage.id, chat.id);
-						
-
-						return (
-							<>
-								{DisplayDate ? (
-									<div className="m-3 flex w-full justify-center">
-										<span className="text-xs text-secondryText">
-											{currentTime.toLocaleString(
-												"en-IN",
-												{
-													day: "numeric",
-													month: "short",
-													year: "numeric",
-													hour: "numeric",
-													minute: "numeric",
-													hour12: true,
-												}
-											)}
-										</span>
-									</div>
-								) : null}
-								{chat.sender_username !== recipient ? (
-									<Message
-										chat={chat}
-										position="right"
-										key={chat.id}
-										displayTime={DisplayTime}
-										topNoneRounded={topNoneRounded}
-									/>
-								) : (
-									<Message
-										chat={chat}
-										position="left"
-										key={chat.id}
-										displayTime={DisplayTime}
-										topNoneRounded={topNoneRounded}
-									/>
-								)}
-							</>
-						);
-					})}
-				</div>
-
-				{/* Input field to enter message */}
-				<div>
-					<div className="m-3 flex items-center justify-between gap-3 rounded-full p-3 outline outline-1 outline-border_grey">
-						<div className="flex w-full items-center gap-3">
-							<SmileIcon fill="white" width={25} height={25} />
-							<textarea
-								id="chat-message-input"
-								className="w-full resize-none bg-transparent text-sm text-primaryText outline-none"
-								onKeyDown={(e) => handleKeyDown(e)}
-								onChange={(e) => {
-									setMessage(e.target.value);
-								}}
-								value={message}
-								placeholder="Message"
-								rows={1}
-								ref={textAreaRef}
-								style={{ overflowY: "hidden" }}
+					return (
+						<React.Fragment key={chat.id}>
+							{displayDate && (
+								<div className="m-3 flex w-full justify-center">
+									<span className="text-secondaryText text-xs">
+										{currentTime.toLocaleString("en-IN", {
+											day: "numeric",
+											month: "short",
+											year: "numeric",
+											hour: "numeric",
+											minute: "numeric",
+											hour12: true,
+										})}
+									</span>
+								</div>
+							)}
+							<Message
+								chat={chat}
+								position={
+									chat.sender_username === recipient
+										? "left"
+										: "right"
+								}
+								key={chat.id}
+								displayTime={displayTime}
+								topNoneRounded={topNoneRounded}
 							/>
-						</div>
-						{message ? (
-							<button
-								id="chat-message-submit"
-								onClick={() => handleSendMessage()}
-								className="text-sm font-bold text-blue-500"
-							>
-								Send
-							</button>
-						) : null}
+						</React.Fragment>
+					);
+				})}
+			</div>
+
+			<div>
+				<div className="m-3 flex items-center justify-between gap-3 rounded-full p-3 outline outline-1 outline-border_grey">
+					<div className="flex w-full items-center gap-3">
+						<SmileIcon fill="white" width={25} height={25} />
+						<textarea
+							id="chat-message-input"
+							className="w-full resize-none bg-transparent text-sm text-primaryText outline-none"
+							onKeyDown={handleKeyDown}
+							onChange={(e) => setMessage(e.target.value)}
+							value={message}
+							placeholder="Message"
+							rows={1}
+							ref={textAreaRef}
+							style={{ overflowY: "hidden" }}
+						/>
 					</div>
+					{message && (
+						<button
+							id="chat-message-submit"
+							onClick={handleSendMessage}
+							className="text-sm font-bold text-blue-500"
+						>
+							Send
+						</button>
+					)}
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }
 
-export default chatBox;
+export default ChatBox;
