@@ -53,7 +53,6 @@ function ChatBox({ recipient, selectedChat }: ChatBoxProps) {
 			.then((response) => response.json())
 			.then((data) => {
 				setChats(data.message_list);
-				console.log("message_list =", data.message_list);
 			});
 	}, [selectedChat]);
 

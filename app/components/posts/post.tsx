@@ -48,7 +48,6 @@ function post({ post }: { post: PostsInterface }) {
 					}
 				})
 				.then((data) => {
-					// console.log(data);
 					setLike(true);
 					currentPost.likes = data.likes;
 					// Update the UI to reflect the new like count or display a success message
@@ -77,7 +76,6 @@ function post({ post }: { post: PostsInterface }) {
 				}
 			})
 			.then((data) => {
-				// console.log(data);
 				setLike(false);
 				currentPost.likes = data.likes;
 				// Update the UI to reflect the new like count or display a success message

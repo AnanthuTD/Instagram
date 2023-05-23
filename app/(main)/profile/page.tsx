@@ -83,7 +83,6 @@ function profile() {
 			}),
 		});
 		let data = await response.json();
-		console.log(data);
 		if (data.status) {
 			fetchProfile();
 			if (data.user) {
@@ -104,7 +103,6 @@ function profile() {
 			}
 		);
 		let data = await response.json();
-		console.log(data);
 		if (data.status) {
 			fetchProfile();
 			if (data.user) {

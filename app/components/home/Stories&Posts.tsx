@@ -13,7 +13,6 @@ function StoriesPosts() {
 			const Response = await fetch("/api/post/allPost");
 			const Data = await Response.json();
 			setPosts(Data.posts);
-			// console.log(Data.posts);
 		}
 		fetchData();
 	}, []);

@@ -30,7 +30,6 @@ function Account({ width = 40, height = 40, user }: AccountProps) {
 			}),
 		});
 		let data = await response.json();
-		// console.log(data);
 		if (data.status) {
 			if (data.user) {
 				setUser(data.user);
@@ -50,14 +49,12 @@ function Account({ width = 40, height = 40, user }: AccountProps) {
 			}
 		);
 		let data = await response.json();
-		console.log(data);
 		if (data.status) {
 			if (data.user) {
 				setUser(data.user);
 			}
 		}
 	}
-	console.log(user);
 	
 	return (
 		<>

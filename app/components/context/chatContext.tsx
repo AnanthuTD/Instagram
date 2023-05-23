@@ -57,7 +57,6 @@ export function ChatContextProvider({ children }: { children: ReactNode }) {
 	}, []);
 
 	useEffect(() => {
-		console.log("chats : ", chats);
 		if (chats.length) openPopup();
 	}, [chats]);
 
