@@ -4,6 +4,7 @@ export default function timeDifference(time_stamp: Date): string {
 
     const differenceYears =
         currentDate.getFullYear() - dateObj.getFullYear();
+    
     if (differenceYears) return differenceYears + "y";
 
     const differenceMonths = currentDate.getMonth() - dateObj.getMonth();
@@ -19,7 +20,7 @@ export default function timeDifference(time_stamp: Date): string {
     if (differenceMins) return differenceMins + "m";
 
     const differenceSecs = currentDate.getSeconds() - dateObj.getSeconds();
-    if (differenceSecs) return differenceSecs + "s";
+    return differenceSecs + "s";
 
-    return "";
+
 }
