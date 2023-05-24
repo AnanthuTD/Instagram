@@ -38,7 +38,7 @@ function posts({ otherUser }: { otherUser: string | undefined }) {
 			{posts
 				? posts.map((post) => (
 						<div
-							key={post.post_id}
+							key={post.id}
 							className="aspect-square flex justify-center overflow-hidden"
 						>
 							<img

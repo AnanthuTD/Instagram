@@ -42,7 +42,7 @@ export interface MenuContextInterface {
 }
 
 export interface PostsInterface {
-	post_id: UUID;
+	id: UUID;
 	file: string;
 	caption: string;
 	location: string;

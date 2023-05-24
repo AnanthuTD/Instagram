@@ -110,7 +110,7 @@ function post({ post }: { post: PostsInterface }) {
 			headers: { "X-csrfToken": csrfToken },
 			body: JSON.stringify({
 				comment: comment,
-				post_id: currentPost.post_id,
+				post_id: currentPost.id,
 			}),
 		});
 		if (response.status) {
@@ -122,7 +122,7 @@ function post({ post }: { post: PostsInterface }) {
 		<>
 			<div
 				className="flex justify-center pt-10"
-				key={currentPost.post_id}
+				key={currentPost.id}
 			>
 				<div className="w-4/6 h-full">
 					<div className="aspect-[4/5] w-full">
@@ -182,7 +182,7 @@ function post({ post }: { post: PostsInterface }) {
 							<div className="flex gap-2">
 								<div
 									onClick={() =>
-										handleLike(currentPost.post_id)
+										handleLike(currentPost.id)
 									}
 								>
 									<Heart
@@ -197,7 +197,7 @@ function post({ post }: { post: PostsInterface }) {
 									/>
 									{comments ? (
 										<Comments
-											post_id={currentPost.post_id}
+											post_id={currentPost.id}
 											setComments={setComments}
 											
 										/>
