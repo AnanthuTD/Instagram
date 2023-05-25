@@ -21,7 +21,7 @@ export default function RootLayout({
 						<div className="w-1/6 p-5 border-r border-border_grey justify-between flex-col flex h-screen">
 							<MenuBar />
 						</div>
-						<div className="w-5/6 flex p-5 overflow-y-auto h-screen">
+						<div className="w-5/6 flex p-5 overflow-y-auto h-screen" id="main_scrollable">
 							{children}
 						</div>
 					</ChatContextProvider>
