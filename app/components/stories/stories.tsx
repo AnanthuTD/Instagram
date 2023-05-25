@@ -2,24 +2,39 @@ import React from "react";
 import ArrowLeft from "./arrowLeft";
 import ArrowRight from "./arrowRight";
 import Rings from "./rings";
+import View from "./view";
 import { useEffect, useState } from "react";
+import { Story } from "@/utils/Interfaces";
 
 function Stories() {
 	const [scrollLeft, setscrollLeft] = useState(false);
 	const [scrollRight, setscrollRight] = useState(false);
+	const [stories, setStories] = useState<Story[]>([]);
 
-	let data = Array(9).fill(null);
-	const stories = data.map((_,index) => (
-		<>
-			<Rings key={`RingKey${index}`} avatar="/images/default_profile.png" />
-			<div className="px-2"></div>
-		</>
-	));
+	const [showPopup, setShowPopup] = useState(false);
+
+	const openPopup = () => {
+		// setFileUrl(url);
+		setShowPopup(true);
+	};
+
+	const closePopup = () => {
+		setShowPopup(false);
+		// setFileUrl("");
+	};
 
 	useEffect(() => {
-		if (data.length > 8) {
+		if (stories.length > 8) {
 			setscrollRight(true);
 		}
+
+		async function fetchStories() {
+			fetch("api/post/stories/").then((response) =>
+				response.json().then((data) => setStories(data.stories))
+			);
+		}
+
+		fetchStories();
 	}, []);
 
 	function handleClickRight() {
@@ -46,8 +61,7 @@ function Stories() {
 		const scrollAmount = containerWidth / 2;
 
 		if (container && container.scrollLeft !== 0) {
-
-			container.scrollBy({ left: -scrollAmount, behavior: "smooth" })
+			container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
 			if (scrollRight !== true) {
 				setscrollRight(true);
 			}
@@ -58,26 +72,32 @@ function Stories() {
 		}
 	}
 
+	useEffect(() => {
+	 console.log(stories);
+	 
+	}, [stories])
+	
+
 	return (
 		<>
 			<div
-				className="flex relative"
+				className="relative flex"
 				style={{ height: "fit-content", maxWidth: "685px" }}
 			>
 				{/* scroll left */}
 				{scrollLeft ? (
 					<div
-						className="flex items-center absolute top-0 bottom-0 left-10 z-10 cursor-pointer"
+						className="absolute bottom-0 left-10 top-0 z-10 flex cursor-pointer items-center"
 						onClick={() => {
 							handleClickLeft();
 						}}
 					>
-						{data.length > 8 ? <ArrowLeft /> : null}
+						{stories.length > 8 ? <ArrowLeft /> : null}
 					</div>
 				) : null}
 				{/* stories */}
 				<div
-					className="overflow-x-scroll overflow-y-hidden no-scrollbar pointer-events-auto"
+					className="overflow-y-hidden overflow-x-scroll no-scrollbar pointer-events-auto"
 					style={{
 						height: "fit-content",
 						maxWidth: "685px",
@@ -85,22 +105,35 @@ function Stories() {
 					id="scroll-container"
 				>
 					<div className="flex" style={{ height: "fit-content" }}>
-						{stories}
-						<Rings />
+						{stories.length>0 &&
+							stories.map((story) => {
+								return (
+									<React.Fragment key={`RingKey${story.id}`}>
+										<Rings
+											key={`RingKey${story.id}`}
+											avatar={'api/'+story.profile_img}
+											onClick={() => openPopup()}
+										/>
+										<div className="px-2"></div>
+									</React.Fragment>
+								);
+							})}
 					</div>
 				</div>
 				{/* more stories... */}
 				{scrollRight ? (
 					<div
-						className="flex items-center absolute top-0 bottom-0 right-10 z-10 cursor-pointer"
+						className="absolute bottom-0 right-10 top-0 z-10 flex cursor-pointer items-center"
 						onClick={() => {
 							handleClickRight();
 						}}
 					>
-						{data.length > 8 ? <ArrowRight /> : null}
+						{stories.length > 8 ? <ArrowRight /> : null}
 					</div>
 				) : null}
 			</div>
+			{/* Render the popup */}
+			{showPopup && <View stories={stories} onClose={closePopup} />}
 		</>
 	);
 }

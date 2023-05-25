@@ -79,3 +79,15 @@ export interface chat {
 	sender_username: string;
 	id:number
 }
+
+export interface Story {
+	id: UUID;
+	username: string;
+	profile_img: string;
+	file: string;
+	caption: string;
+	hash_tag: string;
+	mentions: string[];
+	location: string;
+  }
+  

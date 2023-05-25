@@ -5,11 +5,12 @@ import React from "react";
 interface RingsProps{
     avatar?:string;
     width?:string;
+    onClick?: () => void;
 }
 function Rings({avatar="/images/pro-pic.jpg",
-width="70px"}: RingsProps) {
+width="70px",onClick}: RingsProps) {
     return (
-        <div className="text-white">
+        <div className="text-white" onClick={()=>onClick}>
             <div style={{ position: "relative", width: `${width}` }}>
                 <svg viewBox="0 0 140 140">
                     <defs>

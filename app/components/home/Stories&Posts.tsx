@@ -25,7 +25,7 @@ function StoriesPosts() {
 					<Stories />
 				</div>
 				{posts?.map((post) => (
-					<Post post={post} key={post.post_id}/>
+					<Post post={post} key={post.id}/>
 				))}
 			</div>
 		</>
