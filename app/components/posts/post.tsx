@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { PostsInterface } from "../../../utils/Interfaces";
 import { UUID } from "crypto";
 import { useRouter } from "next/navigation";
@@ -14,6 +14,7 @@ import Comments from "../posts/comments";
 import Heart from "./heart";
 import { useUserContext } from "../context/userContext";
 import timeDifference from "@/utils/time_difference";
+import { isImageFile, isVideoFile } from "@/utils/video_or_image";
 
 function post({ post }: { post: PostsInterface }) {
 	const [comment, setComment] = useState("");
@@ -22,9 +23,52 @@ function post({ post }: { post: PostsInterface }) {
 	const [currentPost, setCurrentPost] = useState(post);
 	const [likes, setLikes] = useState(false);
 	const [comments, setComments] = useState(false);
+	const [playVideo, setPlayVideo] = useState(false);
 
 	const router = useRouter();
 	const { user } = useUserContext();
+
+	const videoRef = useRef<HTMLVideoElement>(null);
+
+	useEffect(() => {
+		if (videoRef.current) {
+			if (playVideo) videoRef.current.play();
+			else videoRef.current.pause();
+		}
+	}, [playVideo]);
+
+	useEffect(() => {
+		if (!videoRef.current) return;
+		const handleScroll = () => {
+			if (videoRef.current) {
+				if (container) {
+					const rect = videoRef.current.getBoundingClientRect();
+					const containerRect = container.getBoundingClientRect();
+					const center = container.offsetHeight / 2;
+					const elementTop =
+						rect.top - containerRect.top + rect.height / 2;
+					const isCentered =
+						Math.abs(center - elementTop) <
+						container.offsetHeight / 4;
+					setPlayVideo(isCentered);
+				}
+			}
+		};
+
+		const container = videoRef.current.closest(
+			"#main_scrollable"
+		) as HTMLElement;
+
+		if (container) {
+			container.addEventListener("scroll", handleScroll);
+		}
+
+		return () => {
+			if (container) {
+				container.removeEventListener("scroll", handleScroll);
+			}
+		};
+	}, []);
 
 	function getProfile(username: string): void {
 		router.push(`/profile/?username=${username}`);
@@ -114,7 +158,7 @@ function post({ post }: { post: PostsInterface }) {
 			}),
 		});
 		if (response.status) {
-			setComment('')
+			setComment("");
 		}
 	};
 
@@ -123,22 +167,26 @@ function post({ post }: { post: PostsInterface }) {
 			<div
 				className="flex justify-center pt-10"
 				key={currentPost.id}
+				/* onMouseOver={() => setPlayVideo(true)}
+				onMouseOut={() => setPlayVideo(false)} */
 			>
-				<div className="w-4/6 h-full">
+				<div className="h-full w-4/6">
 					<div className="aspect-[4/5] w-full">
 						<div
-							className="flex justify-between items-center"
+							className="flex items-center justify-between"
 							style={{ height: "fit-content" }}
 						>
-							<div className="flex gap-2 items-center">
+							<div className="flex items-center gap-2">
 								<div
-									className="flex gap-2 items-center cursor-pointer"
+									className="flex cursor-pointer items-center gap-2"
 									onClick={() =>
 										getProfile(currentPost.username)
 									}
 								>
 									<Rings width={"50px"} />
-									<span>{currentPost.username}</span>
+									<span className="text-primaryText">
+										{currentPost.username}
+									</span>
 								</div>
 								<span
 									className="rounded-full"
@@ -161,30 +209,41 @@ function post({ post }: { post: PostsInterface }) {
 						</div>
 
 						{/* post */}
-						<div className="overflow-hidden h-full rounded-lg mt-2 flex justify-center">
-							<img
-								src={`api/media/${currentPost.file}`}
-								alt="not found"
-								className="h-full"
-								style={{
-									maxWidth: "max-content",
-									maxHeight: "max-content",
-								}}
-							/>
+						<div className="mt-2 flex h-full justify-center overflow-hidden rounded-lg">
+							{isImageFile(currentPost.file) ? (
+								<img
+									src={`api/media/${currentPost.file}`}
+									alt="not found"
+									className="h-full"
+									style={{
+										maxWidth: "max-content",
+										maxHeight: "max-content",
+									}}
+								/>
+							) : null}
+							{isVideoFile(currentPost.file) ? (
+								<video
+									src={`api/media/${currentPost.file}`}
+									controls={false}
+									muted={true}
+									className="h-full"
+									style={{
+										maxWidth: "max-content",
+										maxHeight: "max-content",
+									}}
+									ref={videoRef}
+								></video>
+							) : null}
 						</div>
 					</div>
 					<div className="p-2"></div>
 					<footer className="w-full space-y-2">
 						<div
-							className="flex justify-between items-center"
+							className="flex items-center justify-between"
 							style={{ height: "fit-content" }}
 						>
 							<div className="flex gap-2">
-								<div
-									onClick={() =>
-										handleLike(currentPost.id)
-									}
-								>
+								<div onClick={() => handleLike(currentPost.id)}>
 									<Heart
 										className="cursor-pointer"
 										like={like}
@@ -199,7 +258,6 @@ function post({ post }: { post: PostsInterface }) {
 										<Comments
 											post_id={currentPost.id}
 											setComments={setComments}
-											
 										/>
 									) : null}
 								</div>
@@ -216,7 +274,7 @@ function post({ post }: { post: PostsInterface }) {
 							</div>
 						</div>
 
-						<div className="flex gap-1 text-sm cursor-pointer">
+						<div className="flex cursor-pointer gap-1 text-sm">
 							{currentPost.likes.length > 0 &&
 							!(
 								currentPost.likes.find(
@@ -226,12 +284,12 @@ function post({ post }: { post: PostsInterface }) {
 								<>
 									avatar(3)
 									<span>Liked by</span>{" "}
-									<span className="font-bold cursor-pointer">
+									<span className="cursor-pointer font-bold">
 										{currentPost.likes[0].username}
 									</span>{" "}
 									<span>and</span>
 									<span
-										className="font-bold cursor-pointer"
+										className="cursor-pointer font-bold"
 										onClick={() => {
 											setLikes(true);
 										}}
@@ -252,12 +310,12 @@ function post({ post }: { post: PostsInterface }) {
 						<div className="flex items-center">
 							<input
 								type="text"
-								className="border-none bg-transparent text-sm outline-none w-full"
+								className="w-full border-none bg-transparent text-sm outline-none"
 								placeholder="Add a comment..."
 								onChange={(e) => setComment(e.target.value)}
 								value={comment}
 							/>
-							<div className="flex gap-2 cursor-pointer">
+							<div className="flex cursor-pointer gap-2">
 								{comment ? (
 									<span
 										className="text-xs font-bold text-brightBlue"
