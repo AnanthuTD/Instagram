@@ -91,3 +91,13 @@ export interface Story {
 	location: string;
   }
   
+export interface Post {
+	id: UUID;
+	file: string;
+	likes: any[];
+	caption: string;
+	hash_tag: string;
+	mentions: string;
+	location: string;
+  }
+  
