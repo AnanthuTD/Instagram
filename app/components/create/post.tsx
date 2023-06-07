@@ -28,7 +28,7 @@ function Post({
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 	const formSubmitRef = useRef<HTMLFormElement | null>(null);
 
-	const url = post ? "/api/post/" : "/api/post/story/";
+	const url = post ? "/api/post" : "/api/post/story";
 
 	const handleClick = () => {
 		if (fileInputRef.current) fileInputRef.current.click();
@@ -48,31 +48,28 @@ function Post({
 
 			try {
 				const csrfToken = await fetchCSRF();
-				
-				fetch(url, {
+
+				const response = await fetch(url, {
 					method: "POST",
 					body: formData,
 					headers: {
 						"X-CSRFToken": csrfToken,
 					},
 					credentials: "include",
-				}).then((response) =>
-					response.json().then((data) => console.log(data))
-				).catch((error) => console.error(error));
-				/* console.log("fetching response completed", response);
+				});
+				console.log("fetching response completed", response);
 				if (response.status === 408) {
 					postData();
 					return;
 				}
 
 				const data = await response.json();
-				console.log(data);
 
 				if (data.status === true) {
 					setCreate(false);
 				} else {
 					console.error("posting failed");
-				} */
+				}
 			} catch (error) {
 				console.error("Error during fetch:", error);
 				console.error(
