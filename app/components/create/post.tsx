@@ -23,13 +23,12 @@ function Post({
 	const [caption, setCaption] = useState("");
 	const [submit, setSubmit] = useState(true);
 	const [fileAdded, setFileAdded] = useState(false);
-	const [video, setVideo] = useState<string>("");
 
 	// ref
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 	const formSubmitRef = useRef<HTMLFormElement | null>(null);
 
-	const url = post ? "/api/post" : "/api/post/story/";
+	const url = post ? "/api/post/" : "/api/post/story/";
 
 	const handleClick = () => {
 		if (fileInputRef.current) fileInputRef.current.click();
@@ -43,27 +42,51 @@ function Post({
 		}
 	};
 
-	async function postData() {
-		const csrfToken = await fetchCSRF();
-		const Response = await fetch(url, {
-			method: "POST",
-			body: formData,
-			headers: {
-				"X-CSRFToken": csrfToken,
-			},
-		});
-		const data = await Response.json();
-		if (data.status === true) setCreate(false);
-		else alert("posting failed");
-	}
-
 	useEffect(() => {
+		async function postData() {
+			console.log("posting data", formData.has("file"), "url = ", url);
+
+			try {
+				const csrfToken = await fetchCSRF();
+				
+				fetch(url, {
+					method: "POST",
+					body: formData,
+					headers: {
+						"X-CSRFToken": csrfToken,
+					},
+					credentials: "include",
+				}).then((response) =>
+					response.json().then((data) => console.log(data))
+				).catch((error) => console.error(error));
+				/* console.log("fetching response completed", response);
+				if (response.status === 408) {
+					postData();
+					return;
+				}
+
+				const data = await response.json();
+				console.log(data);
+
+				if (data.status === true) {
+					setCreate(false);
+				} else {
+					console.error("posting failed");
+				} */
+			} catch (error) {
+				console.error("Error during fetch:", error);
+				console.error(
+					"An error occurred while fetching data. Please try again later."
+				);
+			}
+		}
 		if (selectedFile && !formData.has("file")) {
 			setFileAdded(true);
 			formData.append("file", selectedFile);
 			return;
 		}
 		if (formData.has("file")) {
+			console.log("formData=", formData.has("file"));
 			formData.append("caption", caption);
 			formData.append("location", location);
 			// posting data to server
@@ -71,18 +94,17 @@ function Post({
 		}
 	}, [submit, formData]);
 
+	useEffect(() => {}, [formData]);
+
 	useEffect(() => {
 		if (selectedFile) {
-		  let reader = new FileReader();
-		  reader.onload = () => {
-			setPreview(reader.result as string);
-		  };
-		  reader.readAsDataURL(selectedFile);
-	  
-		  const videoUrl = URL.createObjectURL(selectedFile);
-		  setVideo(videoUrl); // Update the video state with the correct URL
+			let reader = new FileReader();
+			reader.onload = () => {
+				setPreview(reader.result as string);
+			};
+			reader.readAsDataURL(selectedFile);
 		}
-	  }, [selectedFile]);
+	}, [selectedFile]);
 
 	return (
 		<>
@@ -133,19 +155,15 @@ function Post({
 								/>
 							</form>
 						</div>
-					) : (
-						// Video preview
-						<div>
-							<video
-								src={video}
-								autoPlay
-								controls
-								muted
-								loop
-								style={{ maxWidth: "100%", maxHeight: "100%" }}
-							/>
-						</div>
-					)}
+					) : // Video preview
+
+					preview ? (
+						<Preview
+							preview={preview}
+							name={selectedFile.name}
+							type={selectedFile.type}
+						/>
+					) : null}
 				</div>
 				{fileAdded ? (
 					<div

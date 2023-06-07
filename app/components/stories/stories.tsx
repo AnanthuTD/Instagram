@@ -2,7 +2,7 @@ import React from "react";
 import ArrowLeft from "./arrowLeft";
 import ArrowRight from "./arrowRight";
 import Rings from "./rings";
-import View from "./view";
+import View from "./popup";
 import { useEffect, useState } from "react";
 import { Story } from "@/utils/Interfaces";
 

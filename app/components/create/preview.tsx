@@ -23,9 +23,13 @@ function preview({ preview, name, type }: previewProps) {
 	} else if (type.startsWith("video/")) {
 		return (
 			<>
-				<div className="h-full w-full flex justify-center items-center">
-					<span>video support is currently under development</span>
-				</div>
+				<video
+								src={preview}
+								autoPlay
+								controls
+								muted
+								loop
+								style={{ maxWidth: "100%", maxHeight: "100%" }}/>
 			</>
 		);
 	} else {
