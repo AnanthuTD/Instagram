@@ -1,11 +1,10 @@
 import React from "react";
-import { useContext, useEffect, useState } from "react";
-import { useUserContext } from "../context/userContext";
-import { isImageFile, isVideoFile } from "@/utils/video_or_image";
-
+import { useEffect, useState } from "react";
+import Media from './Media'
+import { Post } from "@/utils/Interfaces";
 interface postsInterface {
 	status: boolean;
-	posts: any[];
+	posts: Post[];
 }
 
 function posts({ otherUser }: { otherUser: string | undefined }) {
@@ -42,34 +41,7 @@ function posts({ otherUser }: { otherUser: string | undefined }) {
 		<>
 			{posts
 				? posts.map((post) => (
-						<div
-							key={post.id}
-							className="flex aspect-square justify-center overflow-hidden"
-						>
-							{isImageFile(post.file) ? (
-								<img
-									src={`api/media/${post?.file}/`}
-									alt=""
-									style={{
-										maxWidth: "fit-content",
-										maxHeight: "100%",
-									}}
-								/>
-							) : null}
-							{isVideoFile(post.file) ? (
-								<video
-									src={`api/media/${post.file}`}
-									controls={false}
-									muted={true}
-									className="h-full"
-									style={{
-										maxWidth: "fit-content",
-										maxHeight: "100%", 
-									}}
-									// ref={videoRef}
-								></video>
-							) : null}
-						</div>
+						<Media post={post}/>
 				  ))
 				: null}
 		</>
