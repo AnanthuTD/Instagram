@@ -5,7 +5,7 @@ FROM node:16-alpine
 WORKDIR /app
 
 # Copy the current directory contents into the container at /app
-COPY ./frontend .
+COPY . .
 
 # Install any needed packages specified in package.json
 RUN npm install
