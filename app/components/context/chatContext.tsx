@@ -68,7 +68,7 @@ export function ChatContextProvider({ children }: { children: ReactNode }) {
                 </div>
 				{chats.map((chat) => {
 					return (
-						<span className="text-black">
+						<span className="text-black" key={chat.timestamp}>
 							{chat.sender_username}
 						</span>
 					);

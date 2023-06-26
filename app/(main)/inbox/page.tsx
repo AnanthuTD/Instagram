@@ -2,10 +2,11 @@
 import CreateMessage from "../../components/message/create";
 import DropDown from "../../components/message/dropdown";
 import AccountMessage from "../../components/message/accountMessage";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ChatBox from "./chatBox";
 import { useSearchParams } from "next/navigation";
 import { OtherUserProfile } from "@/utils/Interfaces";
+import { useUserContext } from "@/app/components/context/userContext";
 
 interface conversations {
 	username: string;
@@ -13,9 +14,13 @@ interface conversations {
 	last_message: string;
 }
 
-function messages() {
+function Messages() {
 	const searchParams = useSearchParams();
 	const id_user = searchParams.get("id_user");
+
+	// context
+	const { user, setUser } = useUserContext();
+	
 
 	const [profile, setProfile] = useState<OtherUserProfile | undefined>();
 	const [conversations, setConversations] = useState<conversations[] | []>(
@@ -40,7 +45,7 @@ function messages() {
 				response.json().then((response) => {
 					setConversations(response.conversations);
 					setSelectedChat(
-						profile?.username || response.conversations[0].username
+						profile?.username || response.conversations[0]?.username
 					);
 				});
 			});
@@ -55,7 +60,7 @@ function messages() {
 					<div className="w-full flex border-b border-border_grey">
 						<div className="w-1/6"></div>
 						<div className="flex w-4/6 justify-center gap-1 p-4 font-bold">
-							<span>username</span>
+							<span>{user?.username}</span>
 							<DropDown className="" stroke="white" />
 						</div>
 						<div className="w-1/6 flex items-center">
@@ -92,4 +97,4 @@ function messages() {
 	);
 }
 
-export default messages;
+export default Messages;

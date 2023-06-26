@@ -1,7 +1,7 @@
 "use client";
 
 import SettingsIcon from "../../components/svg/settings";
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Posts from "../../components/profile/posts";
 import Saved from "../../components/profile/saved";
 import Tagged from "../../components/profile/tagged";

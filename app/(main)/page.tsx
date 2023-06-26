@@ -6,7 +6,7 @@ import StoriesPosts from "../components/home/Stories&Posts";
 import Account_suggestion from "../components/right_pannel/accountSuggestion";
 import { useUserContext } from "../components/context/userContext";
 
-function page() {
+function Page() {
 	// context
 	const { user, setUser } = useUserContext();
 
@@ -26,4 +26,4 @@ function page() {
 	} else return null;
 }
 
-export default page;
+export default Page;

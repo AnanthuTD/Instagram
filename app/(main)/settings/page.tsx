@@ -5,7 +5,7 @@ import { UserState } from "../../../utils/Interfaces";
 import { fetchCSRF } from "../../../utils/fetch_csrf";
 import { useUserContext } from "../../components/context/userContext";
 
-function settings() {
+function Settings() {
 	// useState
 	const [bio, setBio] = useState("");
 	const [website, setWebsite] = useState("");
@@ -184,4 +184,4 @@ function settings() {
 	);
 }
 
-export default settings;
+export default Settings;
