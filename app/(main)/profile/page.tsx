@@ -12,8 +12,9 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { OtherUserProfile, UserState } from "../../../utils/Interfaces";
 import { fetchCSRF } from "@/utils/fetch_csrf";
+import Image from "next/image";
 
-function profile() {
+function Profile() {
 	// useStates
 	const [post, setPost] = useState(true);
 	const [saved, setSaved] = useState(false);
@@ -134,9 +135,9 @@ function profile() {
 						{/* top */}
 						<div className="flex gap-10 m-10">
 							<div style={{ marginInline: "4.5rem" }}>
-								<img
+								<Image
 									alt=""
-									src={"api/media/default_profile.png"}
+									src={"/api/media/default_profile.png"}
 									width={130}
 									height={130}
 									className="rounded-full cursor-pointer"
@@ -289,4 +290,4 @@ function profile() {
 		);
 }
 
-export default profile;
+export default Profile;
