@@ -67,7 +67,7 @@ export interface OtherUserProfile {
 	bio: string;
 	location: string;
 	website: string;
-	profile_img: string;
+	profile_img: URL;
 	followers: UUID[];
 	following: UUID[];
 	post_count: number;
