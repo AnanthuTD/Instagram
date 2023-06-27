@@ -8,7 +8,7 @@ import { useUserContext } from "../components/context/userContext";
 
 function Page() {
 	// context
-	const { user, setUser } = useUserContext();
+	const { user } = useUserContext();
 
 	let homeComponent = (
 		<>
