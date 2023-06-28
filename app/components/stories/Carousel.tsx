@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import useEmblaCarousel, { EmblaOptionsType } from "embla-carousel-react";
+import useEmblaCarousel, { EmblaCarouselType, EmblaOptionsType } from "embla-carousel-react";
 import Image from "next/image";
 import { Story } from "../../../utils/Interfaces";
 import { isImageFile, isVideoFile } from "@/utils/video_or_image";
 import { flushSync } from "react-dom";
+import {LazyLoadImage} from './lazyLoad'
 
 const TWEEN_FACTOR = 1.5;
 
@@ -21,11 +22,32 @@ type PropType = {
     stories: Story[];
     options?: EmblaOptionsType;
   };
-  
+
 const EmblaCarousel: React.FC<PropType> = (props) => {
   const { stories, options } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
   const [tweenValues, setTweenValues] = useState<number[]>([]);
+  const [slidesInView, setSlidesInView] = useState<number[]>([])
+
+  const updateSlidesInView = useCallback((emblaApi: EmblaCarouselType) => {
+    setSlidesInView((slidesInView) => {
+      if (slidesInView.length === emblaApi.slideNodes().length) {
+        emblaApi.off('select', updateSlidesInView)
+      }
+      const inView = emblaApi
+        .slidesInView(true)
+        .filter((index) => !slidesInView.includes(index))
+      return slidesInView.concat(inView)
+    })
+  }, [])
+
+  useEffect(() => {
+    if (!emblaApi) return
+
+    updateSlidesInView(emblaApi)
+    emblaApi.on('select', updateSlidesInView)
+    emblaApi.on('reInit', updateSlidesInView)
+  }, [emblaApi, updateSlidesInView])
 
   /**
    * Calculates the opacity of all slides and updates the state.
@@ -74,30 +96,12 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                 opacity: tweenValues.length ? tweenValues[index] : undefined,
               }}
             >
-              <div className="embla__slide__number">
-                <span>{index + 1}</span>
-              </div>
-
-              {isImageFile(story.file) ? (
-                <Image
-                  className="embla__slide__img"
-                  alt="unable to load image"
-                  src={`api/${story.file}`}
-                  width={500}
-                  height={undefined}
-                />
-              ) : null}
-
-              {isVideoFile(story.file) ? (
-                <video
-                  src={`api/${story.file}`}
-                  controls={false}
-                  muted={true}
-                  className="embla__slide__img"
-                  width={500}
-                  height={undefined}
-                ></video>
-              ) : null}
+                <LazyLoadImage
+              key={index}
+              index={index}
+              fileSrc={`/api${story.file}`}
+              inView={slidesInView.indexOf(index) > -1}
+            />
             </div>
           ))}
         </div>
