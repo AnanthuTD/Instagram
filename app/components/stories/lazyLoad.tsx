@@ -1,7 +1,7 @@
 import { isImageFile, isVideoFile } from "@/utils/video_or_image";
 import Image from "next/image";
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import loadingImage from "../../../public/images/blurDataURL.png";
+import shimmer from  './shimmer.module.css'
 
 type PropType = {
   fileSrc: string;
@@ -40,15 +40,13 @@ export const LazyLoadImage: React.FC<PropType> = (props) => {
 
         {isImageFile(fileSrc) ? (
           <Image
-            className="embla__slide__img embla__lazy-load__img loading-container rounded"
+            className={["embla__slide__img embla__lazy-load__img rounded", shimmer.shimmer].join(" ")}
             alt="unable to load image"
-            src={inView ? fileSrc : loadingImage}
+            src={inView ? fileSrc : ''}
             onLoad={setLoaded}
             width={500}
             height={500}
-            placeholder="blur"
             loading="lazy"
-            blurDataURL={"public/images/blurDataURL.png"}
           />
         ) : null}
 
@@ -58,7 +56,7 @@ export const LazyLoadImage: React.FC<PropType> = (props) => {
             controls={false}
             onLoad={setLoaded}
             muted={false}
-            className="embla__slide__img embla__lazy-load__img loading-container rounded"
+            className={["embla__slide__img embla__lazy-load__img rounded", shimmer.shimmer].join(" ")}
             width={500}
             height={undefined}
             ref={videoRef}
