@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import useEmblaCarousel, { EmblaCarouselType, EmblaOptionsType } from "embla-carousel-react";
-import Image from "next/image";
+import useEmblaCarousel, {
+  EmblaCarouselType,
+  EmblaOptionsType,
+} from "embla-carousel-react";
 import { Story } from "../../../utils/Interfaces";
-import { isImageFile, isVideoFile } from "@/utils/video_or_image";
 import { flushSync } from "react-dom";
-import {LazyLoadImage} from './lazyLoad'
+import { LazyLoadImage } from "./lazyLoad";
 
 const TWEEN_FACTOR = 1.5;
 
@@ -19,41 +20,52 @@ const numberWithinRange = (number: number, min: number, max: number): number =>
  * and update the state.
  */
 type PropType = {
-    stories: Story[];
-    options?: EmblaOptionsType;
-  };
+  stories: Story[];
+  options?: EmblaOptionsType;
+};
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
   const { stories, options } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
   const [tweenValues, setTweenValues] = useState<number[]>([]);
-  const [slidesInView, setSlidesInView] = useState<number[]>([])
+  const [slidesInView, setSlidesInView] = useState<number[]>([]);
+  const falseArray = Array(stories.length).fill(false);
+  const [playVideo, setPlayVideo] = useState<boolean[]>(
+    [...falseArray]
+  );
 
   const updateSlidesInView = useCallback((emblaApi: EmblaCarouselType) => {
     setSlidesInView((slidesInView) => {
       if (slidesInView.length === emblaApi.slideNodes().length) {
-        emblaApi.off('select', updateSlidesInView)
+        emblaApi.off("select", updateSlidesInView);
       }
       const inView = emblaApi
         .slidesInView(true)
-        .filter((index) => !slidesInView.includes(index))
-      return slidesInView.concat(inView)
-    })
-  }, [])
+        .filter((index) => !slidesInView.includes(index));
+      return slidesInView.concat(inView);
+    });
+  }, []);
 
   useEffect(() => {
-    if (!emblaApi) return
+    if (!emblaApi) return;
 
-    updateSlidesInView(emblaApi)
-    emblaApi.on('select', updateSlidesInView)
-    emblaApi.on('reInit', updateSlidesInView)
-  }, [emblaApi, updateSlidesInView])
+    updateSlidesInView(emblaApi);
+    emblaApi.on("select", updateSlidesInView);
+    emblaApi.on("reInit", updateSlidesInView);
+  }, [emblaApi, updateSlidesInView]);
 
   /**
    * Calculates the opacity of all slides and updates the state.
    */
   const onScroll = useCallback(() => {
     if (!emblaApi) return;
+
+    let currentSlideIndex = emblaApi.selectedScrollSnap();
+    let playVideoArray = [...falseArray]; // Create a new array with the same values as falseArray
+    playVideoArray[currentSlideIndex] = true;
+    // console.log(playVideoArray);
+
+    setPlayVideo(playVideoArray);
 
     const scrollProgress = emblaApi.scrollProgress();
 
@@ -83,6 +95,12 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     emblaApi.on("reInit", onScroll);
   }, [emblaApi, onScroll]);
 
+ /*  useEffect(() => {
+   console.log(playVideo);
+   
+  }, [playVideo]) */
+  
+
   return (
     <div className="embla">
       <div className="embla__viewport" ref={emblaRef}>
@@ -96,12 +114,13 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                 opacity: tweenValues.length ? tweenValues[index] : undefined,
               }}
             >
-                <LazyLoadImage
-              key={index}
-              index={index}
-              fileSrc={`/api${story.file}`}
-              inView={slidesInView.indexOf(index) > -1}
-            />
+              <LazyLoadImage
+                key={index}
+                index={index}
+                fileSrc={`/api${story.file}`}
+                inView={slidesInView.indexOf(index) > -1}
+                playVideo={playVideo}
+              />
             </div>
           ))}
         </div>
