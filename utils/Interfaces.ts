@@ -77,20 +77,25 @@ export interface chat {
 	message: string;
 	timestamp: Date;
 	sender_username: string;
-	id:number
+	id: number;
 }
 
 export interface Story {
-	id: UUID;
+	user_id: UUID;
 	username: string;
 	profile_img: string;
-	file: string;
+	stories: StoryItem[];
 	caption: string;
 	hash_tag: string;
 	mentions: string[];
 	location: string;
-  }
-  
+}
+
+export interface StoryItem {
+	story: URL;
+	story_id: UUID;
+}
+
 export interface Post {
 	id: UUID;
 	file: string;
@@ -99,5 +104,4 @@ export interface Post {
 	hash_tag: string;
 	mentions: string;
 	location: string;
-  }
-  
+}
