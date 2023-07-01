@@ -1,68 +1,134 @@
 import { isImageFile, isVideoFile } from "@/utils/video_or_image";
 import Image from "next/image";
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import shimmer from  './shimmer.module.css'
+import shimmer from "./shimmer.module.css";
+import styles from "./Arrows&Dots.module.css";
+import { clearInterval } from "timers";
 
 type PropType = {
-  fileSrc: string;
-  inView: boolean;
-  index: number;
-  playVideo?: boolean[];
+	file: string;
+	inView: boolean;
+	index: number;
+	isInView?: boolean[];
+	getProgress?: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
-export const LazyLoadImage: React.FC<PropType> = (props) => {
-  const { fileSrc, inView, index, playVideo } = props;
-  const [hasLoaded, setHasLoaded] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+export const LazyLoad: React.FC<PropType> = (props) => {
+	const { file, inView, index, isInView, getProgress: setProgress } = props;
+	const [hasLoaded, setHasLoaded] = useState(false);
+	const videoRef = useRef<HTMLVideoElement>(null);
+	const imageRef = useRef<HTMLImageElement>(null);
 
-  const setLoaded = useCallback(() => {
-    if (inView) setHasLoaded(true);
-  }, [inView, setHasLoaded]);
+	const setLoaded = useCallback(() => {
+		if (inView) setHasLoaded(true);
+	}, [inView, setHasLoaded]);
 
-  useEffect(() => {
-    if (videoRef.current && playVideo) {
-      if (playVideo[index]) videoRef.current.play();
-      else videoRef.current.pause();
-    }
-  }, [playVideo]);
+	const updateProgressBar = () => {
+		if (!setProgress) return;
+		if (videoRef.current && isInView) {
+			const progress =
+				(videoRef.current.currentTime / videoRef.current.duration) *
+				100;
 
-  return (
-    <div className="embla__slide">
-      <div
-        className={"embla__lazy-load".concat(
-          hasLoaded ? " embla__lazy-load--has-loaded" : ""
-        )}
-      >
-        {!hasLoaded && <span className="embla__lazy-load__spinner" />}
-        <div className="embla__slide__number">
-          <span>{index + 1}</span>
-        </div>
+			setProgress((prevArray) => {
+				let newArray = [...prevArray];
+				newArray[index] = `${progress}%`;
+				return newArray;
+			});
+		} else {
+			setProgress((prevArray) => {
+				let newArray = [...prevArray];
+				newArray[index] = "0%";
+				return newArray;
+			});
+		}
+	};
 
-        {isImageFile(fileSrc) ? (
-          <Image
-            className={["embla__slide__img embla__lazy-load__img rounded", shimmer.shimmer].join(" ")}
-            alt="unable to load image"
-            src={inView ? fileSrc : ''}
-            onLoad={setLoaded}
-            width={500}
-            height={500}
-            loading="lazy"
-          />
-        ) : null}
+	useEffect(() => {
+		if (videoRef.current && isInView) {
+			videoRef.current.addEventListener("timeupdate", updateProgressBar);
+			if (isInView[index]) videoRef.current.play();
+			else videoRef.current.pause();
+		}
+	}, [isInView]);
 
-        {isVideoFile(fileSrc) ? (
-          <video
-            src={inView ? fileSrc : ""}
-            controls={false}
-            onLoad={setLoaded}
-            muted={false}
-            className={["embla__slide__img embla__lazy-load__img rounded", shimmer.shimmer].join(" ")}
-            width={500}
-            height={undefined}
-            ref={videoRef}
-          ></video>
-        ) : null}
-      </div>
-    </div>
-  );
+	useEffect(() => {
+		let imageTimer: NodeJS.Timeout | undefined = undefined;
+
+		if (!imageRef.current || !hasLoaded || !setProgress || !isInView)
+			return;
+
+		if (isInView[index]) {
+			let countDown = 0;
+			imageTimer = setInterval(() => {
+				if (countDown === 5) {
+					clearInterval(imageTimer);
+					return;
+				}
+				setProgress((prevArray) => {
+					const newArray = [...prevArray];
+					newArray[index] = `${(100 / 5) * countDown}%`;
+					return newArray;
+				});
+				countDown++;
+			}, 1000);
+			setTimeout(() => {
+				if (imageTimer) {
+					clearTimeout(imageTimer);
+					imageTimer = undefined;
+				}
+			}, 5000);
+		} else {
+			if (imageTimer) {
+				clearTimeout(imageTimer);
+				imageTimer = undefined;
+			}
+		}
+
+		return () => {
+			if (imageTimer) {
+				clearTimeout(imageTimer);
+				imageTimer = undefined;
+			}
+		};
+	}, [hasLoaded, isInView]);
+
+	return (
+		<div
+			className={[
+				styles.embla__slide,
+				"direction-col flex items-center justify-center",
+				hasLoaded ? "" : shimmer.shimmer,
+			].join(" ")}>
+			{isImageFile(file) ? (
+				<Image
+					className={[styles.embla__lazy_load__img, "rounded"].join(
+						" "
+					)}
+					alt="unable to load image"
+					src={inView ? file : ""}
+					onLoad={setLoaded}
+					width={500}
+					height={500}
+					loading="lazy"
+					ref={imageRef}
+				/>
+			) : null}
+
+			{isVideoFile(file) ? (
+				<video
+					src={inView ? file : ""}
+					controls={false}
+					onLoad={setLoaded}
+					muted={false}
+					className={[styles.embla__lazy_load__img, "rounded"].join(
+						" "
+					)}
+					width={500}
+					height={undefined}
+					ref={videoRef}
+					onLoadedData={setLoaded}></video>
+			) : null}
+		</div>
+	);
 };
