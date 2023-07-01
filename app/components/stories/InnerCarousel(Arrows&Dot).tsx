@@ -88,7 +88,6 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 		let currentSlideIndex = emblaApi.selectedScrollSnap();
 		let playVideoArray = [...falseArray]; // Create a new array with the same values as falseArray
 		playVideoArray[currentSlideIndex] = true;
-		console.warn(playVideoArray);
 
 		setIsInView(playVideoArray);
 	}, [emblaApi]);

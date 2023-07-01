@@ -7,7 +7,7 @@ interface postsInterface {
 	posts: Post[];
 }
 
-function posts({ otherUser }: { otherUser: string | undefined }) {
+function Posts({ otherUser }: { otherUser: string | undefined }) {
 	const [posts, setPosts] = useState<any[]>([]);
 	const [data, setData] = useState<postsInterface | null>(null);
 	const [initial, setInitial] = useState(true);
@@ -33,19 +33,15 @@ function posts({ otherUser }: { otherUser: string | undefined }) {
 		}
 	}, [data]);
 
-	useEffect(() => {
-		console.log("currentPost");
-	}, []);
-
 	return (
 		<>
 			{posts
 				? posts.map((post) => (
-						<Media post={post}/>
+						<Media post={post} key={post.id}/>
 				  ))
 				: null}
 		</>
 	);
 }
 
-export default posts;
+export default Posts;

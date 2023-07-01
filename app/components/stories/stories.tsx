@@ -70,10 +70,6 @@ function Stories() {
     }
   }
 
-  useEffect(() => {
-    console.log("stories : ", stories);
-  }, [stories]);
-
   return (
     <>
       <div

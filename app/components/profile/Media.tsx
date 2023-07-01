@@ -20,7 +20,7 @@ function Media({ post }: { post: Post }) {
 		};
 
 		if (videoElement) {
-			console.log("in");
+			// console.log("in");
 
 			videoElement.addEventListener("mouseover", () =>
 				videoElement.play()

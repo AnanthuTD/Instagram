@@ -92,11 +92,6 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 		emblaApi.on("reInit", onScroll);
 	}, [emblaApi, onScroll]);
 
-	/*  useEffect(() => {
-   console.log(playVideo);
-   
-  }, [playVideo]) */
-
 	return (
 		<div className={styles.embla}>
 			<div className={styles.embla__viewport} ref={emblaRef}>
