@@ -8,7 +8,7 @@ import { flushSync } from "react-dom";
 import ArrowDotSlide from "./InnerCarousel(Arrows&Dot)";
 import styles from './Carousel.module.css'
 
-const TWEEN_FACTOR = 1.5;
+const TWEEN_FACTOR = 0.7; // adjust opacity
 
 const numberWithinRange = (number: number, min: number, max: number): number =>
 	Math.min(Math.max(number, min), max);

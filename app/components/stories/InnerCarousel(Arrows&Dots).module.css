@@ -2,6 +2,7 @@
     --slide-spacing: 1rem;
     --slide-size: 100%;
     --slide-height: 100%;
+    position: relative;
     padding: 1.6rem;
 }
 
@@ -16,7 +17,7 @@
     touch-action: pan-y;
     flex-direction: row;
     height: 80vh;
-    margin-left: calc(var(--slide-spacing) * -1);
+    /* margin-left: calc(var(--slide-spacing) * -1); */
 }
 
 .embla__slide {
@@ -50,7 +51,7 @@
 
 .embla__dots {
     z-index: 1;
-    top: 0rem;
+    top: 1rem;
     position: absolute;
     left: 0;
     right: 0;

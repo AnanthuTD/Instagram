@@ -2,7 +2,7 @@ import { isImageFile, isVideoFile } from "@/utils/video_or_image";
 import Image from "next/image";
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import shimmer from "./shimmer.module.css";
-import styles from "./Arrows&Dots.module.css";
+import styles from "./InnerCarousel(Arrows&Dots).module.css";
 import { clearInterval } from "timers";
 
 type PropType = {
@@ -97,7 +97,7 @@ export const LazyLoad: React.FC<PropType> = (props) => {
 		<div
 			className={[
 				styles.embla__slide,
-				"direction-col flex items-center justify-center",
+				"direction-col flex items-center justify-center rounded-md",
 				hasLoaded ? "" : shimmer.shimmer,
 			].join(" ")}>
 			{isImageFile(file) ? (

@@ -120,7 +120,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 					<div className={[styles.embla__container].join(" ")}>
 						{stories.map((story, index) => (
 							<div
-								className={[styles.embla__slide].join(" ")}
+								className={[styles.embla__slide, 'rounded-md overflow-hidden'].join(" ")}
 								key={story.story_id}>
 								<LazyLoad
 									key={story.story_id}
@@ -137,18 +137,18 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 
 				<PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
 				<NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
-			</div>
 
-			<div className={[styles.embla__dots].join(" ")}>
-				{scrollSnaps.map((_, index) => (
-					<DotButton
-						key={index}
-						selected={index === selectedIndex}
-						onClick={() => scrollTo(index)}
-						progress={progress}
-						index={index}
-					/>
-				))}
+				<div className={[styles.embla__dots].join(" ")}>
+					{scrollSnaps.map((_, index) => (
+						<DotButton
+							key={index}
+							selected={index === selectedIndex}
+							onClick={() => scrollTo(index)}
+							progress={progress}
+							index={index}
+						/>
+					))}
+				</div>
 			</div>
 		</>
 	);
