@@ -5,7 +5,7 @@ import useEmblaCarousel, {
 } from "embla-carousel-react";
 import { DotButton, PrevButton, NextButton } from "./ArrowsDotsButtons";
 import { StoryItem } from "../../../utils/Interfaces";
-import { LazyLoadImage } from "./lazyLoad";
+import { LazyLoad } from "./LazyLoad";
 import { flushSync } from "react-dom";
 import styles from "./InnerCarousel(Arrows&Dots).module.css";
 
@@ -123,7 +123,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 							<div
 								className={[styles.embla__slide].join(" ")}
 								key={story.story_id}>
-								<LazyLoadImage
+								<LazyLoad
 									key={story.story_id}
 									index={index}
 									file={`/api${story.story}`}
