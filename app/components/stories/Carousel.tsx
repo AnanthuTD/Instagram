@@ -6,7 +6,7 @@ import useEmblaCarousel, {
 import { Story } from "../../../utils/Interfaces";
 import { flushSync } from "react-dom";
 import ArrowDotSlide from "./InnerCarousel(Arrows&Dot)";
-import styles from './embla.module.css'
+import styles from './Carousel.module.css'
 
 const TWEEN_FACTOR = 1.5;
 
@@ -62,7 +62,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 		let playVideoArray = [...falseArray]; // Create a new array with the same values as falseArray
 		playVideoArray[currentSlideIndex] = true;
 
-		setPlayVideo(playVideoArray);
+		// setPlayVideo(playVideoArray);
 
 		const scrollProgress = emblaApi.scrollProgress();
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import styles from './Arrows&Dots.module.css'
+import styles from './InnerCarousel(Arrows&Dots).module.css'
 
 type DotButtonPropType = {
   selected: boolean
