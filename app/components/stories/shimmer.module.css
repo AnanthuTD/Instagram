@@ -5,7 +5,7 @@
     animation: shimmer 3000ms linear infinite;
     -webkit-animation-fill-mode: forwards; /* Add this line */
     animation-fill-mode: forwards; /* Add this line */
-    height: inherit;
+    /* height: inherit; */
     transition: transform 2s;
     -webkit-backface-visibility: hidden; /* Fix flickering in Chrome/Safari */
     backface-visibility: hidden;
