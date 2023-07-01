@@ -44,7 +44,7 @@ function Post({
 
 	useEffect(() => {
 		async function postData() {
-			console.log("posting data", formData.has("file"), "url = ", url);
+			// console.log("posting data", formData.has("file"), "url = ", url);
 
 			try {
 				const csrfToken = await fetchCSRF();
@@ -57,7 +57,7 @@ function Post({
 					},
 					credentials: "include",
 				});
-				console.log("fetching response completed", response);
+				// console.log("fetching response completed", response);
 				if (response.status === 408) {
 					postData();
 					return;
@@ -83,7 +83,7 @@ function Post({
 			return;
 		}
 		if (formData.has("file")) {
-			console.log("formData=", formData.has("file"));
+			// console.log("formData=", formData.has("file"));
 			formData.append("caption", caption);
 			formData.append("location", location);
 			// posting data to server
