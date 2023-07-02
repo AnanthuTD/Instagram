@@ -16,11 +16,11 @@ export default function RootLayout({
 			<UserContextProvider>
 				<MenuContextProvider>
 					<ChatContextProvider>
-						<div className="flex h-screen flex-col justify-between p-5 xl:w-1/6 xl:border-r xl:border-border_grey">
+						<div className="hidden lg:flex h-screen flex-col justify-between p-5 xl:w-1/6 xl:border-r xl:border-border_grey">
 							<MenuBar />
 						</div>
 						<div
-							className="flex h-screen w-full overflow-y-auto p-5 xl:w-5/6"
+							className="flex h-screen w-full overflow-y-auto xl:w-5/6"
 							id="main_scrollable">
 							{children}
 						</div>

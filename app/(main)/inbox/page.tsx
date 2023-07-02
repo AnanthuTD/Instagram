@@ -80,24 +80,26 @@ function Messages() {
 	}, [profile]);
 
 	return (
-		<div className="flex w-full justify-center bg-_grey p-5">
-			<div className="flex w-3/5 rounded border border-border_grey bg-black">
-				<div className="w-2/5 border-r border-border_grey">
-					{/* top */}
-					<div className="flex w-full border-b border-border_grey">
-						<div className="w-1/6"></div>
-						<div className="flex w-4/6 justify-center gap-1 p-4 font-bold">
-							<span>{user?.username}</span>
-							<DropDown className="" stroke="white" />
-						</div>
-						<div className="flex w-1/6 items-center">
-							<CreateMessage
-								stroke="white"
-								className="cursor-pointer"
-							/>
-						</div>
+		// <div className="flex w-full justify-center bg-_grey p-5">
+		<div className="relative flex w-full rounded bg-black">
+			{/*border border-border_grey */}
+			<div className="w-full border-r border-border_grey lg:w-2/5">
+				{/* top */}
+				<div className="flex w-full border-b border-border_grey">
+					<div className="w-1/6"></div>
+					<div className="flex w-4/6 justify-center gap-1 p-4 font-bold">
+						<span>{user?.username}</span>
+						<DropDown className="" stroke="white" />
 					</div>
-					{/* users */}
+					<div className="flex w-1/6 items-center">
+						<CreateMessage
+							stroke="white"
+							className="cursor-pointer"
+						/>
+					</div>
+				</div>
+				{/* users */}
+				<div className="overflow-y-auto">
 					{conversations.map((user) => (
 						<AccountMessage
 							username={user.username}
@@ -110,17 +112,18 @@ function Messages() {
 						/>
 					))}
 				</div>
+			</div>
 
-				<div className="w-3/5">
-					{selectedChat ? (
-						<ChatBox
-							recipient={selectedChat}
-							selectedChat={selectedChat}
-						/>
-					) : null}
-				</div>
+			<div className="hidden w-3/5 lg:block">
+				{selectedChat ? (
+					<ChatBox
+						recipient={selectedChat}
+						selectedChat={selectedChat}
+					/>
+				) : null}
 			</div>
 		</div>
+		// </div>
 	);
 }
 
