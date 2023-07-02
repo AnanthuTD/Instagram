@@ -217,6 +217,7 @@ function Post({ post }: { post: PostsInterface }) {
 									style={{
 										maxWidth: "max-content",
 										maxHeight: "max-content",
+										objectFit:'cover'
 									}}
 									fill={true}
 								/>

@@ -12,15 +12,15 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<main className="flex min-h-screen min-h-screen flex-row bg-black">
+		<main className="flex min-h-screen flex-row bg-black">
 			<UserContextProvider>
 				<MenuContextProvider>
 					<ChatContextProvider>
-						<div className="flex h-screen w-1/6 flex-col justify-between border-r border-border_grey p-5">
+						<div className="flex h-screen flex-col justify-between p-5 xl:w-1/6 xl:border-r xl:border-border_grey">
 							<MenuBar />
 						</div>
 						<div
-							className="flex h-screen w-5/6 overflow-y-auto p-5"
+							className="flex h-screen w-full overflow-y-auto p-5 xl:w-5/6"
 							id="main_scrollable">
 							{children}
 						</div>
