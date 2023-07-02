@@ -1,5 +1,5 @@
 import React from "react";
-import "./globals.css";  
+import "./globals.css";
 
 export const metadata = {
 	title: "WowGram",
@@ -13,9 +13,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body>
-				{children}
-			</body>
+			<body>{children}</body>
 		</html>
 	);
 }

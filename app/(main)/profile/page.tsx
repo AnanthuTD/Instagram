@@ -1,11 +1,11 @@
 "use client";
 
-import SettingsIcon from "../../components/svg/settings";
+import SettingsIcon from "../../components/icons/settings";
 import { useEffect, useState } from "react";
-import Posts from "../../components/profile/posts";
-import Saved from "../../components/profile/saved";
-import Tagged from "../../components/profile/tagged";
-import SettingsPopUp from "../../components/profile/settings";
+import Posts from "./components/posts";
+import Saved from "./components/saved";
+import Tagged from "./components/tagged";
+import SettingsPopUp from "./components/settings";
 import { useUserContext } from "../../components/context/userContext";
 import React from "react";
 import Link from "next/link";
@@ -126,25 +126,24 @@ function Profile() {
 		return <div>loading</div>;
 	} else if (profile)
 		return (
-			<div className="flex w-full bg-black justify-center">
+			<div className="flex w-full justify-center bg-black">
 				<div
-					className="flex bg-black w-full"
-					style={{ minWidth: "600px", maxWidth: "1000px" }}
-				>
+					className="flex w-full bg-black"
+					style={{ minWidth: "600px", maxWidth: "1000px" }}>
 					<div className="w-full" style={{}}>
 						{/* top */}
-						<div className="flex gap-10 m-10">
+						<div className="m-10 flex gap-10">
 							<div style={{ marginInline: "4.5rem" }}>
 								<Image
 									alt=""
 									src={"/api/media/default_profile.png"}
 									width={130}
 									height={130}
-									className="rounded-full cursor-pointer"
+									className="cursor-pointer rounded-full"
 								/>
 							</div>
 							<div className="space-y-5">
-								<div className="flex gap-5 items-center">
+								<div className="flex items-center gap-5">
 									<p className="m-0 text-xl font-medium">
 										{profile.username}
 									</p>
@@ -154,16 +153,14 @@ function Profile() {
 											<Link
 												type="button"
 												href={"/settings"}
-												className="bg-white rounded-md text-black text-sm font-bold py-1 px-4 cursor-pointer"
-											>
+												className="cursor-pointer rounded-md bg-white px-4 py-1 text-sm font-bold text-black">
 												Edit profile
 											</Link>
 											<div
 												style={{ width: "30px" }}
 												onClick={() =>
 													setSettings(true)
-												}
-											>
+												}>
 												<SettingsIcon className="cursor-pointer" />
 												{settings ? (
 													<SettingsPopUp
@@ -183,24 +180,21 @@ function Profile() {
 												<button
 													type="button"
 													onClick={() => follow()}
-													className="bg-white rounded-md text-black text-sm font-bold py-1 px-4 cursor-pointer"
-												>
+													className="cursor-pointer rounded-md bg-white px-4 py-1 text-sm font-bold text-black">
 													Follow
 												</button>
 											) : (
 												<button
 													type="button"
 													onClick={() => unfollow()}
-													className="bg-white rounded-md text-black text-sm font-bold py-1 px-4 cursor-pointer"
-												>
+													className="cursor-pointer rounded-md bg-white px-4 py-1 text-sm font-bold text-black">
 													Unfollow
 												</button>
 											)}
 											<button
 												type="button"
 												onClick={() => message()}
-												className="bg-white rounded-md text-black text-sm font-bold py-1 px-4 cursor-pointer"
-											>
+												className="cursor-pointer rounded-md bg-white px-4 py-1 text-sm font-bold text-black">
 												Message
 											</button>
 										</>
@@ -243,8 +237,7 @@ function Profile() {
 						<div>
 							<div
 								className="flex w-full justify-center"
-								style={{ height: "fit-content" }}
-							>
+								style={{ height: "fit-content" }}>
 								<div className="flex gap-12 text-sm">
 									<div
 										style={PostStyle}
@@ -252,8 +245,7 @@ function Profile() {
 											setPost(true);
 											setSaved(false);
 											setTagged(false);
-										}}
-									>
+										}}>
 										POSTS
 									</div>
 									<div
@@ -262,8 +254,7 @@ function Profile() {
 											setPost(false);
 											setSaved(true);
 											setTagged(false);
-										}}
-									>
+										}}>
 										SAVED
 									</div>
 									<div
@@ -272,14 +263,21 @@ function Profile() {
 											setPost(false);
 											setSaved(false);
 											setTagged(true);
-										}}
-									>
+										}}>
 										TAGGED
 									</div>
 								</div>
 							</div>
-							<div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 justify-between w-full">
-								{post ? <Posts otherUser={user?.username !== profile.username ? profile.username:undefined}/> : null}
+							<div className="grid w-full justify-between gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+								{post ? (
+									<Posts
+										otherUser={
+											user?.username !== profile.username
+												? profile.username
+												: undefined
+										}
+									/>
+								) : null}
 								{saved ? <Saved /> : null}
 								{tagged ? <Tagged /> : null}
 							</div>

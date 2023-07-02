@@ -1,7 +1,5 @@
 import React from "react";
-
-// components
-import MenuBar from "../components/home/menu";
+import MenuBar from "@/app/(main)/_menu/menu";
 
 // context
 import { MenuContextProvider } from "../components/context/menuContext";
@@ -14,14 +12,16 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<main className="flex min-h-screen flex-row bg-black min-h-screen">
+		<main className="flex min-h-screen min-h-screen flex-row bg-black">
 			<UserContextProvider>
 				<MenuContextProvider>
 					<ChatContextProvider>
-						<div className="w-1/6 p-5 border-r border-border_grey justify-between flex-col flex h-screen">
+						<div className="flex h-screen w-1/6 flex-col justify-between border-r border-border_grey p-5">
 							<MenuBar />
 						</div>
-						<div className="w-5/6 flex p-5 overflow-y-auto h-screen" id="main_scrollable">
+						<div
+							className="flex h-screen w-5/6 overflow-y-auto p-5"
+							id="main_scrollable">
 							{children}
 						</div>
 					</ChatContextProvider>

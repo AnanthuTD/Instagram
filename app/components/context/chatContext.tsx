@@ -1,6 +1,6 @@
 "use client";
-import React, { createContext, useEffect, useState } from "react";
-import { ReactNode, useContext } from "react";
+import React, { useEffect, useState } from "react";
+import { ReactNode } from "react";
 import Popup from "../popup";
 
 // const ChatContext = createContext();
@@ -18,7 +18,6 @@ interface chats {
 export function ChatContextProvider({ children }: { children: ReactNode }) {
 	const [chatSocket, setChatSocket] = useState<WebSocket | null>(null);
 	const [chats, setChats] = useState<chats[]>([]);
-	const [message, setMessage] = useState("");
 	const [isPopupOpen, setPopupOpen] = useState(false);
 
 	const openPopup = () => {
@@ -38,7 +37,7 @@ export function ChatContextProvider({ children }: { children: ReactNode }) {
 		// Listen for incoming messages from the server
 		socket.addEventListener("message", (event: WebSocketData) => {
 			const data = JSON.parse(event.data);
-			
+
 			if (data.hasOwnProperty("status")) return;
 
 			const new_message: chats = data.message;
@@ -63,9 +62,9 @@ export function ChatContextProvider({ children }: { children: ReactNode }) {
 	return (
 		<>
 			<Popup isOpen={isPopupOpen} onClose={closePopup}>
-                <div className="w-full p-3">
-                    <span className="text-black">you have new messages</span> 
-                </div>
+				<div className="w-full p-3">
+					<span className="text-black">you have new messages</span>
+				</div>
 				{chats.map((chat) => {
 					return (
 						<span className="text-black" key={chat.timestamp}>

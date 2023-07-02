@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../components/svg/logo";
+import Logo from "@/app/components/logo";
 
 export default function authenticationLayout({
 	children,

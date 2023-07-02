@@ -4,7 +4,6 @@ import { UserState } from "../../../utils/Interfaces";
 import { useRouter } from "next/navigation";
 import Loading from "@/app/loading";
 
-
 interface UserContextInterface {
 	user: UserState | undefined;
 	setUser: React.Dispatch<React.SetStateAction<UserState | undefined>>;
@@ -51,7 +50,7 @@ export function UserContextProvider({
 	return (
 		<>
 			{loading ? (
-				<Loading/>
+				<Loading />
 			) : (
 				<UserContext.Provider value={{ user, setUser }}>
 					{children}

@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import StoriesPosts from "../components/home/Stories&Posts";
-import Account_suggestion from "../components/right_pannel/accountSuggestion";
-import { useUserContext } from "../components/context/userContext";
+import React from "react";
+import StoriesPosts from "./_home/Stories&Posts";
+import Account_suggestion from "./_home/right_pannel/accountSuggestion";
+import { useUserContext } from "@/app/components/context/userContext";
 
 function Page() {
 	// context
