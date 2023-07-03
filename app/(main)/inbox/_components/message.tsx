@@ -112,7 +112,7 @@ function Message({
 					ref={roundedDivRef}>
 					<div
 						className={[
-							"text-md break-normal text-primaryText",
+							"lg:text-md break-normal text-primaryText text-xl",
 						].join(" ")}
 						style={{ overflowWrap: "anywhere" }}>
 						<p>{chat.message}</p>
