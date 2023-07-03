@@ -6,6 +6,7 @@ import React from "react";
 import { useMenuContext } from "@/app/components/context/menuContext";
 import { useUserContext } from "@/app/components/context/userContext";
 import Logo from "@/app/components/logo";
+import Reel from "@/app/components/icons/Reel";
 import Create from "@/app/(main)/_create/create";
 
 export default function Menu() {
@@ -17,17 +18,17 @@ export default function Menu() {
 
 	return (
 		<>
-			<div className="pt-5 text-primaryText ">
+			<div className="text-primaryText lg:pt-5 ">
 				<div className="mb-10 hidden xl:block">
 					<Logo />
 				</div>
 				<div>
-					<ul className="text-md list-none space-y-4">
-						<li onClick={() => HandleSetMenu("home")}>
+					<ul className="text-md flex list-none max-lg:justify-between lg:block lg:space-y-4">
+						<li onClick={() => HandleSetMenu("home")} className="">
 							<Link
 								href={"/"}
 								className="flex h-8 cursor-pointer items-center space-x-2 rounded-lg px-2 py-6 hover:bg-side_bar_hover">
-								<svg
+								{/* 	<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
 									viewBox="0 0 24 24"
@@ -39,6 +40,22 @@ export default function Menu() {
 										strokeLinejoin="round"
 										d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
 									/>
+								</svg> */}
+								<svg
+									aria-label="Home"
+									className="relative block"
+									color="rgb(245, 245, 245)"
+									fill="rgb(245, 245, 245)"
+									height="24"
+									role="img"
+									viewBox="0 0 24 24"
+									width="24">
+									<path
+										d="M9.005 16.545a2.997 2.997 0 0 1 2.997-2.997A2.997 2.997 0 0 1 15 16.545V22h7V11.543L12 2 2 11.543V22h7.005Z"
+										fill="none"
+										stroke="currentColor"
+										stroke-linejoin="round"
+										stroke-width="2"></path>
 								</svg>
 								<p
 									className={[
@@ -49,7 +66,9 @@ export default function Menu() {
 								</p>
 							</Link>
 						</li>
-						<li onClick={() => HandleSetMenu("search")}>
+						<li
+							onClick={() => HandleSetMenu("search")}
+							className="hidden lg:block">
 							<Link
 								href={"/search"}
 								className="flex h-8 cursor-pointer items-center space-x-2 rounded-lg px-2 py-6 hover:bg-side_bar_hover">
@@ -97,11 +116,7 @@ export default function Menu() {
 							<Link
 								href={"/reel"}
 								className="flex h-8 cursor-pointer items-center space-x-2 rounded-lg px-2 py-6 hover:bg-side_bar_hover">
-								<Image
-									height={24}
-									width={24}
-									src={"/images/reels.svg"}
-									alt=""></Image>
+								<Reel />
 								<p
 									className={[
 										menu.reels ? "font-bold" : "",
@@ -111,7 +126,9 @@ export default function Menu() {
 								</p>
 							</Link>
 						</li>
-						<li onClick={() => HandleSetMenu("messages")}>
+						<li
+							onClick={() => HandleSetMenu("messages")}
+							className="hidden lg:block">
 							<Link
 								href={"/inbox"}
 								className="flex h-8 cursor-pointer items-center space-x-2 rounded-lg px-2 py-6 hover:bg-side_bar_hover">
@@ -137,7 +154,9 @@ export default function Menu() {
 								</p>
 							</Link>
 						</li>
-						<li onClick={() => HandleSetMenu("notifications")}>
+						<li
+							onClick={() => HandleSetMenu("notifications")}
+							className="hidden lg:block">
 							<Link
 								href={"/notification"}
 								className="flex h-8 cursor-pointer items-center space-x-2 rounded-lg px-2 py-6 hover:bg-side_bar_hover">
@@ -166,7 +185,7 @@ export default function Menu() {
 						<li
 							className="flex h-8 cursor-pointer items-center space-x-2 rounded-lg px-2 py-6 hover:bg-side_bar_hover"
 							onClick={() => setCreate(true)}>
-							<svg
+							{/* <svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
 								viewBox="0 0 24 24"
@@ -178,6 +197,43 @@ export default function Menu() {
 									strokeLinejoin="round"
 									d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
 								/>
+							</svg> */}
+							<svg
+								aria-label="New post"
+								className="relative block"
+								color="rgb(245, 245, 245)"
+								fill="rgb(245, 245, 245)"
+								height="24"
+								role="img"
+								viewBox="0 0 24 24"
+								width="24">
+								<path
+									d="M2 12v3.45c0 2.849.698 4.005 1.606 4.944.94.909 2.098 1.608 4.946 1.608h6.896c2.848 0 4.006-.7 4.946-1.608C21.302 19.455 22 18.3 22 15.45V8.552c0-2.849-.698-4.006-1.606-4.945C19.454 2.7 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.547 2 5.703 2 8.552Z"
+									fill="none"
+									stroke="currentColor"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"></path>
+								<line
+									fill="none"
+									stroke="currentColor"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									x1="6.545"
+									x2="17.455"
+									y1="12.001"
+									y2="12.001"></line>
+								<line
+									fill="none"
+									stroke="currentColor"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									x1="12.003"
+									x2="12.003"
+									y1="6.545"
+									y2="17.455"></line>
 							</svg>
 							<p
 								className={[
@@ -195,8 +251,8 @@ export default function Menu() {
 								{user ? (
 									<Image
 										src={`/api${user.profile_img}`}
-										width={25}
-										height={25}
+										width={24}
+										height={24}
 										alt=""
 										className="rounded-full"
 									/>
@@ -227,7 +283,7 @@ export default function Menu() {
 					</ul>
 				</div>
 			</div>
-			<div className="flex max-xl:justify-center xl:items-end xl:p-3">
+			<div className="hidden max-xl:justify-center lg:flex xl:items-end xl:p-3">
 				<button className="inline-flex">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"

@@ -27,7 +27,6 @@ function Messages() {
 		[]
 	);
 	const [selectedChat, setSelectedChat] = useState("");
-	const [link, setLink] = useState(false);
 
 	const conversationsRef = useRef<HTMLDivElement>(null);
 	const chatsRef = useRef<HTMLDivElement>(null);

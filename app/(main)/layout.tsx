@@ -12,11 +12,11 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<main className="flex min-h-screen flex-row bg-black">
+		<main className="flex min-h-screen flex-col-reverse bg-black lg:flex-row">
 			<UserContextProvider>
 				<MenuContextProvider>
 					<ChatContextProvider>
-						<div className="hidden lg:flex h-screen flex-col justify-between p-5 xl:w-1/6 xl:border-r xl:border-border_grey">
+						<div className="z-10 h-fit justify-between bg-black p-1 max-lg:fixed max-lg:w-full lg:flex lg:h-screen lg:flex-col lg:p-5 xl:w-1/6 xl:border-r xl:border-border_grey">
 							<MenuBar />
 						</div>
 						<div

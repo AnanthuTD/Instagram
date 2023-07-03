@@ -19,7 +19,7 @@ function StoriesPosts() {
 
 	return (
 		<>
-			<div className="w-5/6 xl:11/12" style={{ maxWidth: "685px"}}>
+			<div className="w-full lg:w-5/6 xl:11/12" style={{ maxWidth: "685px"}}>
 				{/* stories */}
 				<div className="" style={{ height: "fit-content" }}>
 					<Stories />
