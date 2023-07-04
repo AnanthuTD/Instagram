@@ -16,7 +16,8 @@ module.exports = {
                 secondryText: "rgb(168 168 168)",
                 primaryText: "rgb(245 245 245)",
                 elevated:"rgb(38 38 38)",
-                blackBlur:'#000000ad'
+                blackBlur:'#000000ad',
+                nero:"#202023"
             },
             maxWidth: {
                 '1/2': '50%',
