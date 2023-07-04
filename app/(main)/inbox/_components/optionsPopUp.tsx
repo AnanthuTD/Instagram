@@ -1,6 +1,6 @@
 import React from "react";
 import { Popover } from "@headlessui/react";
-import OptionsIcon from "@/app/components/icons/optionsIcon";
+import OptionsIcon from "@/app/components/icons/OptionIcon";
 
 function OptionsPopup({
 	children,
