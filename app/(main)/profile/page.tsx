@@ -13,6 +13,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { OtherUserProfile, UserState } from "../../../utils/Interfaces";
 import { fetchCSRF } from "@/utils/fetch_csrf";
 import Image from "next/image";
+import DiscoverPeople from "@/app/components/icons/DiscoverPeople";
+import CreateIcon from "@/app/components/icons/Create";
+import OptionIcon from "@/app/components/icons/OptionIcon";
+import ChevronY from "@/app/components/icons/ChevronY";
 
 function Profile() {
 	// useStates
@@ -126,110 +130,156 @@ function Profile() {
 		return <div>loading</div>;
 	} else if (profile)
 		return (
-			<div className="flex w-full justify-center bg-black">
+			<div className="flex w-full max-lg:flex-col justify-center bg-black">
+				<div className="flex w-full justify-between bg-black p-3 lg:hidden">
+					<div className="flex gap-2">
+						<span className="font-bold">{profile.username}</span>
+						<ChevronY type="down" />
+					</div>
+					<div className="flex gap-5">
+						<CreateIcon />
+						<OptionIcon />
+					</div>
+				</div>
 				<div
-					className="flex w-full bg-black"
-					style={{ minWidth: "600px", maxWidth: "1000px" }}>
+					className="flex w-full bg-black max-lg:overflow-y-auto"
+					style={{ /* minWidth: "600px" ,*/ maxWidth: "1000px" }}>
 					<div className="w-full" style={{}}>
 						{/* top */}
-						<div className="m-10 flex gap-10">
-							<div style={{ marginInline: "4.5rem" }}>
-								<Image
-									alt=""
-									src={"/api/media/default_profile.png"}
-									width={130}
-									height={130}
-									className="cursor-pointer rounded-full"
-								/>
-							</div>
-							<div className="space-y-5">
-								<div className="flex items-center gap-5">
-									<p className="m-0 text-xl font-medium">
-										{profile.username}
-									</p>
+						<div className="m-3 lg:m-10 lg:p-0 lg:px-2">
+							<div className="flex gap-10">
+								<div
+									style={
+										{
+											/* marginInline: "4.5rem" */
+										}
+									}>
+									<Image
+										alt=""
+										src={"/api/media/default_profile.png"}
+										width={130}
+										height={130}
+										className="cursor-pointer rounded-full"
+									/>
+								</div>
+								<div className="space-y-5">
+									<div className="hidden items-center lg:flex lg:gap-5">
+										<p className="m-0 text-xl font-medium">
+											{profile.username}
+										</p>
 
-									{user?.id_user === profile.id_user ? (
-										<>
-											<Link
-												type="button"
-												href={"/settings"}
-												className="cursor-pointer rounded-md bg-white px-4 py-1 text-sm font-bold text-black">
-												Edit profile
-											</Link>
-											<div
-												style={{ width: "30px" }}
-												onClick={() =>
-													setSettings(true)
-												}>
-												<SettingsIcon className="cursor-pointer" />
-												{settings ? (
-													<SettingsPopUp
-														settings={settings}
-														setSettings={
-															setSettings
-														}
-													/>
-												) : null}
+										{user?.id_user === profile.id_user ? (
+											<div className="flex gap-2">
+												<Link
+													type="button"
+													href={"/settings"}
+													className="cursor-pointer rounded-md bg-white px-4 py-1 text-sm font-bold text-black">
+													Edit profile
+												</Link>
+												<div
+													style={{ width: "30px" }}
+													className="hidden lg:block"
+													onClick={() =>
+														setSettings(true)
+													}>
+													<SettingsIcon className="cursor-pointer" />
+													{settings ? (
+														<SettingsPopUp
+															settings={settings}
+															setSettings={
+																setSettings
+															}
+														/>
+													) : null}
+												</div>
 											</div>
-										</>
-									) : (
-										<>
-											{!user?.following.includes(
-												profile.id_user
-											) ? (
+										) : (
+											<>
+												{!user?.following.includes(
+													profile.id_user
+												) ? (
+													<button
+														type="button"
+														onClick={() => follow()}
+														className="cursor-pointer rounded-md bg-white px-4 py-1 text-sm font-bold text-black">
+														Follow
+													</button>
+												) : (
+													<button
+														type="button"
+														onClick={() =>
+															unfollow()
+														}
+														className="cursor-pointer rounded-md bg-white px-4 py-1 text-sm font-bold text-black">
+														Unfollow
+													</button>
+												)}
 												<button
 													type="button"
-													onClick={() => follow()}
+													onClick={() => message()}
 													className="cursor-pointer rounded-md bg-white px-4 py-1 text-sm font-bold text-black">
-													Follow
+													Message
 												</button>
-											) : (
-												<button
-													type="button"
-													onClick={() => unfollow()}
-													className="cursor-pointer rounded-md bg-white px-4 py-1 text-sm font-bold text-black">
-													Unfollow
-												</button>
-											)}
-											<button
-												type="button"
-												onClick={() => message()}
-												className="cursor-pointer rounded-md bg-white px-4 py-1 text-sm font-bold text-black">
-												Message
-											</button>
-										</>
-									)}
+											</>
+										)}
+									</div>
+									<div className="flex gap-10">
+										<span className="flex flex-col items-center lg:block">
+											<span className="font-bold">
+												{profile.post_count}
+											</span>{" "}
+											post
+										</span>
+										<span className="flex cursor-pointer flex-col items-center lg:block">
+											<span className="font-bold">
+												{profile.followers?.length}
+											</span>{" "}
+											followers
+										</span>
+										<span className="flex cursor-pointer flex-col items-center lg:block">
+											<span className="font-bold">
+												{profile.following?.length}
+											</span>{" "}
+											following
+										</span>
+									</div>
+									<div className="hidden lg:block">
+										<p className="font-bold">
+											{profile.first_name +
+												" " +
+												profile.last_name}
+										</p>
+										<p className="text-sm">
+											{profile.first_name}
+										</p>
+									</div>
 								</div>
-								<div className="flex gap-10">
-									<span>
-										<span className="font-bold">
-											{profile.post_count}
-										</span>{" "}
-										post
-									</span>
-									<span className="cursor-pointer">
-										<span className="font-bold">
-											{profile.followers?.length}
-										</span>{" "}
-										followers
-									</span>
-									<span className="cursor-pointer">
-										<span className="font-bold">
-											{profile.following?.length}
-										</span>{" "}
-										following
-									</span>
-								</div>
-								<div>
-									<p className="font-bold">
-										{profile.first_name +
-											" " +
-											profile.last_name}
-									</p>
-									<p className="text-sm">
-										{profile.first_name}
-									</p>
-								</div>
+							</div>
+							{/* edit and share buttom on small screen */}
+							<div className="flex w-full items-center lg:hidden">
+								{user?.id_user === profile.id_user ? (
+									<div className="flex w-full justify-around gap-2 lg:block">
+										<Link
+											type="button"
+											href={"/settings"}
+											className="flex w-36 cursor-pointer justify-center rounded-md bg-nero py-1 text-sm font-bold text-primaryText">
+											Edit profile
+										</Link>
+										<Link
+											type="button"
+											href={"/settings"}
+											className="flex w-36 cursor-pointer justify-center rounded-md bg-nero py-1 text-sm font-bold text-primaryText">
+											Share profile
+										</Link>
+
+										<Link
+											type="button"
+											href={"/settings"}
+											className="cursor-pointer rounded-md bg-nero px-2 py-1 text-sm font-bold text-primaryText">
+											<DiscoverPeople />
+										</Link>
+									</div>
+								) : null}
 							</div>
 						</div>
 						<hr className="" style={{ borderColor: "#363837" }} />

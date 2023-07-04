@@ -3,12 +3,13 @@ import { PostsInterface } from "@/utils/Interfaces";
 import { UUID } from "crypto";
 import { useRouter } from "next/navigation";
 import { fetchCSRF } from "@/utils/fetch_csrf";
-import OptionsIcon from "../../../components/icons/optionsIcon";
+import OptionsIcon from "../../../components/icons/OptionIcon";
 import SaveIcon from "../../../components/icons/saveIcon";
 import SendIcon from "../../../components/icons/sendIcon";
 import SmileIcon from "@/app/components/icons/smileIcon";
 import Rings from "@/app/components/rings";
 import CommentIcon from "../../../components/icons/commentIcon";
+import ThreeDots from "../../../components/icons/ThreeDots";
 import Likes from "./likes";
 import Comments from "./comments";
 import Heart from "./heart";
@@ -169,7 +170,7 @@ function Post({ post }: { post: PostsInterface }) {
 				className="flex justify-center pt-10"
 				key={currentPost.id}
 			>
-				<div className="h-full w-4/5">
+				<div className="h-full w-full lg:w-4/5">
 					<div className="aspect-[4/5] w-full">
 						<div
 							className="flex items-center justify-between"
@@ -183,7 +184,7 @@ function Post({ post }: { post: PostsInterface }) {
 									}
 								>
 									<Rings width={"50px"} />
-									<span className="text-primaryText">
+									<span className="text-primaryText font-semibold text-sm">
 										{currentPost.username}
 									</span>
 								</div>
@@ -203,12 +204,12 @@ function Post({ post }: { post: PostsInterface }) {
 								</span>
 							</div>
 							<div className="">
-								<OptionsIcon className="cursor-pointer" />
+								<ThreeDots className="cursor-pointer m-1" />
 							</div>
 						</div>
 
 						{/* post */}
-						<div className="mt-2 flex h-full justify-center overflow-hidden rounded-lg relative">
+						<div className="mt-2 flex h-full justify-center overflow-hidden lg:rounded-lg relative">
 							{isImageFile(currentPost.file) ? (
 								<Image
 									src={`/api/media/${currentPost.file}`}
