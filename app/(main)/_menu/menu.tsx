@@ -7,6 +7,7 @@ import { useMenuContext } from "@/app/components/context/menuContext";
 import { useUserContext } from "@/app/components/context/userContext";
 import Logo from "@/app/components/logo";
 import Reel from "@/app/components/icons/Reel";
+import Search from "@/app/components/icons/Search";
 import Create from "@/app/(main)/_create/create";
 
 export default function Menu() {
@@ -24,7 +25,7 @@ export default function Menu() {
 				</div>
 				<div>
 					<ul className="text-md flex list-none max-lg:justify-between lg:block lg:space-y-4">
-						<li onClick={() => HandleSetMenu("home")} className="">
+						<li onClick={() => HandleSetMenu("home")} className="order-1 lg:order-none">
 							<Link
 								href={"/"}
 								className="flex h-8 cursor-pointer items-center space-x-2 rounded-lg px-2 py-6 hover:bg-side_bar_hover">
@@ -66,25 +67,11 @@ export default function Menu() {
 								</p>
 							</Link>
 						</li>
-						<li
-							onClick={() => HandleSetMenu("search")}
-							className="hidden lg:block">
+						<li onClick={() => HandleSetMenu("search")} className="order-2 lg:order-none">
 							<Link
 								href={"/search"}
 								className="flex h-8 cursor-pointer items-center space-x-2 rounded-lg px-2 py-6 hover:bg-side_bar_hover">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									strokeWidth={1.5}
-									stroke="currentColor"
-									className="h-6 w-6">
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-									/>
-								</svg>
+								<Search />
 								<p
 									className={[
 										menu.search ? "font-bold" : "",
@@ -94,7 +81,9 @@ export default function Menu() {
 								</p>
 							</Link>
 						</li>
-						<li onClick={() => HandleSetMenu("explore")}>
+						<li
+							onClick={() => HandleSetMenu("explore")}
+							className="hidden lg:block">
 							<Link
 								href={"/explore"}
 								className="flex h-8 cursor-pointer items-center space-x-2 rounded-lg px-2 py-6 hover:bg-side_bar_hover">
@@ -112,7 +101,7 @@ export default function Menu() {
 								</p>
 							</Link>
 						</li>
-						<li onClick={() => HandleSetMenu("reels")}>
+						<li onClick={() => HandleSetMenu("reels")} className="order-4 lg:order-none">
 							<Link
 								href={"/reel"}
 								className="flex h-8 cursor-pointer items-center space-x-2 rounded-lg px-2 py-6 hover:bg-side_bar_hover">
@@ -183,7 +172,7 @@ export default function Menu() {
 							</Link>
 						</li>
 						<li
-							className="flex h-8 cursor-pointer items-center space-x-2 rounded-lg px-2 py-6 hover:bg-side_bar_hover"
+							className="order-3 lg:order-none flex h-8 cursor-pointer items-center space-x-2 rounded-lg px-2 py-6 hover:bg-side_bar_hover"
 							onClick={() => setCreate(true)}>
 							{/* <svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -244,7 +233,7 @@ export default function Menu() {
 							</p>
 							{create ? <Create setCreate={setCreate} /> : null}
 						</li>
-						<li onClick={() => HandleSetMenu("profile")}>
+						<li onClick={() => HandleSetMenu("profile")} className="order-5 lg:order-none">
 							<Link
 								href={"/profile"}
 								className="flex h-8 cursor-pointer items-center space-x-2 rounded-lg px-2 py-6 hover:bg-side_bar_hover">
