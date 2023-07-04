@@ -11,7 +11,7 @@ function Page() {
 
 	let homeComponent = (
 		<>
-			<div className="flex w-full justify-end p-5 xl:w-3/5">
+			<div className="flex w-full justify-end lg:p-5 xl:w-3/5">
 				<StoriesPosts />
 			</div>
 			<div className="hidden w-2/5 p-5 xl:block">
