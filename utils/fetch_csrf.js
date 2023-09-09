@@ -1,3 +1,4 @@
+import axios from '@/axios'
 export async function fetchCSRF() {
 	try {
 		const response = await axios.get("api/csrf_token/", {
