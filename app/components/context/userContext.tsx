@@ -4,6 +4,7 @@ import { UserState } from "../../../utils/Interfaces";
 import { useRouter } from "next/navigation";
 import Loading from "@/app/loading";
 import axios from '@/axios';
+import { log } from "console";
 
 interface UserContextInterface {
 	user: UserState | undefined;
@@ -35,11 +36,11 @@ export function UserContextProvider({
 	useEffect(() => {
 		// Define a function to fetch the user from the backend API
 		const fetchUser = async () => {
-			const data = await axios.get("api/accounts/login/");
+			const data = await axios.get("api/accounts/login/");			
 			// Stop loading
 			setLoading(false);
-			if (data.status) {
-				setUser(data.user);
+			if (data.data.status) {
+				setUser(data.data.user);
 			} else router.push("/login");
 		};
 
