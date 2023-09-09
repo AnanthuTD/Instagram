@@ -68,11 +68,11 @@ function Messages() {
 		if ((!profile && !id_user) || profile) {
 			axios
 				.get("/api/chat/conversations/")
-				.then((response) => {
+				.then((response: { data: any; }) => {
 					const responseData = response.data;
 					let temp_conversations = responseData.conversations;
 					let found_index = temp_conversations.findIndex(
-						(conversation) => conversation.username === profile?.username
+						(conversation: { username: any; }) => conversation.username === profile?.username
 					);
 					if (found_index !== -1) {
 						let found_conversation = temp_conversations[found_index];
@@ -88,7 +88,7 @@ function Messages() {
 						profile?.username || responseData.conversations[0]?.username
 					);
 				})
-				.catch((error) => {
+				.catch((error: any) => {
 					console.error("Error during Axios request:", error);
 					// Handle the error here
 				});
@@ -175,7 +175,7 @@ function Messages() {
 					ref={conversationsRef}>
 					{/* users */}
 					<div className="h-full overflow-y-auto">
-						{conversations.map((user, index) => (
+						{conversations.map((user: { username: React.Key | null | undefined; profile_img: URL; last_message: string | undefined; }, index: any) => (
 							<>
 								<AccountMessage
 									username={user.username}
