@@ -37,8 +37,7 @@ export default function Login() {
 			const data = response.data;
 
 			if (data.status) {
-				const router = useRouter();
-				router.replace("/");
+				router.push("/");
 			}
 		} catch (error) {
 			console.error("Error during Axios request:", error);
@@ -46,7 +45,7 @@ export default function Login() {
 		}
 	};
 
-	if (Cookies.get("user")) router.replace("/");
+	if (Cookies.get("user")) router.push("/");
 	else
 		return (
 			<>
