@@ -8,6 +8,7 @@ import validatePhone from "../../../public/javascripts/validate_phone";
 import validatePassword from "../../../public/javascripts/validate_password";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import axios from '@/axios';
 
 interface IsValidState {
 	phone_or_email?: boolean;
@@ -70,14 +71,12 @@ export default function Signup() {
 			"X-CSRFToken": csrfToken,
 		};
 
-		const signupResponse = await fetch("api/accounts/signup/", {
+		const signupData = await axios("api/accounts/signup/", {
 			method: "POST",
 			headers: headers,
 			body: JSON.stringify(formData),
 			credentials: "include",
 		});
-
-		const signupData = await signupResponse.json();
 
 		if (signupData.status) {
 			router.replace("/");

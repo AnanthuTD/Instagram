@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { UserState } from "../../../utils/Interfaces";
 import { useRouter } from "next/navigation";
 import Loading from "@/app/loading";
+import axios from '@/axios';
 
 interface UserContextInterface {
 	user: UserState | undefined;
@@ -34,8 +35,7 @@ export function UserContextProvider({
 	useEffect(() => {
 		// Define a function to fetch the user from the backend API
 		const fetchUser = async () => {
-			const response = await fetch("api/accounts/login/");
-			const data = await response.json();
+			const data = await axios.get("api/accounts/login/");
 			// Stop loading
 			setLoading(false);
 			if (data.status) {

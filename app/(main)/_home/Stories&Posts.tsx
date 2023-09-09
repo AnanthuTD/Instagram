@@ -4,28 +4,37 @@ import Post from "./post/post";
 import Stories from "./stories/stories";
 import React from "react";
 import { PostsInterface } from "@/utils/Interfaces";
+import axios from "@/axios";
 
 function StoriesPosts() {
 	const [posts, setPosts] = useState<PostsInterface[] | undefined>(undefined);
 
 	useEffect(() => {
 		async function fetchData() {
-			const Response = await fetch("/api/post/allPost");
-			const Data = await Response.json();
-			setPosts(Data.posts);
+			try {
+				const response = await axios.get("/api/post/allPost");
+				const data = response.data;
+				setPosts(data.posts);
+			} catch (error) {
+				console.error("Error during Axios request:", error);
+				console.error(
+					"An error occurred while fetching data. Please try again later."
+				);
+			}
 		}
+
 		fetchData();
 	}, []);
 
 	return (
 		<>
-			<div className="w-full lg:w-5/6 xl:11/12" style={{ maxWidth: "685px"}}>
+			<div className="xl:11/12 w-full lg:w-5/6" style={{ maxWidth: "685px" }}>
 				{/* stories */}
 				<div className="" style={{ height: "fit-content" }}>
 					<Stories />
 				</div>
 				{posts?.map((post) => (
-					<Post post={post} key={post.id}/>
+					<Post post={post} key={post.id} />
 				))}
 			</div>
 		</>

@@ -6,6 +6,7 @@ import LocationIcon from "./locationIcon";
 import Preview from "./preview";
 import React from "react";
 import { fetchCSRF } from "../../../utils/fetch_csrf";
+import axios from "@/axios";
 
 function Post({
 	setCreate,
@@ -47,26 +48,22 @@ function Post({
 
 	useEffect(() => {
 		async function postData() {
-			// console.log("posting data", formData.has("file"), "url = ", url);
-
 			try {
 				const csrfToken = await fetchCSRF();
 
-				const response = await fetch(url, {
-					method: "POST",
-					body: formData,
+				const response = await axios.post(url, formData, {
 					headers: {
 						"X-CSRFToken": csrfToken,
 					},
-					credentials: "include",
+					withCredentials: true, // include credentials
 				});
-				// console.log("fetching response completed", response);
+
 				if (response.status === 408) {
-					postData();
+					postData(); // Retry on timeout if necessary
 					return;
 				}
 
-				const data = await response.json();
+				const data = response.data;
 
 				if (data.status === true) {
 					setCreate(false);
@@ -74,22 +71,24 @@ function Post({
 					console.error("posting failed");
 				}
 			} catch (error) {
-				console.error("Error during fetch:", error);
+				console.error("Error during Axios request:", error);
 				console.error(
-					"An error occurred while fetching data. Please try again later."
+					"An error occurred while sending data. Please try again later."
 				);
 			}
 		}
+
 		if (selectedFile && !formData.has("file")) {
 			setFileAdded(true);
 			formData.append("file", selectedFile);
 			return;
 		}
+
 		if (formData.has("file")) {
-			// console.log("formData=", formData.has("file"));
 			formData.append("caption", caption);
 			formData.append("location", location);
-			// posting data to server
+
+			// Posting data to server using Axios
 			postData();
 		}
 	}, [submit, formData]);
@@ -151,9 +150,7 @@ function Post({
 			</div>
 			{/* content */}
 			<div
-				className={["flex", !selectedFile ? "aspect-square" : ""].join(
-					" "
-				)}
+				className={["flex", !selectedFile ? "aspect-square" : ""].join(" ")}
 				ref={contentRef}>
 				<div className="relative flex aspect-square h-full w-full justify-center overflow-hidden">
 					{!selectedFile ? (
@@ -207,9 +204,7 @@ function Post({
 							placeholder="Write a caption..."
 							className="resize-none bg-transparent outline-none"
 							required={false}
-							onChange={(e) =>
-								setCaption(e.target.value)
-							}></textarea>
+							onChange={(e) => setCaption(e.target.value)}></textarea>
 						<SmileIcon width={20} height={20} />
 						<div className="flex justify-between">
 							<input

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { fetchCSRF } from "../../../utils/fetch_csrf";
 import { useUserContext } from "../../components/context/userContext";
+import axios from "@/axios";
 
 function Settings() {
 	// useState
@@ -14,19 +15,29 @@ function Settings() {
 	const { user, setUser } = useUserContext();
 
 	async function handleSubmit(): Promise<void> {
-		const csrfToken = await fetchCSRF();
-		const Response = await fetch("api/accounts/profile/", {
-			headers: {
-				"content-type": "application/json",
-				"X-CSRFToken": csrfToken as string,
-			},
-			method: "post",
-			body: JSON.stringify({
-				website: website,
-				bio: bio,
-				gender: gender,
-			}),
-		});
+		try {
+			const csrfToken = await fetchCSRF();
+
+			const response = await axios.post(
+				"api/accounts/profile/",
+				{
+					website: website,
+					bio: bio,
+					gender: gender,
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+						"X-CSRFToken": csrfToken as string,
+					},
+				}
+			);
+
+			// Handle the response data here if needed
+		} catch (error) {
+			console.error("Error during Axios request:", error);
+			// Handle the error here
+		}
 	}
 
 	useEffect(() => {
@@ -42,17 +53,13 @@ function Settings() {
 		<>
 			<main className="h-full w-full">
 				<div className="w-full" style={{ height: "10%" }}>
-					<span className="text-2xl font-bold text-white">
-						Settings
-					</span>
+					<span className="text-2xl font-bold text-white">Settings</span>
 				</div>
 				<div className="flex h-full w-full items-center justify-center">
 					<div className="flex h-4/5 w-5/12 flex-col items-center justify-center">
 						<div className="h-full w-full space-y-10">
 							<div className="h-fit w-full p-3 text-2xl">
-								<div className="flex w-1/5 justify-end">
-									Edit profile
-								</div>
+								<div className="flex w-1/5 justify-end">Edit profile</div>
 							</div>
 							<div>
 								<div className="flex space-x-10">
@@ -70,9 +77,7 @@ function Settings() {
 										/>
 									</div>
 									<div className="w-3/5">
-										<p className="flex items-center text-sm">
-											username
-										</p>
+										<p className="flex items-center text-sm">username</p>
 										<button className="bg-transparent text-brightBlue">
 											Change profile photo
 										</button>
@@ -81,9 +86,7 @@ function Settings() {
 								<div className="mt-5 space-y-3">
 									<div className="flex space-x-10">
 										<aside className="flex w-1/5 justify-end">
-											<label
-												htmlFor="website"
-												className="font-extrabold">
+											<label htmlFor="website" className="font-extrabold">
 												Website
 											</label>
 										</aside>
@@ -94,18 +97,14 @@ function Settings() {
 												name="website"
 												id=""
 												placeholder="website"
-												onChange={(e) =>
-													setWebsite(e.target.value)
-												}
+												onChange={(e) => setWebsite(e.target.value)}
 												value={website}
 											/>
 										</div>
 									</div>
 									<div className="flex space-x-10">
 										<aside className="flex w-1/5 justify-end">
-											<label
-												htmlFor="bio"
-												className="font-extrabold">
+											<label htmlFor="bio" className="font-extrabold">
 												Bio
 											</label>
 										</aside>
@@ -115,18 +114,14 @@ function Settings() {
 												name="bio"
 												id=""
 												placeholder="Bio"
-												onChange={(e) =>
-													setBio(e.target.value)
-												}
+												onChange={(e) => setBio(e.target.value)}
 												value={bio}
 											/>
 										</div>
 									</div>
 									<div className="flex space-x-10">
 										<aside className="flex w-1/5 justify-end">
-											<label
-												htmlFor="website"
-												className="font-extrabold">
+											<label htmlFor="website" className="font-extrabold">
 												Gender
 											</label>
 										</aside>
@@ -137,9 +132,7 @@ function Settings() {
 												name="gender"
 												id=""
 												placeholder="Gender"
-												onChange={(e) =>
-													setGender(e.target.value)
-												}
+												onChange={(e) => setGender(e.target.value)}
 												value={gender}
 											/>
 										</div>

@@ -2,6 +2,8 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Media from "./Media";
 import { Post } from "@/utils/Interfaces";
+import axios from "@/axios";
+
 interface postsInterface {
 	status: boolean;
 	posts: Post[];
@@ -16,13 +18,19 @@ function Posts({ otherUser }: { otherUser: string | undefined }) {
 		setInitial(false);
 		let url = "/api/post";
 		if (otherUser) url = `api/post/${otherUser}/posts/`;
-		const Response = await fetch(url, {
-			method: "GET",
-		});
 
-		let data = await Response.json();
+		try {
+			const response = await axios.get(url);
 
-		if (data.status === true) setData(data);
+			const data = response.data;
+
+			if (data.status === true) {
+				setData(data);
+			}
+		} catch (error) {
+			console.error("Error during Axios request:", error);
+			// Handle the error here
+		}
 	}
 
 	if (initial) fetchData();
@@ -35,9 +43,7 @@ function Posts({ otherUser }: { otherUser: string | undefined }) {
 
 	return (
 		<>
-			{posts
-				? posts.map((post) => <Media post={post} key={post.id} />)
-				: null}
+			{posts ? posts.map((post) => <Media post={post} key={post.id} />) : null}
 		</>
 	);
 }

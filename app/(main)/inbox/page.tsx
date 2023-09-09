@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { OtherUserProfile } from "@/utils/Interfaces";
 import { useUserContext } from "@/app/components/context/userContext";
 import ArrowLeft from "@/app/components/icons/ArrowLeft";
+import axios from "@/axios";
 
 interface conversations {
 	username: string;
@@ -23,9 +24,7 @@ function Messages() {
 	const { user } = useUserContext();
 
 	const [profile, setProfile] = useState<OtherUserProfile | undefined>();
-	const [conversations, setConversations] = useState<conversations[] | []>(
-		[]
-	);
+	const [conversations, setConversations] = useState<conversations[] | []>([]);
 	const [selectedChat, setSelectedChat] = useState("");
 
 	const conversationsRef = useRef<HTMLDivElement>(null);
@@ -36,13 +35,24 @@ function Messages() {
 
 	useEffect(() => {
 		async function fetchProfile() {
-			const Response = await fetch(
-				`/api/accounts/get_profile/${id_user}/`
-			);
-			let data = await Response.json();
-			if (data.status) setProfile(data.profile);
+			try {
+				const response = await axios.get(
+					`/api/accounts/get_profile/${id_user}/`
+				);
+				const data = response.data;
+
+				if (data.status) {
+					setProfile(data.profile);
+				}
+			} catch (error) {
+				console.error("Error during Axios request:", error);
+				// Handle the error here
+			}
 		}
-		if (id_user) fetchProfile();
+
+		if (id_user) {
+			fetchProfile();
+		}
 	}, [id_user]);
 
 	useEffect(() => {
@@ -56,22 +66,18 @@ function Messages() {
 			]);
 		}
 		if ((!profile && !id_user) || profile) {
-			fetch("/api/chat/conversations/").then((response) => {
-				response.json().then((response) => {
-					let temp_conversations: conversations[] =
-						response.conversations;
+			axios
+				.get("/api/chat/conversations/")
+				.then((response) => {
+					const responseData = response.data;
+					let temp_conversations = responseData.conversations;
 					let found_index = temp_conversations.findIndex(
-						(conversation) =>
-							conversation.username === profile?.username
+						(conversation) => conversation.username === profile?.username
 					);
 					if (found_index !== -1) {
-						let found_conversation =
-							temp_conversations[found_index];
+						let found_conversation = temp_conversations[found_index];
 						temp_conversations.splice(found_index, 1);
-						setConversations([
-							found_conversation,
-							...temp_conversations,
-						]);
+						setConversations([found_conversation, ...temp_conversations]);
 					} else {
 						setConversations((prevConversation) => [
 							...prevConversation,
@@ -79,10 +85,13 @@ function Messages() {
 						]);
 					}
 					setSelectedChat(
-						profile?.username || response.conversations[0]?.username
+						profile?.username || responseData.conversations[0]?.username
 					);
+				})
+				.catch((error) => {
+					console.error("Error during Axios request:", error);
+					// Handle the error here
 				});
-			});
 		}
 	}, [profile]);
 
@@ -123,17 +132,19 @@ function Messages() {
 		}
 	}
 
-	function handleBack(){
+	function handleBack() {
 		if (!conversationsRef.current) return;
-		
-		if (conversationsRef.current.style.display !== "none"){
+
+		if (conversationsRef.current.style.display !== "none") {
 			history.back();
-		} 
-		else if (chatsRef.current && getComputedStyle(chatsRef.current).display !== "none") {
+		} else if (
+			chatsRef.current &&
+			getComputedStyle(chatsRef.current).display !== "none"
+		) {
 			chatsRef.current.style.display = "none";
 			conversationsRef.current.style.display = "block";
 		}
-	} 
+	}
 
 	useEffect(() => {
 		window.addEventListener("resize", updateVisibility);
@@ -147,7 +158,7 @@ function Messages() {
 			<div className="flex border-b border-border_grey" ref={titleRef}>
 				<div className="flex w-1/6 items-center justify-center">
 					{/* <Link href={"/inbox"} className="lg:hidden"> */}
-						<ArrowLeft className="lg:hidden" onClick={handleBack}/>{" "}
+					<ArrowLeft className="lg:hidden" onClick={handleBack} />{" "}
 					{/* </Link> */}
 				</div>
 				<div className="flex w-4/6 justify-center gap-1 p-4 font-bold">
@@ -181,9 +192,7 @@ function Messages() {
 					</div>
 				</div>
 
-				<div
-					className="hidden h-full w-full lg:block lg:w-3/5"
-					ref={chatsRef}>
+				<div className="hidden h-full w-full lg:block lg:w-3/5" ref={chatsRef}>
 					{selectedChat ? <ChatBox recipient={selectedChat} /> : null}
 				</div>
 			</div>

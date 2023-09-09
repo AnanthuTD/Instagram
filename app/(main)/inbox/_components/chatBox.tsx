@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import SmileIcon from "@/app/components/icons/smileIcon";
 import Message from "./message";
 import { chat as Chat } from "../../../../utils/Interfaces";
+import axios from '@/axios';
 
 interface WebSocketData {
 	data: string;
@@ -49,12 +50,18 @@ function ChatBox({ recipient }: ChatBoxProps) {
 
 	useEffect(() => {
 		if (!recipient) return;
-		fetch(`/api/chat/${recipient}/load_messages/`)
-			.then((response) => response.json())
-			.then((data) => {
-				setChats(data.message_list);
-			});
-	}, [recipient]);
+	  
+		axios.get(`/api/chat/${recipient}/load_messages/`)
+		  .then((response) => {
+			const data = response.data;
+			setChats(data.message_list);
+		  })
+		  .catch((error) => {
+			console.error("Error during Axios request:", error);
+			// Handle the error here
+		  });
+	  }, [recipient]);
+	  
 
 	const handleSendMessage = () => {
 		if (chatSocket && chatSocket.readyState === WebSocket.OPEN && message) {

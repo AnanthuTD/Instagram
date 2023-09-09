@@ -4,6 +4,7 @@ import { Url } from "url";
 import Image from "next/image";
 import timeDifference from "@/utils/time_difference";
 import SmileIcon from "@/app/components/icons/smileIcon";
+import axios from "@/axios";
 
 interface commentsInterface {
 	id: UUID;
@@ -52,8 +53,7 @@ function Comments({
 			setCurrentComments((prevComments) => [...prevComments, newMessage]);
 
 			if (commentLogRef.current) {
-				commentLogRef.current.scrollTop =
-					commentLogRef.current.scrollHeight;
+				commentLogRef.current.scrollTop = commentLogRef.current.scrollHeight;
 			}
 		});
 
@@ -66,23 +66,24 @@ function Comments({
 		};
 	}, []);
 
-	function getComments() {
-		fetch(`/api/post/comments/?post_id=${post_id}`, {
-			method: "GET",
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				if (data.status) {
-					// comments retrieved successfully, do something with the comment data
-					setCurrentComments(data.comments);
-				} else {
-					// error retrieving comments, handle the error
-					console.error(data.message);
-				}
-			})
-			.catch((error) => {
-				console.error("Error retrieving comments:", error);
-			});
+	async function getComments() {
+		try {
+			const response = await axios.get(
+				`/api/post/comments/?post_id=${post_id}`
+			);
+
+			const data = response.data;
+
+			if (data.status) {
+				// comments retrieved successfully, do something with the comment data
+				setCurrentComments(data.comments);
+			} else {
+				// error retrieving comments, handle the error
+				console.error(data.message);
+			}
+		} catch (error) {
+			console.error("Error retrieving comments:", error);
+		}
 	}
 
 	useEffect(() => {
@@ -130,8 +131,7 @@ function Comments({
 				const parentHeight = elevatedDiv.current?.clientHeight;
 				const headerHeight = headingRef.current?.clientHeight;
 				const footerHeight = commentRef.current?.clientHeight;
-				const middleDivHeight =
-					parentHeight - headerHeight - footerHeight;
+				const middleDivHeight = parentHeight - headerHeight - footerHeight;
 				bodyRef.current.style.height = `${middleDivHeight}px`;
 			}
 		};
@@ -154,18 +154,15 @@ function Comments({
 				className="absolute inset-0 flex items-center justify-center bg-blackBlur"
 				style={{
 					zIndex: 15,
-				}}
-			>
+				}}>
 				<div
 					className="h-4/5 w-1/4 transform overflow-hidden rounded-xl bg-elevated p-0 shadow-md transition-all duration-500"
-					ref={elevatedDiv}
-				>
+					ref={elevatedDiv}>
 					{/* header */}
 					<div
 						className="flex w-full justify-center border-b p-3 font-bold text-white"
 						style={{ borderColor: "#3d3d3d" }}
-						ref={headingRef}
-					>
+						ref={headingRef}>
 						<div className="w-1/4"></div>
 						<div className="flex w-2/4 items-center justify-center">
 							Comments
@@ -174,8 +171,7 @@ function Comments({
 					</div>
 					<div
 						className="flex flex-grow flex-col justify-between overflow-hidden"
-						ref={bodyRef}
-					>
+						ref={bodyRef}>
 						<div className="flex-grow overflow-auto">
 							{currentComments?.map((comment) => (
 								<div className="flex py-2" key={comment.id}>
@@ -190,19 +186,13 @@ function Comments({
 									</div>
 									<div>
 										<span className="text-base">
-											<span className="font-bold">
-												{comment.author}
-											</span>{" "}
+											<span className="font-bold">{comment.author}</span>{" "}
 											{comment.comment}
 										</span>
 										<footer className="text-xs">
-											{timeDifference(
-												new Date(comment.time_stamp)
-											) === "0s"
+											{timeDifference(new Date(comment.time_stamp)) === "0s"
 												? "now"
-												: timeDifference(
-														comment.time_stamp
-												  )}
+												: timeDifference(comment.time_stamp)}
 										</footer>
 									</div>
 								</div>
@@ -222,8 +212,7 @@ function Comments({
 								<span
 									className="text-xs font-bold text-brightBlue"
 									id="post"
-									onClick={() => handlePostComment()}
-								>
+									onClick={() => handlePostComment()}>
 									POST
 								</span>
 							) : null}

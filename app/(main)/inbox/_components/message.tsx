@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { chat } from "../../../../utils/Interfaces";
 import OptionsPopUp from "./optionsPopUp";
 import { fetchCSRF } from "@/utils/fetch_csrf";
+import axios from '@/axios';
 
 function Message({
 	position = "right",
@@ -32,25 +33,25 @@ function Message({
 	}
 
 	const handleUnsend = async () => {
-		const csrfToken = await fetchCSRF();
-		fetch("/api/chat/unsend/", {
-			method: "DELETE",
-			headers: { "X-csrfToken": csrfToken },
-			body: JSON.stringify({ id: chat.id }),
-		})
-			.then((response) =>
-				response.json().then((response) => {
-					if (response.status) {
-						setOptions(false);
-						setUnmounted(true); // Update the state to indicate that the component should be unmounted
-					} else {
-						alert("Cannot unsend");
-					}
-				})
-			)
-			.catch((error) => {
-				console.error("Failed to unsend:", error);
+		try {
+			const csrfToken = await fetchCSRF();
+
+			const response = await axios.delete("/api/chat/unsend/", {
+				headers: { "X-CSRFToken": csrfToken },
+				data: { id: chat.id }, // Send data in the request body
 			});
+
+			const responseData = response.data;
+
+			if (responseData.status) {
+				setOptions(false);
+				setUnmounted(true); // Update the state to indicate that the component should be unmounted
+			} else {
+				alert("Cannot unsend");
+			}
+		} catch (error) {
+			console.error("Failed to unsend:", error);
+		}
 	};
 
 	useEffect(() => {
@@ -60,9 +61,7 @@ function Message({
 			roundedDivRef.current
 		) {
 			const maxWidth =
-				parseFloat(
-					getComputedStyle(messageContainerRef.current).width
-				) / 2;
+				parseFloat(getComputedStyle(messageContainerRef.current).width) / 2;
 			const currentWidth = parseFloat(
 				getComputedStyle(messageChildContainerRef.current).width
 			);
@@ -82,12 +81,10 @@ function Message({
 	let roundedEnd = "";
 
 	if (endNoneRounded[0]) {
-		roundedEnd +=
-			position === "right" ? " rounded-se-3xl" : " rounded-ss-3xl";
+		roundedEnd += position === "right" ? " rounded-se-3xl" : " rounded-ss-3xl";
 	}
 	if (endNoneRounded[1]) {
-		roundedEnd +=
-			position === "right" ? " rounded-ee-3xl" : " rounded-es-3xl";
+		roundedEnd += position === "right" ? " rounded-ee-3xl" : " rounded-es-3xl";
 	}
 
 	return (
@@ -112,7 +109,7 @@ function Message({
 					ref={roundedDivRef}>
 					<div
 						className={[
-							"lg:text-md break-normal text-primaryText text-xl",
+							"lg:text-md break-normal text-xl text-primaryText",
 						].join(" ")}
 						style={{ overflowWrap: "anywhere" }}>
 						<p>{chat.message}</p>

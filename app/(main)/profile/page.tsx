@@ -17,6 +17,7 @@ import DiscoverPeople from "@/app/components/icons/DiscoverPeople";
 import CreateIcon from "@/app/components/icons/Create";
 import OptionIcon from "@/app/components/icons/OptionIcon";
 import ChevronY from "@/app/components/icons/ChevronY";
+import axios from "@/axios";
 
 function Profile() {
 	// useStates
@@ -41,9 +42,19 @@ function Profile() {
 	let username = useSearchParams().get("username") || "";
 
 	async function fetchProfile() {
-		const Response = await fetch(`/api/accounts/get_profile/${username}/`);
-		let data = await Response.json();
-		if (data.status) setProfile(data.profile);
+		try {
+			const response = await axios.get(
+				`/api/accounts/get_profile/${username}/`
+			);
+			const data = response.data;
+
+			if (data.status) {
+				setProfile(data.profile);
+			}
+		} catch (error) {
+			console.error("Error during Axios request:", error);
+			// Handle the error here
+		}
 	}
 
 	useEffect(() => {
@@ -79,40 +90,58 @@ function Profile() {
 
 	async function follow() {
 		if (!profile?.id_user) return;
-		const csrfToken = await fetchCSRF();
-		const response = await fetch(`/api/accounts/follow/`, {
-			method: "PUT",
-			headers: { "X-csrfToken": csrfToken },
-			body: JSON.stringify({
-				id_user: profile?.id_user,
-			}),
-		});
-		let data = await response.json();
-		if (data.status) {
-			fetchProfile();
-			if (data.user) {
-				setUser(data.user);
+
+		try {
+			const csrfToken = await fetchCSRF();
+
+			const response = await axios.put(
+				`/api/accounts/follow/`,
+				{
+					id_user: profile?.id_user,
+				},
+				{
+					headers: { "X-CSRFToken": csrfToken },
+				}
+			);
+
+			const data = response.data;
+
+			if (data.status) {
+				await fetchProfile(); // Wait for fetchProfile to complete
+				if (data.user) {
+					setUser(data.user);
+				}
 			}
+		} catch (error) {
+			console.error("Error during Axios request:", error);
+			// Handle the error here
 		}
 	}
 
 	async function unfollow() {
 		if (!profile?.id_user) return;
-		const csrfToken = await fetchCSRF();
-		const response = await fetch(
-			`/api/accounts/${profile.id_user}/follow/`,
-			{
-				method: "DELETE",
-				headers: { "X-csrfToken": csrfToken },
-				body: JSON.stringify({}),
+
+		try {
+			const csrfToken = await fetchCSRF();
+
+			const response = await axios.delete(
+				`/api/accounts/${profile.id_user}/follow/`,
+				{
+					headers: { "X-CSRFToken": csrfToken },
+				}
+			);
+
+			const data = response.data;
+
+			if (data.status) {
+				await fetchProfile(); // Wait for fetchProfile to complete
+				if (data.user) {
+					setUser(data.user);
+				}
 			}
-		);
-		let data = await response.json();
-		if (data.status) {
-			fetchProfile();
-			if (data.user) {
-				setUser(data.user);
-			}
+		} catch (error) {
+			console.error("Error during Axios request:", error);
+			// Handle the error here
 		}
 	}
 
@@ -130,7 +159,7 @@ function Profile() {
 		return <div>loading</div>;
 	} else if (profile)
 		return (
-			<div className="flex w-full max-lg:flex-col justify-center bg-black">
+			<div className="flex w-full justify-center bg-black max-lg:flex-col">
 				<div className="flex w-full justify-between bg-black p-3 lg:hidden">
 					<div className="flex gap-2">
 						<span className="font-bold">{profile.username}</span>
@@ -179,25 +208,19 @@ function Profile() {
 												<div
 													style={{ width: "30px" }}
 													className="hidden lg:block"
-													onClick={() =>
-														setSettings(true)
-													}>
+													onClick={() => setSettings(true)}>
 													<SettingsIcon className="cursor-pointer" />
 													{settings ? (
 														<SettingsPopUp
 															settings={settings}
-															setSettings={
-																setSettings
-															}
+															setSettings={setSettings}
 														/>
 													) : null}
 												</div>
 											</div>
 										) : (
 											<>
-												{!user?.following.includes(
-													profile.id_user
-												) ? (
+												{!user?.following.includes(profile.id_user) ? (
 													<button
 														type="button"
 														onClick={() => follow()}
@@ -207,9 +230,7 @@ function Profile() {
 												) : (
 													<button
 														type="button"
-														onClick={() =>
-															unfollow()
-														}
+														onClick={() => unfollow()}
 														className="cursor-pointer rounded-md bg-white px-4 py-1 text-sm font-bold text-black">
 														Unfollow
 													</button>
@@ -225,12 +246,15 @@ function Profile() {
 									</div>
 									<div className="flex gap-10">
 										<span className="flex flex-col items-center lg:block">
-											<span className="font-bold">
-												{profile.post_count}
-											</span>{" "}
+											<span className="font-bold">{profile.post_count}</span>{" "}
 											post
 										</span>
-										<span className="flex cursor-pointer flex-col items-center lg:block" onClick={()=>{fetch('/api/accounts/followers/')}}>
+										<span
+											className="flex cursor-pointer flex-col items-center lg:block"
+											// onClick={() => {
+												// fetch("/api/accounts/followers/");
+											// }}
+											>
 											<span className="font-bold">
 												{profile.followers?.length}
 											</span>{" "}
@@ -245,13 +269,9 @@ function Profile() {
 									</div>
 									<div className="hidden lg:block">
 										<p className="font-bold">
-											{profile.first_name +
-												" " +
-												profile.last_name}
+											{profile.first_name + " " + profile.last_name}
 										</p>
-										<p className="text-sm">
-											{profile.first_name}
-										</p>
+										<p className="text-sm">{profile.first_name}</p>
 									</div>
 								</div>
 							</div>

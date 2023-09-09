@@ -6,6 +6,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import axios from '@/axios';
+
 
 export default function Login() {
   const [formData, setFormData] = useState({});
@@ -27,8 +29,7 @@ export default function Login() {
       "X-CSRFToken": csrfToken,
     };
 
-    const signupResponse = await fetch("api/accounts/login/", {
-      method: "POST",
+    const signupResponse = await axios.post("api/accounts/login/", {
       headers: headers,
       body: JSON.stringify(formData),
       credentials: "include",

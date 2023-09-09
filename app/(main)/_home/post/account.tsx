@@ -1,7 +1,7 @@
-
 import Image from "next/image";
 import React from "react";
 import { fetchCSRF } from "@/utils/fetch_csrf";
+import axios from "@/axios";
 import { useUserContext } from "@/app/components/context/userContext";
 import { UUID } from "crypto";
 interface AccountProps {
@@ -21,44 +21,66 @@ function Account({ width = 40, height = 40, user }: AccountProps) {
 
 	async function follow() {
 		if (!user?.id_user) return;
-		const csrfToken = await fetchCSRF();
-		const response = await fetch(`/api/accounts/follow/`, {
-			method: "PUT",
-			headers: { "X-csrfToken": csrfToken },
-			body: JSON.stringify({
-				id_user: user?.id_user,
-			}),
-		});
-		let data = await response.json();
-		if (data.status) {
-			if (data.user) {
-				setUser(data.user);
+
+		try {
+			const csrfToken = await fetchCSRF();
+
+			const response = await axios.put(
+				`/api/accounts/follow/`,
+				{
+					id_user: user?.id_user,
+				},
+				{
+					headers: { "X-CSRFToken": csrfToken },
+				}
+			);
+
+			const data = response.data;
+
+			if (data.status) {
+				if (data.user) {
+					setUser(data.user);
+				}
 			}
+		} catch (error) {
+			console.error("Error during Axios request:", error);
+			console.error(
+				"An error occurred while processing the follow action. Please try again later."
+			);
 		}
 	}
 
 	async function unfollow() {
 		if (!user?.id_user) return;
-		const csrfToken = await fetchCSRF();
-		const response = await fetch(
-			`/api/accounts/${user.id_user}/follow/`,
-			{
-				method: "DELETE",
-				headers: { "X-csrfToken": csrfToken },
-				body: JSON.stringify({}),
+
+		try {
+			const csrfToken = await fetchCSRF();
+
+			const response = await axios.delete(
+				`/api/accounts/${user.id_user}/follow/`,
+				{
+					headers: { "X-CSRFToken": csrfToken },
+				}
+			);
+
+			const data = response.data;
+
+			if (data.status) {
+				if (data.user) {
+					setUser(data.user);
+				}
 			}
-		);
-		let data = await response.json();
-		if (data.status) {
-			if (data.user) {
-				setUser(data.user);
-			}
+		} catch (error) {
+			console.error("Error during Axios request:", error);
+			console.error(
+				"An error occurred while processing the unfollow action. Please try again later."
+			);
 		}
 	}
-	
+
 	return (
 		<>
-			<div className="flex my-3 cursor-pointer items-center m-4 justify-between">
+			<div className="m-4 my-3 flex cursor-pointer items-center justify-between">
 				<div className="flex">
 					<Image
 						src={`/api/media/${user.profile_img}`}
@@ -69,13 +91,12 @@ function Account({ width = 40, height = 40, user }: AccountProps) {
 					/>
 
 					<div style={{ height: "fit-content" }} onClick={() => null}>
-						<p className="flex items-center mx-4 text-sm text-primaryText">
+						<p className="mx-4 flex items-center text-sm text-primaryText">
 							{user.username}
 						</p>
 						<p
-							className="flex items-center mx-4 text-sm "
-							style={{ color: "rgb(168 168 168)" }}
-						>
+							className="mx-4 flex items-center text-sm "
+							style={{ color: "rgb(168 168 168)" }}>
 							{[user.first_name, user.last_name].join(" ")}
 						</p>
 					</div>
@@ -85,16 +106,14 @@ function Account({ width = 40, height = 40, user }: AccountProps) {
 						<button
 							type="button"
 							onClick={() => follow()}
-							className="bg-white rounded-md text-black text-sm font-bold py-1 px-4 cursor-pointer"
-						>
+							className="cursor-pointer rounded-md bg-white px-4 py-1 text-sm font-bold text-black">
 							Follow
 						</button>
 					) : (
 						<button
 							type="button"
 							onClick={() => unfollow()}
-							className="bg-white rounded-md text-black text-sm font-bold py-1 px-4 cursor-pointer"
-						>
+							className="cursor-pointer rounded-md bg-white px-4 py-1 text-sm font-bold text-black">
 							Unfollow
 						</button>
 					)}

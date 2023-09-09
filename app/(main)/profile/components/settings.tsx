@@ -6,6 +6,7 @@ import React, {
 	SetStateAction,
 	useState,
 } from "react";
+import axios from "@/axios";
 
 function Settings({
 	setSettings,
@@ -22,10 +23,7 @@ function Settings({
 
 	useEffect(() => {
 		function handleClickOutside(this: Document, ev: MouseEvent) {
-			if (
-				elevatedDiv &&
-				!elevatedDiv.current?.contains(ev.target as Node)
-			) {
+			if (elevatedDiv && !elevatedDiv.current?.contains(ev.target as Node)) {
 				setSettings(false);
 			}
 		}
@@ -41,11 +39,19 @@ function Settings({
 		if (cancel) setSettings(false);
 	}, [cancel]);
 
-	function logout() {
-		fetch("api/accounts/logout/");
-		window.location.reload();
-		Cookies.remove("csrftoken");
-		Cookies.remove("user");
+	async function logout() {
+		try {
+			await axios.post("api/accounts/logout/");
+
+			// Remove cookies after successful logout
+			Cookies.remove("csrftoken");
+			Cookies.remove("user");
+
+			window.location.reload();
+		} catch (error) {
+			console.error("Error during Axios request:", error);
+			// Handle the error here
+		}
 	}
 
 	return (
