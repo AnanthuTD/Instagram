@@ -19,5 +19,19 @@ const proxy = {
 
 module.exports = {
   ...nextConfig,
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'ngrok-skip-browser-warning',
+            value: '69420', // Your custom ngrok header value
+          },
+          // Add more custom headers if needed
+        ],
+      },
+    ];
+  },
   ...proxy,
 };
