@@ -230,7 +230,7 @@ function Profile() {
 											</span>{" "}
 											post
 										</span>
-										<span className="flex cursor-pointer flex-col items-center lg:block">
+										<span className="flex cursor-pointer flex-col items-center lg:block" onClick={()=>{fetch('/api/accounts/followers/')}}>
 											<span className="font-bold">
 												{profile.followers?.length}
 											</span>{" "}
