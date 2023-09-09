@@ -2,6 +2,7 @@
 	"builds": [
 		
 		{
+			"use": "@vercel/static-build",
 			"config": { "skipTypeCheck": true }
 		}
 	]
