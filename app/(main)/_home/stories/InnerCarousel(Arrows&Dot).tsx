@@ -5,7 +5,7 @@ import useEmblaCarousel, {
 } from "embla-carousel-react";
 import { DotButton, PrevButton, NextButton } from "./ArrowsDotsButtons";
 import { StoryItem } from "../../../../utils/Interfaces";
-import { LazyLoad } from "./LazyLoad";
+import { LazyLoad } from "./lazyLoad";
 import { flushSync } from "react-dom";
 import styles from "./InnerCarousel(Arrows&Dots).module.css";
 
