@@ -20,7 +20,7 @@ export default function RootLayout({
 							<MenuBar />
 						</div>
 						<div
-							className="flex h-screen w-full overflow-y-auto pb-14 lg:pb-0 xl:w-5/6"
+							className="flex h-screen w-full overflow-y-auto pb-14 lg:pb-0 xl:w-5/6 p-4"
 							id="main_scrollable">
 							{children}
 						</div>

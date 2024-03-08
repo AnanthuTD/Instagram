@@ -130,7 +130,7 @@ export default function Menu() {
 								</p>
 							</Link>
 						</li>
-						<li
+						{/* <li
 							onClick={() => HandleSetMenu("reels")}
 							className="order-4 lg:order-none">
 							<Link
@@ -145,7 +145,7 @@ export default function Menu() {
 									Reel
 								</p>
 							</Link>
-						</li>
+						</li> */}
 						<li
 							onClick={() => HandleSetMenu("messages")}
 							className="hidden lg:block">
@@ -162,7 +162,7 @@ export default function Menu() {
 								</p>
 							</Link>
 						</li>
-						<li
+						{/* <li
 							onClick={() => HandleSetMenu("notifications")}
 							className="hidden lg:block">
 							<Link
@@ -189,7 +189,7 @@ export default function Menu() {
 									Notifications
 								</p>
 							</Link>
-						</li>
+						</li> */}
 						<li
 							className="order-3 flex h-8 cursor-pointer items-center space-x-2 rounded-lg px-2 py-6 hover:bg-side_bar_hover lg:order-none"
 							onClick={() => setCreate(true)}>
