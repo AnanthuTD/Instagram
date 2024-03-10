@@ -13,6 +13,7 @@ const config: Config = {
 				side_bar_hover: "#121212",
 				border_grey: "#363837",
 				brightBlue: "#00c2f7",
+				instaBlue: "#0095F6",
 				_grey: "#121212",
 				secondryText: "rgb(168 168 168)",
 				primaryText: "rgb(245 245 245)",

@@ -12,52 +12,21 @@ import Search from "@/app/components/icons/Search";
 import CreateIcon from "@/app/components/icons/Create";
 import Create from "@/app/(main)/_create/create";
 import MessageIcon from "@/app/components/icons/Message"
+import SearchModal from "./search";
 
 export default function Menu() {
 	const { menu, HandleSetMenu } = useMenuContext();
-
 	const { user } = useUserContext();
-
 	const [create, setCreate] = useState(false);
+	const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
 
-	// const mainRef = useRef<HTMLDivElement>(null);
-
-	// function handleMenuBarVisibility(): void {
-	/**
-	 * if screen size lessthan 1024(lg) and not in home page hide the menubar
-	 *
-	 * @description This function hides the menu bar if the window width is less than 1024 and the current page is not the home page.
-	 */
-
-	/* 	// const currentRoutePath = router.;
-		const currentRoutePath=window.location.pathname
-
-		if (!mainRef.current?.parentElement || currentRoutePath === "/") return;
-
-		const width = window.innerWidth;
-
-		// If the window is less than a certain width, hide the menu bar.
-		if (width < 1024) {
-			mainRef.current.parentElement.style.display = "none";
-		} else {
-			mainRef.current.parentElement.style.display = "block";
-		}
-	} */
-
-	/* useEffect(() => {
-		handleMenuBarVisibility();
-		window.addEventListener("resize", handleMenuBarVisibility);
-
-		// Cleanup the event listener when the component unmounts
-		return () => {
-			handleMenuBarVisibility();
-			window.removeEventListener("resize", handleMenuBarVisibility);
-		};
-	}, []); */
+	const toggleSearchModal = () => {
+		 setIsSearchModalVisible((prev) => !prev);
+	};
 
 	return (
 		<>
-			<div className="text-primaryText lg:pt-5" /* ref={mainRef} */>
+			<div className="text-primaryText lg:pt-5">
 				<div className="mb-10 hidden xl:block">
 					<Logo />
 				</div>
@@ -97,8 +66,8 @@ export default function Menu() {
 						<li
 							onClick={() => HandleSetMenu("search")}
 							className="order-2 lg:order-none">
-							<Link
-								href={"/search"}
+							<div
+								onClick={toggleSearchModal}
 								className="flex h-8 cursor-pointer items-center space-x-2 rounded-lg px-2 py-6 hover:bg-side_bar_hover">
 								<Search />
 								<p
@@ -108,7 +77,7 @@ export default function Menu() {
 									].join(" ")}>
 									Search
 								</p>
-							</Link>
+							</div>
 						</li>
 						<li
 							onClick={() => HandleSetMenu("explore")}
@@ -262,6 +231,7 @@ export default function Menu() {
 					<span className="ml-2 hidden xl:block">More</span>
 				</button>
 			</div>
+			<SearchModal visible={isSearchModalVisible} onClose={toggleSearchModal} />
 		</>
 	);
 }
