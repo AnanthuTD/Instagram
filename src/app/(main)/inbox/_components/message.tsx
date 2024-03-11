@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { chat } from "../../../../utils/Interfaces";
 import OptionsPopUp from "./optionsPopUp";
-import { fetchCSRF } from "@/utils/fetch_csrf";
-import axios from '@/axios';
+import axios from '@/lib/axios';
 
 function Message({
 	position = "right",
@@ -34,11 +33,9 @@ function Message({
 
 	const handleUnsend = async () => {
 		try {
-			const csrfToken = await fetchCSRF();
 
 			const response = await axios.delete("/api/chat/unsend/", {
-				headers: { "X-CSRFToken": csrfToken },
-				data: { id: chat.id }, // Send data in the request body
+				data: { id: chat.id }, 
 			});
 
 			const responseData = response.data;

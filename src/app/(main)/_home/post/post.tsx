@@ -2,8 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { PostsInterface } from "@/utils/Interfaces";
 import { UUID } from "crypto";
 import { useRouter } from "next/navigation";
-import { fetchCSRF } from "@/utils/fetch_csrf";
-import axios from "@/axios";
+import axios from "@/lib/axios";
 import SaveIcon from "../../../components/icons/saveIcon";
 import SendIcon from "../../../components/icons/sendIcon";
 import SmileIcon from "@/app/components/icons/smileIcon";
@@ -75,8 +74,6 @@ function Post({ post }: { post: PostsInterface }) {
 	}
 
 	async function handleLike(post_id: UUID): Promise<void> {
-		const csrfToken = await fetchCSRF();
-
 		try {
 			let response;
 			if (!like) {
@@ -84,7 +81,6 @@ function Post({ post }: { post: PostsInterface }) {
 					`/api/post/${post_id}/like/`,
 					{},
 					{
-						headers: { "X-CSRFToken": csrfToken },
 						withCredentials: true, // include credentials
 					}
 				);
@@ -93,7 +89,6 @@ function Post({ post }: { post: PostsInterface }) {
 					`/api/post/${post_id}/dislike/`,
 					{},
 					{
-						headers: { "X-CSRFToken": csrfToken },
 						withCredentials: true, // include credentials
 					}
 				);
@@ -129,7 +124,6 @@ function Post({ post }: { post: PostsInterface }) {
 		if (!comment) return;
 
 		try {
-			const csrfToken = await fetchCSRF();
 
 			const response = await axios.post(
 				"/api/post/comments/",
@@ -137,9 +131,6 @@ function Post({ post }: { post: PostsInterface }) {
 					comment: comment,
 					post_id: currentPost.id,
 				},
-				{
-					headers: { "X-CSRFToken": csrfToken },
-				}
 			);
 
 			if (response.status === 200) {

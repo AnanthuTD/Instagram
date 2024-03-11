@@ -11,13 +11,12 @@ import React from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { OtherUserProfile, UserState } from "../../../utils/Interfaces";
-import { fetchCSRF } from "@/utils/fetch_csrf";
 import Image from "next/image";
 import DiscoverPeople from "@/app/components/icons/DiscoverPeople";
 import CreateIcon from "@/app/components/icons/Create";
 import OptionIcon from "@/app/components/icons/OptionIcon";
 import ChevronY from "@/app/components/icons/ChevronY";
-import axios from "@/axios";
+import axios from '@/lib/axios';
 
 function Profile() {
 	// useStates
@@ -92,16 +91,11 @@ function Profile() {
 		if (!profile?.id_user) return;
 
 		try {
-			const csrfToken = await fetchCSRF();
-
 			const response = await axios.put(
 				`/api/accounts/follow/`,
 				{
 					id_user: profile?.id_user,
 				},
-				{
-					headers: { "X-CSRFToken": csrfToken },
-				}
 			);
 
 			const data = response.data;
@@ -122,13 +116,8 @@ function Profile() {
 		if (!profile?.id_user) return;
 
 		try {
-			const csrfToken = await fetchCSRF();
-
 			const response = await axios.delete(
 				`/api/accounts/${profile.id_user}/follow/`,
-				{
-					headers: { "X-CSRFToken": csrfToken },
-				}
 			);
 
 			const data = response.data;
@@ -185,7 +174,7 @@ function Profile() {
 									}>
 									<Image
 										alt=""
-										src={"/api/media/default_profile.png"}
+										src={"media/default_profile.png"}
 										width={130}
 										height={130}
 										className="cursor-pointer rounded-full"
@@ -252,7 +241,7 @@ function Profile() {
 										<span
 											className="flex cursor-pointer flex-col items-center lg:block"
 											// onClick={() => {
-												// fetch("/api/accounts/followers/");
+												// fetch("accounts/followers/");
 											// }}
 											>
 											<span className="font-bold">

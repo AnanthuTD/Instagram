@@ -4,7 +4,7 @@ import { Url } from "url";
 import Image from "next/image";
 import timeDifference from "@/utils/time_difference";
 import SmileIcon from "@/app/components/icons/smileIcon";
-import axios from "@/axios";
+import axios from "@/lib/axios";
 
 interface commentsInterface {
 	id: UUID;

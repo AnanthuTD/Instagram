@@ -10,6 +10,7 @@ import {
 	List,
 } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
+import Link from "next/link";
 
 const { Search: AntdSearch } = Input;
 const { Title, Text } = Typography;
@@ -19,7 +20,7 @@ interface SearchResult {
 	type: string;
 	username?: string;
 	profile_pic?: string;
-	caption?: string;
+	hashtag?: string;
 	total_posts?: number;
 	first_name?: string;
 	last_name?: string;
@@ -76,9 +77,9 @@ const SearchModal: React.FC<{ visible: boolean; onClose: () => void }> = ({
 		}
 	};
 
-    const handleClearAll = async () => {
+	const handleClearAll = async () => {
 		try {
-			await fetch("/api/clear-recent-searches", {
+			await fetch("clear-recent-searches", {
 				method: "DELETE",
 			});
 			setRecentSearches([]);
@@ -110,38 +111,42 @@ const SearchModal: React.FC<{ visible: boolean; onClose: () => void }> = ({
 					}
 					renderItem={(item: SearchResult, index: number) => (
 						<Item key={index}>
+								<Link href={`/posts/${item.hashtag}`}>
 							<Row align="middle" gutter={[16, 0]}>
-								{item.type === "profile" ? (
-									<Avatar src={item.profile_pic} />
-								) : (
-									<Avatar
-										style={{
-											// backgroundColor: "#f56a00",
-											verticalAlign: "middle",
-										}}
-										size="large"
-									>
-										#
-									</Avatar>
-								)}
-								<Text className="text-sm">{item.caption || item.username}</Text>
-								<div className="mx-2"></div>
-								{item.type !== "profile" && (
-									<Text className="text-sm">Posts: {item.total_posts}</Text>
-								)}
-								{item.first_name && item.last_name && (
-									<Text type="secondary" className="text-xs">
-										{`${item.first_name} ${item.last_name}`}
-									</Text>
-								)}
-								{searchText.trim() === "" && (
-									<Button
-										type="text"
-										icon={<CloseOutlined />}
-										onClick={() => handleClearRecentSearch(index)}
-									/>
-								)}
+									{item.type === "profile" ? (
+										<Avatar src={item.profile_pic} />
+									) : (
+										<Avatar
+											style={{
+												// backgroundColor: "#f56a00",
+												verticalAlign: "middle",
+											}}
+											size="large"
+										>
+											#
+										</Avatar>
+									)}
+									<div className="mx-2"></div>
+									<Text className="text-sm">{item?.hashtag}</Text>
+									{item.type !== "profile" && (
+										<Text className="text-sm">
+											Posts: {item.total_posts}
+										</Text>
+									)}
+									{item.first_name && item.last_name && (
+										<Text type="secondary" className="text-xs">
+											{`${item.first_name} ${item.last_name}`}
+										</Text>
+									)}
+									{searchText.trim() === "" && (
+										<Button
+											type="text"
+											icon={<CloseOutlined />}
+											onClick={() => handleClearRecentSearch(index)}
+										/>
+									)}
 							</Row>
+								</Link>
 						</Item>
 					)}
 				/>

@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Media from "./Media";
 import { Post } from "@/utils/Interfaces";
-import axios from "@/axios";
+import axios from '@/lib/axios';
 
 interface postsInterface {
 	status: boolean;

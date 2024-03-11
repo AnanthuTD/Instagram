@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import { Checkbox, Button, message, Typography, Row } from 'antd';
-import axios from '@/axios';
+import axios from '@/lib/axios';
 
 const InterestsForm: React.FC = () => {
     const [selectedInterests, setSelectedInterests] = useState<string[]>([]);

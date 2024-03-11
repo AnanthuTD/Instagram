@@ -2,13 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import styles from "../styles.module.css";
-import { fetchCSRF } from "../../../utils/fetch_csrf";
-import validateEmail from "../../../public/javascripts/validate_email";
-import validatePhone from "../../../public/javascripts/validate_phone";
-import validatePassword from "../../../public/javascripts/validate_password";
+import validateEmail from "@/../public/javascripts/validate_email";
+import validatePhone from "@/../public/javascripts/validate_phone";
+import validatePassword from "@/../public/javascripts/validate_password";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import axios from "@/axios";
+import axios from "@/lib/axios";
 
 interface IsValidState {
 	phone_or_email?: boolean;
@@ -65,11 +64,9 @@ export default function Signup() {
 		event.preventDefault();
 
 		try {
-			const csrfToken = await fetchCSRF();
 
 			const headers: Record<string, string> = {
 				"Content-Type": "application/json",
-				"X-CSRFToken": csrfToken,
 			};
 
 			const response = await axios.post("api/accounts/signup/", formData, {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Input, List, Button, Row } from "antd";
-import axios from 'axios';
+import axios from '@/lib/axios';
 import debounce from 'lodash/debounce';
 import Link from "next/link";
 

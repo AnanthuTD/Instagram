@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import SmileIcon from "@/app/components/icons/smileIcon";
 import Message from "./message";
 import { chat as Chat } from "../../../../utils/Interfaces";
-import axios from '@/axios';
+import axios from '@/lib/axios';
 
 interface WebSocketData {
 	data: string;

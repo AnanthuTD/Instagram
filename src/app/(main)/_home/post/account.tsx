@@ -1,7 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { fetchCSRF } from "@/utils/fetch_csrf";
-import axios from "@/axios";
+import axios from "@/lib/axios";
 import { useUserContext } from "@/app/components/context/userContext";
 import { UUID } from "crypto";
 interface AccountProps {
@@ -23,16 +22,12 @@ function Account({ width = 40, height = 40, user }: AccountProps) {
 		if (!user?.id_user) return;
 
 		try {
-			const csrfToken = await fetchCSRF();
 
 			const response = await axios.put(
 				`/api/accounts/follow/`,
 				{
 					id_user: user?.id_user,
 				},
-				{
-					headers: { "X-CSRFToken": csrfToken },
-				}
 			);
 
 			const data = response.data;
@@ -54,13 +49,9 @@ function Account({ width = 40, height = 40, user }: AccountProps) {
 		if (!user?.id_user) return;
 
 		try {
-			const csrfToken = await fetchCSRF();
 
 			const response = await axios.delete(
 				`/api/accounts/${user.id_user}/follow/`,
-				{
-					headers: { "X-CSRFToken": csrfToken },
-				}
 			);
 
 			const data = response.data;

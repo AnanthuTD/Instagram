@@ -2,7 +2,7 @@
 import SeeAll from "./brightBlueButton";
 import AccountsSM from "./accounts-sm";
 import React, { useEffect, useState } from "react";
-import axios from "@/axios";
+import axios from "@/lib/axios";
 import { AxiosError } from "axios";
 interface SuggestedUser {
 	username: string;

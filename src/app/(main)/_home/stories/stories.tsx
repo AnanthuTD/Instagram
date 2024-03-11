@@ -5,7 +5,7 @@ import Rings from "@/app/components/rings";
 import View from "./popup";
 import { useEffect, useState } from "react";
 import { Story } from "@/utils/Interfaces";
-import axios from '@/axios';
+import axios from '@/lib/axios';
 
 
 function Stories() {

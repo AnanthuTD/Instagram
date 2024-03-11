@@ -6,8 +6,7 @@ import React, {
 	SetStateAction,
 	useState,
 } from "react";
-import axios from "@/axios";
-import { fetchCSRF } from "../../../../utils/fetch_csrf";
+import axios from '@/lib/axios';
 
 function Settings({
 	setSettings,

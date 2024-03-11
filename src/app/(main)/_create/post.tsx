@@ -5,8 +5,7 @@ import AvatarUsername from "../../components/avatar_username";
 import LocationIcon from "./locationIcon";
 import Preview from "./preview";
 import React from "react";
-import { fetchCSRF } from "../../../utils/fetch_csrf";
-import axios from "@/axios";
+import axios from "@/lib/axios";
 
 function Post({
 	setCreate,
@@ -49,12 +48,8 @@ function Post({
 	useEffect(() => {
 		async function postData() {
 			try {
-				const csrfToken = await fetchCSRF();
 
 				const response = await axios.post(url, formData, {
-					headers: {
-						"X-CSRFToken": csrfToken,
-					},
 					withCredentials: true, // include credentials
 				});
 

@@ -8,7 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { OtherUserProfile } from "@/utils/Interfaces";
 import { useUserContext } from "@/app/components/context/userContext";
 import ArrowLeft from "@/app/components/icons/ArrowLeft";
-import axios from "@/axios";
+import axios from '@/lib/axios';
 import { Modal, Input } from "antd";
 import SearchAccounts from "./_components/searchAccounts";
 

@@ -4,7 +4,7 @@ import Post from "./post/post";
 import Stories from "./stories/stories";
 import React from "react";
 import { PostsInterface } from "@/utils/Interfaces";
-import axios from "@/axios";
+import axios from "@/lib/axios";
 
 function StoriesPosts() {
 	const [posts, setPosts] = useState<PostsInterface[] | undefined>(undefined);

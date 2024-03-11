@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Card, Modal } from "antd";
 import Image from "next/image";
 import ReactPlayer from "react-player";
-import axiosInstance from "@/axios";
+import axios from "@/lib/axios";
 
 interface Post {
 	id: string;
@@ -24,7 +24,7 @@ const ExplorePage: React.FC = () => {
 	useEffect(() => {
 		const fetchPosts = async () => {
 			try {
-				const response = await axiosInstance.get<{ posts: Post[] }>(
+				const response = await axios.get<{ posts: Post[] }>(
 					"/api/post/allPost"
 				);
 				setPosts(response.data.posts);

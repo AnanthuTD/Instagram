@@ -1,9 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { fetchCSRF } from "../../../utils/fetch_csrf";
 import { useUserContext } from "../../components/context/userContext";
-import axios from "@/axios";
+import axios from '@/lib/axios';
 import Link from "next/link";
 import { Button } from "antd";
 
@@ -18,7 +17,6 @@ function Settings() {
 
 	async function handleSubmit(): Promise<void> {
 		try {
-			const csrfToken = await fetchCSRF();
 
 			const response = await axios.post(
 				"api/accounts/profile/",
@@ -30,7 +28,6 @@ function Settings() {
 				{
 					headers: {
 						"Content-Type": "application/json",
-						"X-CSRFToken": csrfToken as string,
 					},
 				}
 			);
