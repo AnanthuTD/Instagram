@@ -109,46 +109,54 @@ const SearchModal: React.FC<{ visible: boolean; onClose: () => void }> = ({
 					dataSource={
 						searchText.trim() === "" ? recentSearches : searchResults
 					}
-					renderItem={(item: SearchResult, index: number) => (
-						<Item key={index}>
-								<Link href={`/posts/${item.hashtag}`}>
-							<Row align="middle" gutter={[16, 0]}>
-									{item.type === "profile" ? (
-										<Avatar src={item.profile_pic} />
-									) : (
-										<Avatar
-											style={{
-												// backgroundColor: "#f56a00",
-												verticalAlign: "middle",
-											}}
-											size="large"
-										>
-											#
-										</Avatar>
-									)}
-									<div className="mx-2"></div>
-									<Text className="text-sm">{item?.hashtag}</Text>
-									{item.type !== "profile" && (
-										<Text className="text-sm">
-											Posts: {item.total_posts}
-										</Text>
-									)}
-									{item.first_name && item.last_name && (
-										<Text type="secondary" className="text-xs">
-											{`${item.first_name} ${item.last_name}`}
-										</Text>
-									)}
-									{searchText.trim() === "" && (
-										<Button
-											type="text"
-											icon={<CloseOutlined />}
-											onClick={() => handleClearRecentSearch(index)}
-										/>
-									)}
-							</Row>
+					renderItem={(item: SearchResult, index: number) => {
+						const url =
+							item.type === "profile"
+								? `/profile?username=${item.username}`
+								: `/posts/${item.hashtag}`;
+						return (
+							<Item key={index}>
+								<Link href={url}>
+									<Row align="middle" gutter={[16, 0]}>
+										{item.type === "profile" ? (
+											<Avatar src={item.profile_pic} />
+										) : (
+											<Avatar
+												style={{
+													// backgroundColor: "#f56a00",
+													verticalAlign: "middle",
+												}}
+												size="large"
+											>
+												#
+											</Avatar>
+										)}
+										<div className="mx-2"></div>
+										<Text className="text-sm">{item?.hashtag}</Text>
+										{item.type !== "profile" && (
+											<Text className="text-sm">
+												Posts: {item.total_posts}
+											</Text>
+										)}
+										{item.first_name && item.last_name && (
+											<Text type="secondary" className="text-xs">
+												{`${item.first_name} ${item.last_name}`}
+											</Text>
+										)}
+										{searchText.trim() === "" && (
+											<Button
+												type="text"
+												icon={<CloseOutlined />}
+												onClick={() =>
+													handleClearRecentSearch(index)
+												}
+											/>
+										)}
+									</Row>
 								</Link>
-						</Item>
-					)}
+							</Item>
+						);
+					}}
 				/>
 			</div>
 		);

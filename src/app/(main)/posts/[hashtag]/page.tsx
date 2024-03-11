@@ -1,9 +1,10 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Divider, Button, Card, Row, Col, Typography } from "antd";
 import { HeartOutlined, MessageOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import "./styles.css";
+import axiosInstance from "@/lib/axios";
 
 const { Title, Text } = Typography;
 
@@ -13,22 +14,28 @@ interface PostsByHashTagProps {
 	};
 }
 
+interface Posts {
+	id: string;
+	file_name: string;
+	likes: number;
+	comments: number;
+}
 const PostsByHashTag: React.FC<PostsByHashTagProps> = ({ params }) => {
-	const posts = [
-		{
-			id: 1,
-			imageUrl: "/post1.jpg",
-			likes: 100,
-			comments: 20,
-		},
-		{
-			id: 2,
-			imageUrl: "/post2.jpg",
-			likes: 150,
-			comments: 30,
-		},
-		// Add more posts as needed
-	];
+	const [posts, setPosts] = useState<Posts[]>([]);
+
+	async function fetchPosts() {
+		const { data } = await axiosInstance.get(
+			`/api/search/${params.hashtag}/hashtag`
+		);
+		console.log("====================================");
+		console.log(data.posts);
+		console.log("====================================");
+		setPosts(data.posts);
+	}
+
+	useEffect(() => {
+		fetchPosts();
+	}, []);
 
 	return (
 		<div className="w-full">
@@ -39,12 +46,12 @@ const PostsByHashTag: React.FC<PostsByHashTagProps> = ({ params }) => {
 				gutter={[16, 16]}
 			>
 				<Col>
-					<Avatar src="/avatar.jpg" size={150}/>
+					<Avatar src="/avatar.jpg" size={150} />
 				</Col>
 				<Col flex="auto">
 					<Row>
 						<Title level={1} style={{ marginRight: 8 }}>
-							#{params.hashtag}
+							# {params.hashtag}
 						</Title>
 					</Row>
 					<Row>
@@ -65,17 +72,21 @@ const PostsByHashTag: React.FC<PostsByHashTagProps> = ({ params }) => {
 				{posts.map((post) => (
 					<Col key={post.id} xs={24} sm={12} md={8} lg={8} xl={8}>
 						<Card
-							bodyStyle={{ padding: 0 }}
+							// bodyStyle={{ padding: 0 }}
+							styles={{body:{
+								padding:'0',
+							}}}
 							hoverable
 							className="post-card"
-							cover={
-								<div className="image-wrapper">
+						>
+							<div className="image-wrapper">
 									<Image
-										src={post.imageUrl}
+										src={`/api${post.file_name}`}
 										alt="Post"
 										layout="responsive"
 										width={400}
 										height={300}
+										className="rounded-md"
 									/>
 									<div className="overlay">
 										<div className="overlay-content flex gap-16">
@@ -98,8 +109,7 @@ const PostsByHashTag: React.FC<PostsByHashTagProps> = ({ params }) => {
 										</div>
 									</div>
 								</div>
-							}
-						></Card>
+						</Card>
 					</Col>
 				))}
 			</Row>

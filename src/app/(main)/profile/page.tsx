@@ -174,7 +174,7 @@ function Profile() {
 									}>
 									<Image
 										alt=""
-										src={"media/default_profile.png"}
+										src={"/api/media/default_profile.png"}
 										width={130}
 										height={130}
 										className="cursor-pointer rounded-full"
