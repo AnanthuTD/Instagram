@@ -138,11 +138,18 @@ const SearchModal: React.FC<{ visible: boolean; onClose: () => void }> = ({
 												Posts: {item.total_posts}
 											</Text>
 										)}
-										{item.first_name && item.last_name && (
-											<Text type="secondary" className="text-xs">
-												{`${item.first_name} ${item.last_name}`}
-											</Text>
-										)}
+										<div className="flex flex-col">
+											{item.type === "profile" ? (
+												<Text className="text-xs">
+													{`${item.username}`}
+												</Text>
+											) : null}
+											{item.first_name && item.last_name && (
+												<Text type="secondary" className="text-xs">
+													{`${item.first_name} ${item.last_name}`}
+												</Text>
+											)}
+										</div>
 										{searchText.trim() === "" && (
 											<Button
 												type="text"

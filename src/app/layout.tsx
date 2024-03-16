@@ -1,7 +1,7 @@
 import React from "react";
 import "./globals.css";
-import { AntdRegistry } from '@ant-design/nextjs-registry';
-import LayoutProvider from './layoutProvider'
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+import LayoutProvider from "./layoutProvider";
 
 export const metadata = {
 	title: "WowGram",
@@ -14,10 +14,14 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en">
-			<body>
-				<AntdRegistry><LayoutProvider>{children}</LayoutProvider></AntdRegistry>
-			</body>
-		</html>
+		<>
+			<html lang="en">
+				<body>
+					<AntdRegistry>
+						<LayoutProvider>{children}</LayoutProvider>
+					</AntdRegistry>
+				</body>
+			</html>
+		</>
 	);
 }

@@ -6,6 +6,7 @@ import LocationIcon from "./locationIcon";
 import Preview from "./preview";
 import React from "react";
 import axios from "@/lib/axios";
+import { Checkbox } from "antd";
 
 function Post({
 	setCreate,
@@ -23,6 +24,7 @@ function Post({
 	const [caption, setCaption] = useState("");
 	const [submit, setSubmit] = useState(true);
 	const [fileAdded, setFileAdded] = useState(false);
+	const [privatePost, setPrivatePost] = useState(false);
 
 	// ref
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -82,6 +84,7 @@ function Post({
 		if (formData.has("file")) {
 			formData.append("caption", caption);
 			formData.append("location", location);
+			formData.append("private", privatePost);
 
 			// Posting data to server using Axios
 			postData();
@@ -211,6 +214,9 @@ function Post({
 							<span>
 								<LocationIcon />
 							</span>
+						</div>
+						<div className="py-5">
+							<Checkbox onChange={()=>setPrivatePost(!privatePost)}>Private</Checkbox>
 						</div>
 					</div>
 				) : null}

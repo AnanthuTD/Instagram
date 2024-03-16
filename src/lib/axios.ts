@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-	withCredentials: true
- });
+	withCredentials: true,
+});
 
 export async function fetchCSRF() {
 	try {

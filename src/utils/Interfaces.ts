@@ -73,7 +73,7 @@ export interface OtherUserProfile {
 	post_count: number;
 }
 
-export interface chat {
+export interface Chat {
 	message: string;
 	timestamp: Date;
 	sender_username: string;

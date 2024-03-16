@@ -36,7 +36,9 @@ export function UserContextProvider({
 		// Define a function to fetch the user from the backend API
 		const fetchUser = async () => {
 			try {
-				const { data } = await axios.get("api/accounts/login/",{withCredentials: true,});
+				const { data } = await axios.get("api/accounts/login/", {
+					withCredentials: true,
+				});
 				// Stop loading
 				setLoading(false);
 				if (data.status) {

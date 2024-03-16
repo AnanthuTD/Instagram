@@ -1,9 +1,10 @@
-'use client'
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import SmileIcon from "@/app/components/icons/smileIcon";
 import Message from "./message";
-import { chat as Chat } from "../../../../utils/Interfaces";
-import axios from '@/lib/axios';
+import { Chat } from "@/utils/Interfaces";
+import axios from "@/lib/axios";
+import { message as antdMessage } from "antd";
 
 interface WebSocketData {
 	data: string;
@@ -21,9 +22,7 @@ function ChatBox({ recipient }: ChatBoxProps) {
 	const [message, setMessage] = useState("");
 
 	useEffect(() => {
-		const socket = new WebSocket(
-			`ws://localhost:8000/ws/chat/${recipient}/`
-		);
+		const socket = new WebSocket(`ws://localhost:8000/ws/chat/${recipient}/`);
 
 		setChatSocket(socket);
 
@@ -49,19 +48,25 @@ function ChatBox({ recipient }: ChatBoxProps) {
 	}, [recipient]);
 
 	useEffect(() => {
-		if (!recipient) return;
-	  
-		axios.get(`/api/chat/${recipient}/load_messages/`)
-		  .then((response) => {
-			const data = response.data;
-			setChats(data.message_list);
-		  })
-		  .catch((error) => {
-			console.error("Error during Axios request:", error);
-			// Handle the error here
-		  });
-	  }, [recipient]);
-	  
+		const fetchMessages = async () => {
+			try {
+				if (!recipient) return;
+
+				const { data }: { data: { message_list: [] } } = await axios.get(
+					`/api/chat/${recipient}/load_messages/`
+				);
+				setChats(data.message_list);
+				console.log("================message_list====================");
+				console.log(data.message_list);
+				console.log("====================================");
+			} catch (error) {
+				console.error("Error during Axios request:", error);
+				antdMessage.warning("Unable to load messages!");
+			}
+		};
+
+		fetchMessages();
+	}, [recipient]);
 
 	const handleSendMessage = () => {
 		if (chatSocket && chatSocket.readyState === WebSocket.OPEN && message) {
@@ -204,26 +209,21 @@ function ChatBox({ recipient }: ChatBoxProps) {
 							{displayDate && (
 								<div className="m-3 flex w-full justify-center">
 									<span className="text-secondaryText text-xs">
-										{currentTimeStamp.toLocaleString(
-											"en-IN",
-											{
-												day: "numeric",
-												month: "short",
-												year: "numeric",
-												hour: "numeric",
-												minute: "numeric",
-												hour12: true,
-											}
-										)}
+										{currentTimeStamp.toLocaleString("en-IN", {
+											day: "numeric",
+											month: "short",
+											year: "numeric",
+											hour: "numeric",
+											minute: "numeric",
+											hour12: true,
+										})}
 									</span>
 								</div>
 							)}
 							<Message
 								chat={chat}
 								position={
-									chat.sender_username === recipient
-										? "left"
-										: "right"
+									chat.sender_username === recipient ? "left" : "right"
 								}
 								key={chat.id}
 								displayTime={displayTime}
@@ -254,7 +254,8 @@ function ChatBox({ recipient }: ChatBoxProps) {
 						<button
 							id="chat-message-submit"
 							onClick={handleSendMessage}
-							className="text-sm font-bold text-blue-500">
+							className="text-sm font-bold text-blue-500"
+						>
 							Send
 						</button>
 					)}

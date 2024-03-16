@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { chat } from "../../../../utils/Interfaces";
+import { Chat } from "@/utils/Interfaces";
 import OptionsPopUp from "./optionsPopUp";
-import axios from '@/lib/axios';
+import { fetchCSRF } from "@/lib/axios";
+import axios from "axios";
 
 function Message({
 	position = "right",
@@ -33,11 +34,18 @@ function Message({
 
 	const handleUnsend = async () => {
 		try {
+			console.log("====================================");
+			console.log('chat:', chat);
+			console.log("====================================");
+			const csrfToken = await fetchCSRF();
 
 			const response = await axios.delete("/api/chat/unsend/", {
-				data: { id: chat.id }, 
+				data: { id: chat.id },
+				withCredentials: true,
+				headers: {
+					"X-CSRFToken": csrfToken,
+				},
 			});
-
 			const responseData = response.data;
 
 			if (responseData.status) {
@@ -78,10 +86,12 @@ function Message({
 	let roundedEnd = "";
 
 	if (endNoneRounded[0]) {
-		roundedEnd += position === "right" ? " rounded-se-3xl" : " rounded-ss-3xl";
+		roundedEnd +=
+			position === "right" ? " rounded-se-3xl" : " rounded-ss-3xl";
 	}
 	if (endNoneRounded[1]) {
-		roundedEnd += position === "right" ? " rounded-ee-3xl" : " rounded-es-3xl";
+		roundedEnd +=
+			position === "right" ? " rounded-ee-3xl" : " rounded-es-3xl";
 	}
 
 	return (
@@ -89,26 +99,30 @@ function Message({
 			className={["my-2 flex h-fit w-full", classParent].join(" ")}
 			onMouseOver={() => setOptions(true)}
 			onMouseOut={() => setOptions(false)}
-			ref={messageContainerRef}>
+			ref={messageContainerRef}
+		>
 			{/* Message Content */}
 			<div
 				className={[
 					"mt-0 flex h-fit w-fit max-w-1/2 flex-col",
 					classChild,
 				].join(" ")}
-				ref={messageChildContainerRef}>
+				ref={messageChildContainerRef}
+			>
 				<div
 					className={[
 						"mx-3 flex w-fit max-w-full px-3 py-1 outline outline-1 outline-border_grey",
 						rounded,
 						roundedEnd,
 					].join(" ")}
-					ref={roundedDivRef}>
+					ref={roundedDivRef}
+				>
 					<div
 						className={[
 							"lg:text-md break-normal text-xl text-primaryText",
 						].join(" ")}
-						style={{ overflowWrap: "anywhere" }}>
+						style={{ overflowWrap: "anywhere" }}
+					>
 						<p>{chat.message}</p>
 					</div>
 				</div>
