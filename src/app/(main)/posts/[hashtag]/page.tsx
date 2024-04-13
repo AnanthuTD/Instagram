@@ -27,9 +27,6 @@ const PostsByHashTag: React.FC<PostsByHashTagProps> = ({ params }) => {
 		const { data } = await axiosInstance.get(
 			`/api/search/${params.hashtag}/hashtag`
 		);
-		console.log("====================================");
-		console.log(data.posts);
-		console.log("====================================");
 		setPosts(data.posts);
 	}
 
