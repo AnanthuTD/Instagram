@@ -14,8 +14,8 @@ function Accounts() {
 			<div className="flex cursor-pointer">
 				<Image
 					src="/images/pro-pic.jpg"
-					width={60}
-					height={60}
+					width={44}
+					height={44}
 					alt=""
 					className="rounded-full"
 				/>

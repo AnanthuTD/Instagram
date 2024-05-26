@@ -28,14 +28,17 @@ function StoriesPosts() {
 
 	return (
 		<>
-			<div className="xl:11/12 w-full lg:w-5/6" style={{ maxWidth: "685px" }}>
+			<div className="w-full">
 				{/* stories */}
-				<div className="" style={{ height: "fit-content" }}>
+				<div className="h-fit">
 					<Stories />
 				</div>
-				{posts?.map((post) => (
-					<Post post={post} key={post.id} />
-				))}
+				{/* posts */}
+				<div id="post" className="mt-5 flex items-center flex-col">
+					{posts?.map((post) => (
+						<Post post={post} key={post.id} />
+					))}
+				</div>
 			</div>
 		</>
 	);

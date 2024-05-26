@@ -5,8 +5,7 @@ import Rings from "@/app/components/rings";
 import View from "./popup";
 import { useEffect, useState } from "react";
 import { Story } from "@/utils/Interfaces";
-import axios from '@/lib/axios';
-
+import axios from "@/lib/axios";
 
 function Stories() {
 	const [scrollLeft, setscrollLeft] = useState(false);
@@ -79,27 +78,23 @@ function Stories() {
 
 	return (
 		<>
-			<div
-				className="relative flex"
-				style={{ height: "fit-content", maxWidth: "685px" }}>
+			<div className="relative flex h-fit w-full">
 				{/* scroll left */}
 				{scrollLeft ? (
 					<div
-						className="absolute bottom-0 left-10 top-0 z-10 flex cursor-pointer items-center"
+						className="hidden lg:flex absolute bottom-0 left-5 top-0 z-10 cursor-pointer items-center"
 						onClick={() => {
 							handleClickLeft();
-						}}>
+						}}
+					>
 						{stories.length > 8 ? <ArrowLeft /> : null}
 					</div>
 				) : null}
 				{/* stories */}
 				<div
-					className="overflow-y-hidden overflow-x-scroll no-scrollbar pointer-events-auto"
-					style={{
-						height: "fit-content",
-						maxWidth: "685px",
-					}}
-					id="scroll-container">
+					className="overflow-y-hidden overflow-x-scroll no-scrollbar pointer-events-auto h-fit m-w-[685px]"
+					id="scroll-container"
+				>
 					<div className="flex" style={{ height: "fit-content" }}>
 						{stories.map((story) => {
 							return (
@@ -118,10 +113,11 @@ function Stories() {
 				{/* more stories... */}
 				{scrollRight ? (
 					<div
-						className="absolute bottom-0 right-10 top-0 z-10 flex cursor-pointer items-center"
+						className="hidden lg:flex absolute bottom-0 right-5 top-0 z-10 cursor-pointer items-center"
 						onClick={() => {
 							handleClickRight();
-						}}>
+						}}
+					>
 						{stories.length > 8 ? <ArrowRight /> : null}
 					</div>
 				) : null}

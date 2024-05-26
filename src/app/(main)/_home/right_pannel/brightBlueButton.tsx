@@ -13,7 +13,7 @@ function SwitchButton({
 	return (
 		<>
 			<button
-				className={[`ml-auto text-xs font-bold`, className].join(" ")}
+				className={[`ml-auto text-xs font-medium text-instaBlue`, className].join(" ")}
 				style={{ color: color }}>
 				{text}
 			</button>

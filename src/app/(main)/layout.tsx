@@ -16,11 +16,11 @@ export default function RootLayout({
 			<UserContextProvider>
 				<MenuContextProvider>
 					<ChatContextProvider>
-						<div className="z-10 h-fit justify-between bg-black p-1 max-lg:fixed max-lg:w-full lg:flex lg:h-screen lg:flex-col lg:p-5 xl:w-1/6 xl:border-r xl:border-border_grey">
+						<div className="z-10 h-fit justify-between bg-black p-1 max-lg:fixed max-lg:w-full lg:flex lg:h-screen lg:flex-col lg:p-5 xl:w-[16%] xl:border-r xl:border-[rgb(38,38,38)]">
 							<MenuBar />
 						</div>
 						<div
-							className="flex h-screen w-full overflow-y-auto pb-14 lg:pb-0 xl:w-5/6 p-4"
+							className="flex h-screen w-full overflow-y-auto pb-14 lg:pb-0 xl:w-[84%] p-4 justify-center"
 							id="main_scrollable">
 							{children}
 						</div>
